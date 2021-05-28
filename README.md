@@ -1,4 +1,6 @@
-<h2 align="center">Silabeador: Una librería de Python para la división silábica y detección de acentos</h2>
+<h2 align="center">Silabeador</h2>
+<h3 align="center">Una librería de Python para la división silábica y detección de acentos</h2>
+
 
 *silabeador* es una librería de métodos y funciones para la la división silábica palabras y localización de acentos prosódicos.
 
