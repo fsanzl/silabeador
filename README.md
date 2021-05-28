@@ -7,6 +7,9 @@
 La librería surge para facilitar la división silábica para la escansión métrica de versos del Siglo de Oro, independientemente de si se reconocen como españolas. Esto es, debe ser capaz de tratar caracteres propios de otras lenguas como el italiano, el francés o el portugués, tales como *à* u *õ*, así como grupos consonánticos ajenos al español, pero comunes en esas lenguas o el latín, p.ej. *stella*.   
 
 ## Instalación
+```bash
+pip3 install silabeador
+```
 
 ## Uso
 
