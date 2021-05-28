@@ -4,14 +4,7 @@
 
 *silabeador* es una librería de métodos y funciones para la la división silábica palabras y localización de acentos prosódicos.
 
-La librería surge para facilitar la división silábica para la escansión métrica de versos del Siglo de Oro, independientemente de si se reconocen como españolas. Esto es, debe ser capaz de tratar caracteres propios de otras lenguas como el italiano, el francés o el portugués, tales como 'à' u 'õ', así como grupos consonánticos ajenos al español, pero comunes en esas lenguas o el latín, p.ej. 'stella'.   
-
-
-[Instalación](#Instalación)
-[Uso](#Uso)
-[Descripción](#Descripción)
-[Problemas](#Problemas)
-[Licencia](#Licencia)
+La librería surge para facilitar la división silábica para la escansión métrica de versos del Siglo de Oro, independientemente de si se reconocen como españolas. Esto es, debe ser capaz de tratar caracteres propios de otras lenguas como el italiano, el francés o el portugués, tales como *à* u *õ*, así como grupos consonánticos ajenos al español, pero comunes en esas lenguas o el latín, p.ej. *stella*.   
 
 ## Instalación
 
@@ -68,3 +61,6 @@ Para preguntas, reportar errores o suerir nuevas características, use  [GitHub 
 ## Licencia
 
 Silabeador se halla bajo licencia GNU LGPL 2.1. Ver archivo [LICENSE](https://github.com/fsanzl/silabeador/LICENSE) para más detalles.
+
+## Referencias
+Quilis, A. (1996). *Métrica española*. Barcelona: Ariel. Publicado originalmente en 1984.
