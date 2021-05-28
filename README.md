@@ -37,7 +37,7 @@ Alternativamente, puede crearse un objeto con los mismo valores:
 ```
 >>> objeto_silabas = silabeador.silabas('Uvulopalatofaringoplastia')
 >>> objeto_silabas.silabas
-['Ui', 'vu', 'lo', 'pa', 'la', 'to', 'fa', 'rin', 'go', 'plas', 'tia']
+['U', 'vu', 'lo', 'pa', 'la', 'to', 'fa', 'rin', 'go', 'plas', 'tia']
 >>> objeto_silabas.tonica
 -2
 ``` 
