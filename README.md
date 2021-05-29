@@ -4,7 +4,7 @@
 
 *silabeador* es una librería de métodos y funciones para la la división silábica palabras y localización de acentos prosódicos.
 
-La librería surge en el marco del proyecto de investigación [https://soundandmeaning.univie.ac.at/][Sound and Meaning in Spanish Golden Age Literature]. Para la escansión automática de versos se requería un separador silábico tolerante a grupos consonánticos ajenos al español y diacríticos poco comunes o extranjeros. Otras librerías disponibles asumen que la entrada es una palabra bien construida de acuerdo a las reglas del español, lo que no siempre es el caso en determinado tipo de textos, que puede incluir vocales con diacríticos de otras lenguas, tales como *`* u *~*, caracteres en desuso, como *ç*, o usados pero con implicaciones en la división silábica en contextos específicos, como en *ü* en su uso habitual o como diacrítico métrico (p.ej., *Si-güen-za* y *crü-el*).
+La librería surge en el marco del proyecto de investigación [Sound and Meaning in Spanish Golden Age Literature](https://soundandmeaning.univie.ac.at/). Para la escansión automática de versos se requería un separador silábico tolerante a grupos consonánticos ajenos al español y diacríticos poco comunes o extranjeros. Otras librerías disponibles asumen que la entrada es una palabra bien construida de acuerdo a las reglas del español, lo que no siempre es el caso en determinado tipo de textos, que puede incluir vocales con diacríticos de otras lenguas, tales como *`* u *~*, caracteres en desuso, como *ç*, o usados pero con implicaciones en la división silábica en contextos específicos, como en *ü* en su uso habitual o como diacrítico métrico (p.ej., *Si-güen-za* y *crü-el*).
 
 ## Instalación
 
