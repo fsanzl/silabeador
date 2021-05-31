@@ -56,7 +56,7 @@ class silabas:
         return slbs
 
     def __une(self, letras):
-        cerradas = ['i', 'u', 'ü']
+        cerradas = ['i', 'u']
         hiatos = ['í', 'ú']
         lista = []
         for letra in letras:
