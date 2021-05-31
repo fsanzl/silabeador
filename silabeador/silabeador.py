@@ -7,6 +7,24 @@ def silabea(palabra):
 def tonica(palabra):
     return silabas(palabra).tonica
 
+def tonica_s(slbs):
+    if len(slbs) == 1:
+        tonica = -1
+    elif len(slbs) > 2 and any(k in 'áéíóúÁÉÍÓÚ' for k in slbs[-3]):
+        tonica = -3
+    else:
+        if any(k in 'áéíóúÁÉÍÓÚ' for k in slbs[-2]):
+            tonica = -2
+        elif any(k in 'áéíóúÁÉÍÓÚ' for k in slbs[-1]):
+            tonica = -1
+        else:
+            if (slbs[-1][-1] in 'nsNS' or
+                    slbs[-1][-1] in 'aeiouAEIOU'):
+                tonica = -2
+            else:
+                tonica = -1
+    return tonica
+
 class silabas:
     vocales = ['a', 'e', 'i', 'o', 'u',
                'á', 'é', 'í', 'ó', 'ú',
@@ -15,7 +33,7 @@ class silabas:
     def __init__(self, palabra):
         self.palabra = palabra
         self.silabas = self.__silabea(self.palabra)
-        self.tonica = self.__tonica(self.silabas)
+        self.tonica = tonica_s(self.silabas)
 
     def __silabea(self, letras):
         extranjeras = {'à': 'a', 'è': 'e', 'ì': 'i', 'ò': 'o', 'ù': 'u',
@@ -92,22 +110,3 @@ class silabas:
                 onset = ''
         lista[-1] = lista[-1] + onset
         return lista
-
-    @staticmethod
-    def __tonica(slbs):
-        if len(slbs) == 1:
-            tonica = -1
-        elif len(slbs) > 2 and any(k in 'áéíóúÁÉÍÓÚ' for k in slbs[-3]):
-            tonica = -3
-        else:
-            if any(k in 'áéíóúÁÉÍÓÚ' for k in slbs[-2]):
-                tonica = -2
-            elif any(k in 'áéíóúÁÉÍÓÚ' for k in slbs[-1]):
-                tonica = -1
-            else:
-                if (slbs[-1][-1] in 'nsNS' or
-                        slbs[-1][-1] in 'aeiouAEIOU'):
-                    tonica = -2
-                else:
-                    tonica = -1
-        return tonica

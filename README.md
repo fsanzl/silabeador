@@ -21,22 +21,33 @@ La librería provee funciones y métodos que pueden ser llamados de forma indepe
 ```
 
 La función para dividir en sílabas una palabra acepta una cadena de caracteres como argumento y devuelve una lista de sílabas.
-```
+
+```python
 >>> silabeador.silabea('Uvulopalatofaringoplastia')
 ['U', 'vu', 'lo', 'pa', 'la', 'to', 'fa', 'rin', 'go', 'plas', 'tia']
 ```
 
 La función para recuperar el índice de la sílaba tónica acepta como argumento una cadena de caracteres y devuelve el índice de la sílaba tónica en la lista de sílabas.
 
-```
+
+```python
 >>> silabeador.tonica('Uvulopalatofaringoplastia')
 -2
 ```
 
-Alternativamente, puede crearse un objeto con los mismo valores:
+Una versión alternativa acepta una lista de sílabas y devuelve el índice de la sílaba tónica.
 
+```python
+>>> silabeador.tonica_s(['U', 'vu', 'lo', 'pa', 'la', 'to', 'fa', 'rin', 'go', 'plas', 'tia'])
+-2
 ```
+
+También puede crearse un objeto con los mismo valores:
+
+```python
 >>> objeto_silabas = silabeador.silabas('Uvulopalatofaringoplastia')
+>>> objeto_silabas.palabra
+'Uvulopalatofaringoplastia'
 >>> objeto_silabas.silabas
 ['U', 'vu', 'lo', 'pa', 'la', 'to', 'fa', 'rin', 'go', 'plas', 'tia']
 >>> objeto_silabas.tonica
