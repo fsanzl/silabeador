@@ -91,31 +91,34 @@ class silabas:
         inseparables_coda = ['ns', 'bs']
         lista = []
         onset = ''
-        for letra in letras:
-            if all(x.lower() not in self.vocales for x in letra):
-                if len(lista) == 0:
-                    onset = onset + letra
+        if len(letras) == 1:
+            lista = letras
+        else:
+            for letra in letras:
+                if all(x.lower() not in self.vocales for x in letra):
+                    if len(lista) == 0:
+                        onset = onset + letra
+                    else:
+                        onset = onset + letra
+                        media = len(onset) // 2
+                elif len(onset) <= 1 or len(lista) == 0:
+                    lista = lista + [onset+letra]
+                    onset = ''
+                elif any(onset.endswith(x) for x in inseparables_onset):
+                    if len(lista) > 0:
+                        lista[-1] = lista[-1] + onset[:-2]
+                        lista = lista + [onset[-2:] + letra]
+                    else:
+                        lista = lista + [onset + letra]
+                    onset = ''
+                elif any(onset.startswith(x) for x in inseparables_coda) and (
+                        len(onset) > 2):
+                    lista[-1] = lista[-1] + onset[:2]
+                    lista = lista + [onset[2:] + letra]
+                    onset = ''
                 else:
-                    onset = onset + letra
-                    media = len(onset) // 2
-            elif len(onset) <= 1 or len(lista) == 0:
-                lista = lista + [onset+letra]
-                onset = ''
-            elif any(onset.endswith(x) for x in inseparables_onset):
-                if len(lista) > 0:
-                    lista[-1] = lista[-1] + onset[:-2]
-                    lista = lista + [onset[-2:] + letra]
-                else:
-                    lista = lista + [onset + letra]
-                onset = ''
-            elif any(onset.startswith(x) for x in inseparables_coda) and (
-                    len(onset) > 2):
-                lista[-1] = lista[-1] + onset[:2]
-                lista = lista + [onset[2:] + letra]
-                onset = ''
-            else:
-                lista[-1] = lista[-1] + onset[:media]
-                lista = lista + [onset[media:] + letra]
-                onset = ''
-        lista[-1] = lista[-1] + onset
+                    lista[-1] = lista[-1] + onset[:media]
+                    lista = lista + [onset[media:] + letra]
+                    onset = ''
+            lista[-1] = lista[-1] + onset
         return lista
