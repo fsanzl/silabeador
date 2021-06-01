@@ -1,11 +1,14 @@
 #!/usr/bin/env python3 import re
 import re
 
+
 def silabea(palabra):
     return silabas(palabra).silabas
 
+
 def tonica(palabra):
     return silabas(palabra).tonica
+
 
 def tonica_s(slbs):
     if len(slbs) == 1:
@@ -24,6 +27,7 @@ def tonica_s(slbs):
             else:
                 tonica = -1
     return tonica
+
 
 class silabas:
     vocales = ['a', 'e', 'i', 'o', 'u',
@@ -57,23 +61,23 @@ class silabas:
 
     def __une(self, letras):
         cerradas = ['i', 'u']
-        hiatos = ['í', 'ú']
+        debiles = ['e', 'i', 'é', 'í']
+        dieresis = ['ä', 'ë', 'ï', 'ö', 'ü']
         lista = []
         for letra in letras:
             if len(lista) == 0:
                 lista = [letra]
-            elif letra.lower() in self.vocales:
-                if lista[-1][-1].lower() in self.vocales and (
-                    not any(y.lower() in hiatos
-                            for y in (lista[-1][-1], letra)) and
-                    any(y.lower() in cerradas
-                        for y in [letra, lista[-1][-1]])):
-                    lista[-1] = lista[-1] + letra
-                elif lista[-1] == 'ü' and lista[-2] == 'g':
-                    lista[-1] = lista[-1] + letra
-                else:
-                    lista = lista + [letra]
-            elif lista[-1][-1].lower() not in self.vocales:
+            elif (letra.lower() in self.vocales and
+                  lista[-1][-1].lower() in self.vocales) and (
+                    (letra in debiles and (
+                        (lista[-1][-1].lower() == 'ü' and
+                         lista[-2].lower() == 'g') or
+                        (lista[-2].lower == 'q' and
+                         lista[-1][-1].lower() == 'u'))) or (
+                             any(y.lower() in cerradas
+                                 for y in (lista[-1][-1], letra)) and
+                             not (any(y.lower() in dieresis
+                                      for y in (lista[-1][-1], letra))))):
                 lista[-1] = lista[-1] + letra
             else:
                 lista = lista + [letra]
@@ -88,25 +92,28 @@ class silabas:
         for letra in letras:
             if all(x.lower() not in self.vocales for x in letra):
                 if len(lista) == 0:
-                    onset = letra
-                elif len(letra) == 1:
-                    onset = letra
-                elif len(letra) == 2:
-                    if letra in inseparables_onset:
-                        onset = letra
-                    elif letra in inseparables_coda and lista[-1][-a] == 'a':
-                        lista[-1] = lista[-1] + letra
-                    else:
-                        lista[-1] = lista[-1] + letra[0]
-                        onset = letra[1]
-                elif any(letra.endswith(x) for x in inseparables_onset):
-                    onset = letra[-2:]
-                    lista[-1] = lista[-1] + letra[:-2]
-                elif any(letra.startswith(x) for x in inseparables_coda):
-                    lista[-1] = lista[-1] + letra[:2]
-                    onset = letra[2:]
-            else:
+                    onset = onset + letra
+                else:
+                    onset = onset + letra
+                    media = len(onset) // 2
+            elif len(onset) <= 1 or len(lista) == 0:
                 lista = lista + [onset+letra]
+                onset = ''
+            elif any(onset.endswith(x) for x in inseparables_onset):
+                if len(lista) > 0:
+                    lista[-1] = lista[-1] + onset[:-2]
+                    lista = lista + [onset[-2:] + letra]
+                else:
+                    lista = lista + [onset + letra]
+                onset = ''
+            elif any(onset.startswith(x) for x in inseparables_coda) and (
+                    len(onset) > 2):
+                lista[-1] = lista[-1] + onset[:2]
+                lista = lista + [onset[2:] + letra]
+                onset = ''
+            else:
+                lista[-1] = lista[-1] + onset[:media]
+                lista = lista + [onset[media:] + letra]
                 onset = ''
         lista[-1] = lista[-1] + onset
         return lista
