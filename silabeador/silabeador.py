@@ -62,23 +62,25 @@ class silabas:
     def __une(self, letras):
         cerradas = ['i', 'u']
         debiles = ['e', 'i', 'é', 'í']
+        hiatos = ['ú', 'í']
         dieresis = ['ä', 'ë', 'ï', 'ö', 'ü']
         lista = []
         for letra in letras:
             if len(lista) == 0:
                 lista = [letra]
             elif (letra.lower() in self.vocales and
-                  lista[-1][-1].lower() in self.vocales) and (
-                    (letra in debiles and (
-                        (lista[-1][-1].lower() == 'ü' and
-                         lista[-2].lower() == 'g') or
-                        (lista[-2].lower == 'q' and
-                         lista[-1][-1].lower() == 'u'))) or (
-                             any(y.lower() in cerradas
-                                 for y in (lista[-1][-1], letra)) and
-                             not (any(y.lower() in dieresis
-                                      for y in (lista[-1][-1], letra))))):
-                lista[-1] = lista[-1] + letra
+                    lista[-1][-1].lower() in self.vocales and not
+                  any(y.lower() in hiatos for y in (lista[-1][-1], letra))):
+                ultimas = ''.join(lista).lower()
+                if (letra in debiles and (ultimas.endswith('qu') or
+                    ultimas.endswith('gü'))) or (
+                            any(y.lower() in cerradas for
+                                y in (lista[-1][-1], letra)) and not (
+                                    any(y.lower() in dieresis for y in (
+                                        lista[-1][-1], letra)))):
+                    lista[-1] = lista[-1] + letra
+                else:
+                    lista = lista + [letra]
             else:
                 lista = lista + [letra]
         return lista
