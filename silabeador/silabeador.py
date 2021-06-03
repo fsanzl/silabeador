@@ -77,7 +77,8 @@ class silabas:
                        not any(y.lower() in dieresis for
                                y in (lista[-1][-1], letra))) or
                       (letra in debiles and
-                          ''.join(lista).lower().endswith('gü'))):
+                          ''.join(lista).lower().endswith('gü'))) or (
+                                  ''.join(lista).lower().endswith('qu')):
                 lista[-1] = lista[-1] + letra
             else:
                 lista = lista + [letra]
@@ -85,7 +86,8 @@ class silabas:
 
     def __separa(self, letras):
         inseparables_onset = ['pl', 'bl', 'fl', 'cl', 'kl', 'gl', 'll',
-                              'pr', 'br', 'fr', 'cr', 'kr', 'gr', 'rr', 'tr', 'ch']
+                              'pr', 'br', 'fr', 'cr', 'kr', 'gr', 'rr',
+                              'tr', 'ch']
         inseparables_coda = ['ns', 'bs']
         lista = []
         onset = ''
