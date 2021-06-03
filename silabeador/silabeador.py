@@ -84,8 +84,8 @@ class silabas:
         return lista
 
     def __separa(self, letras):
-        inseparables_onset = ['pl', 'bl', 'fl', 'cl', 'kl', 'll',
-                              'pr', 'br', 'fr', 'cr', 'kr', 'rr', 'tr', 'ch']
+        inseparables_onset = ['pl', 'bl', 'fl', 'cl', 'kl', 'gl', 'll',
+                              'pr', 'br', 'fr', 'cr', 'kr', 'gr', 'rr', 'tr', 'ch']
         inseparables_coda = ['ns', 'bs']
         lista = []
         onset = ''
