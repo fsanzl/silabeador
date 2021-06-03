@@ -69,18 +69,16 @@ class silabas:
             if len(lista) == 0:
                 lista = [letra]
             elif (letra.lower() in self.vocales and
-                    lista[-1][-1].lower() in self.vocales and not
-                  any(y.lower() in hiatos for y in (lista[-1][-1], letra))):
-                ultimas = ''.join(lista).lower()
-                if (letra in debiles and (ultimas.endswith('qu') or
-                    ultimas.endswith('gü'))) or (
-                            any(y.lower() in cerradas for
-                                y in (lista[-1][-1], letra)) and not (
-                                    any(y.lower() in dieresis for y in (
-                                        lista[-1][-1], letra)))):
-                    lista[-1] = lista[-1] + letra
-                else:
-                    lista = lista + [letra]
+                  lista[-1][-1].lower() in self.vocales) and (
+                      (not any(y.lower() in hiatos
+                               for y in (lista[-1][-1], letra)) and
+                       any(y.lower() in cerradas for y in
+                           (lista[-1][-1], letra)) and
+                       not any(y.lower() in dieresis for
+                               y in (lista[-1][-1], letra))) or
+                      (letra in debiles and
+                          ''.join(lista).lower().endswith('gü'))):
+                lista[-1] = lista[-1] + letra
             else:
                 lista = lista + [letra]
         return lista
