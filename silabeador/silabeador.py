@@ -2,12 +2,12 @@
 import re
 
 
-def silabea(palabra):
-    return silabas(palabra).silabas
+def silabea(word):
+    return silabas(word).silabas
 
 
-def tonica(palabra):
-    return silabas(palabra).tonica
+def tonica(word):
+    return silabas(word).tonica
 
 
 def tonica_s(slbs):
@@ -50,13 +50,18 @@ class silabas:
                        'z': 'zeta', 'ph': 'pehache'}
         slbs = []
         palabra = re.sub(r'\W', '', letras)
-        if palabra.lower() in diccionario:
-            palabra = diccionario[palabra]
+        print(palabra)
         palabra = ''.join([letra if letra not in extranjeras
                            else extranjeras[letra] for letra in letras])
+        if palabra.lower() in diccionario:
+            palabra = diccionario[palabra]
+        print(palabra)
         slbs[:0] = palabra
+        print(slbs)
         slbs = self.__une(slbs)
+        print(slbs)
         slbs = self.__separa(slbs)
+        print(slbs)
         return slbs
 
     def __une(self, letras):
