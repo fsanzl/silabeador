@@ -47,7 +47,7 @@ class silabas:
                        'm': 'eme', 'n': 'ene', 'p': 'pe', 'q': 'qu',
                        'r': 'erre', 's': 'ese', 't': 'te', 'v': 'uve',
                        'w': 'uvedoble', 'x': 'equis', 'y': 'igriega',
-                       'z': 'zeta'}
+                       'z': 'zeta', 'ph': 'pehache'}
         slbs = []
         palabra = re.sub(r'\W', '', letras)
         if palabra.lower() in diccionario:
