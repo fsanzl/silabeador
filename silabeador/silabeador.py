@@ -50,18 +50,13 @@ class silabas:
                        'z': 'zeta', 'ph': 'pehache'}
         slbs = []
         palabra = re.sub(r'\W', '', letras)
-        print(palabra)
         palabra = ''.join([letra if letra not in extranjeras
                            else extranjeras[letra] for letra in letras])
         if palabra.lower() in diccionario:
             palabra = diccionario[palabra]
-        print(palabra)
         slbs[:0] = palabra
-        print(slbs)
         slbs = self.__une(slbs)
-        print(slbs)
         slbs = self.__separa(slbs)
-        print(slbs)
         return slbs
 
     def __une(self, letras):
