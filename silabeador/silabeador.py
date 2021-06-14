@@ -41,7 +41,8 @@ class silabas:
 
     def __silabea(self, letras):
         extranjeras = {'à': 'a', 'è': 'e', 'ì': 'i', 'ò': 'o', 'ù': 'u',
-                       'ã': 'a', 'ẽ': 'e', 'ĩ': 'i', 'õ': 'o', 'ũ': 'u'}
+                       'ã': 'a', 'ẽ': 'e', 'ĩ': 'i', 'õ': 'o', 'ũ': 'u',
+                       'ﬁ': 'fi', 'ﬂ': 'fl'}
         diccionario = {'b': 'be', 'c': 'ce', 'd': 'de', 'f': 'efe', 'g': 'ge',
                        'h': 'hache', 'j': 'jota', 'k': 'ka', 'l': 'ele',
                        'm': 'eme', 'n': 'ene', 'p': 'pe', 'q': 'qu',

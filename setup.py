@@ -10,7 +10,7 @@ README = (HERE / "README.md").read_text()
 # This call to setup() does all the work
 setup(
     name="silabeador",
-    version="1.0.2-10",
+    version="1.0.2-12",
     description="Separa sílabas e identifica acentos",
     long_description=README,
     long_description_content_type="text/markdown",
@@ -28,7 +28,7 @@ setup(
     include_package_data=True,
     entry_points={
         "console_scripts": [
-            "fsanzl=silabeador.__main__:main",
+            "silabeador=silabeador.__main__:main",
         ]
     },
 )
