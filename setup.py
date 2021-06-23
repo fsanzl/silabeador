@@ -10,7 +10,7 @@ README = (HERE / "README.md").read_text()
 # This call to setup() does all the work
 setup(
     name="silabeador",
-    version="1.0.2-12",
+    version="1.0.2-14",
     description="Separa sílabas e identifica acentos",
     long_description=README,
     long_description_content_type="text/markdown",
@@ -22,6 +22,7 @@ setup(
         "License :: OSI Approved :: GNU Lesser General Public License v2 or later (LGPLv2+)",
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3.9",
+        "Programming Language :: Python :: 3.8", 
         "Natural Language :: Spanish",
     ],
     packages=["silabeador"],

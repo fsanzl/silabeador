@@ -47,7 +47,7 @@ class silabas:
                        'h': 'hache', 'j': 'jota', 'k': 'ka', 'l': 'ele',
                        'm': 'eme', 'n': 'ene', 'p': 'pe', 'q': 'qu',
                        'r': 'erre', 's': 'ese', 't': 'te', 'v': 'uve',
-                       'w': 'uvedoble', 'x': 'equis', 'y': 'igriega',
+                       'w': 'uvedoble', 'x': 'equis',
                        'z': 'zeta', 'ph': 'pehache'}
         slbs = []
         palabra = re.sub(r'\W', '', letras)
