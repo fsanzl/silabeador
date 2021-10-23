@@ -1,48 +1,54 @@
+[![License: LGPL](https://img.shields.io/github/license/fsanzl/silabeador)](https://opensource.org/licenses/LGPL-2.1)
+[![Version: 1.0.2-post17](https://img.shields.io/github/package/fsanzl/silabeador)](https://pypi.org/project/silabeador/)
+[![Python versions: 3.5, 3.6, 3.7, 3.8, 3.9](https://img.shields.io/github/license/fsanzl/silabeador)](https://pypi.org/project/silabeador/)
+
+https://pypi.org/project/silabeador/
+
 <h2 align="center">Silabeador</h2>
-<h3 align="center">Una librería de Python para la división silábica y detección de acentos</h2>
+<h3 align="center">A Python library for syllabic division and stress detection in Spanish</h2>
 
 
-*silabeador* es una librería de métodos y funciones para la la división silábica palabras y localización de acentos prosódicos.
+*silabeador* is a Python library of methods and functions for syllabic division and prosodic stress detecting in Spanish.
 
-La librería surge en el marco del proyecto de investigación [Sound and Meaning in Spanish Golden Age Literature](https://soundandmeaning.univie.ac.at/). Para la escansión automática de versos se requería un separador silábico tolerante a grupos consonánticos ajenos al español y diacríticos poco comunes o extranjeros. Otras librerías disponibles asumen que la entrada es una palabra bien construida de acuerdo a las reglas del español, lo que no siempre es el caso en determinado tipo de textos, que puede incluir vocales con diacríticos de otras lenguas, tales como *`* u *~*, caracteres en desuso, como *ç*, o usados pero con implicaciones en la división silábica en contextos específicos, como en *ü* en su uso habitual o como diacrítico métrico (p.ej., *Si-güen-za* y *crü-el*).
+This library is part of the research project [Sound and Meaning in Spanish Golden Age Literature](https://soundandmeaning.univie.ac.at/). Automatic verse scansion required a syllable separator tolerant to non-Spanish consonant clusters and unusual and non-Spanish diacritics. Other libraries available take for granted that the words are well-constructed according to the Spanish grammar. This is not always the case in particular text types, as in *ü* as regularly used or as a metric diacritic (e.g., *Si-güen-za* vs *crü-el*).
 
-## Instalación
+## Instalation
 
 ```bash
 pip3 install silabeador
 ```
 
-## Uso
+## Use
 
-La librería provee funciones y métodos que pueden ser llamados de forma independiente.:
+The library provides functions and methods that can be called idependently:
+
 
 ```python
 >>> import silabeador
 ```
 
-La función para dividir en sílabas una palabra acepta una cadena de caracteres como argumento y devuelve una lista de sílabas.
+The syllabic division function accepts a string as a single argument and returns a list of syllables
 
 ```python
 >>> silabeador.silabea('Uvulopalatofaringoplastia')
 ['U', 'vu', 'lo', 'pa', 'la', 'to', 'fa', 'rin', 'go', 'plas', 'tia']
 ```
 
-La función para recuperar el índice de la sílaba tónica acepta como argumento una cadena de caracteres y devuelve el índice de la sílaba tónica en la lista de sílabas.
-
+The function to recover the stressed syllable's index takes a string as s single argument and returns the stressed syllable's index.
 
 ```python
 >>> silabeador.tonica('Uvulopalatofaringoplastia')
 -2
 ```
 
-Una versión alternativa acepta una lista de sílabas y devuelve el índice de la sílaba tónica.
+An alternative version accepts a list of syllables and returns the stressed syllable's index.
 
 ```python
 >>> silabeador.tonica_s(['U', 'vu', 'lo', 'pa', 'la', 'to', 'fa', 'rin', 'go', 'plas', 'tia'])
 -2
 ```
 
-También puede crearse un objeto con los mismo valores:
+An object with those values can also be created:
 
 ```python
 >>> objeto_silabas = silabeador.silabas('Uvulopalatofaringoplastia')
@@ -54,28 +60,35 @@ También puede crearse un objeto con los mismo valores:
 -2
 ``` 
 
-## Descripción
+## Description
 
-### Silabificación
+### Sillabification
 
-La división silábica se efectúa siguiendo los principios descritos por (1984/2013, p. 47-49)
-Primero se identifican los núcleos silábicos a partir de las vocales. En caso de vocales cerradas no acentuadas, se unen a las vocales adyacentes constituyendo diptongos o triptongos. Las cerradas acentuadas se consideran como núcleos silábicos independientes. Las consonates adyacentes se unen en un solo grupo.
+The syllabic division follows the principles described by Quilis (1984/2013, p. 47-49).
 
-Después se dividen los grupos consonánticos según sus componentes sean separables o inseparables y se añaden a los núcleos silábicos adyacentes  en coda u onset según corresponda.
+Firstly, syllabic nuclei are detected looking for the vowels. Unstressed close vowels join the adjacent vowels in coda or onset to form a diphthong or a triphthong, whilst stressed ones are considered standalone syllabic nuclei. Contiguous consonants are grouped to be parsed apart.
 
-
-
-### Acento prosódico
-La detección del acento prosódico según las reglas de acentuación ortográfica del español. Las palabras proparoxítonas siempre lleván acento gráfico en la antepenúltima sílaba. Las paroxitonas no llevan acento gráfico salvo que la palabra no acabe en n, s o vocal, en cuyo caso lo llevabn en la penúltima sílaba. Las oxítonas no llevan acento gráfico salvo que acaben en n, s, o vocal, en cuyo caso lo llevan en la última sílaba.
-
-## Problemas
-
-Para preguntas, reportar errores o suerir nuevas características, use  [GitHub Issue Tracker](https://github.com/fsanzl/silabeador/issues). Antes de crear una nueva entrada, por favor, asegúrese de buscar entradas existentes similares.
+Secondly, consonant clusters are divided considering whether their components are separable and joined to the neighbour nuclei in coda or onset accordingly. 
 
 
-## Licencia
+### Prosodic stress
 
-Silabeador se halla bajo licencia GNU LGPL 2.1. Ver archivo [LICENSE](https://github.com/fsanzl/silabeador/LICENSE) para más detalles.
+Prosodic stress detection follows the Spanish rules. Proparoxytone words are always orthographically signalled with an acute accent on the nucleic vowel of the antepenultimate syllable. Paroxytones are not marked unless the word ends with *n*, *s* or vowel, in which case they have an acute accent on the nucleic vowel of the penultimate syllable. Oxytone words are only marked if they end in *n*, *s* or vowel with an acute accent on the nucleic vowel of the last syllable. 
 
-## Referencias
-Quilis, A. (1996). *Métrica española*. Barcelona: Ariel. Publicado originalmente en 1984.
+## Known problems
+
+Adverbs in *-mente* have primary and secondary stress. Therefore, they must be divided, and each of their parts parsed  independently.
+
+
+## Contributions
+
+Feel free to contribute using the [GitHub Issue Tracker](https://github.com/fsanzl/silabeador/issues) for feedback, suggestions, or bug reports.
+
+
+## Licence
+
+This project is under GNU LGPL 2.1 See [LICENSE](https://github.com/fsanzl/silabeador/LICENSE) for details.
+
+## References
+
+Quilis, Antonio, *Métrica española*. 1984. Barcelona, Ariel, 1996.
