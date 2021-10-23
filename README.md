@@ -1,5 +1,5 @@
 [![License: LGPL](https://img.shields.io/github/license/fsanzl/silabeador)](https://opensource.org/licenses/LGPL-2.1)
-[![Version: 1.0.2-post17](https://img.shields.io/github/package/fsanzl/silabeador)](https://pypi.org/project/silabeador/)
+[![Version: 1.0.2-15](https://img.shields.io/github/package/fsanzl/silabeador)](https://pypi.org/project/silabeador/)
 [![Python versions: 3.5, 3.6, 3.7, 3.8, 3.9](https://img.shields.io/github/license/fsanzl/silabeador)](https://pypi.org/project/silabeador/)
 
 https://pypi.org/project/silabeador/
