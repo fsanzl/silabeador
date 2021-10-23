@@ -7,22 +7,21 @@ HERE = pathlib.Path(__file__).parent
 # The text of the README file
 README = (HERE / "README.md").read_text()
 
-requirements = []
-setup_requirements = []
+install_requires = ['silabeador']
 
 
 # This call to setup() does all the work
 setup(
-    name="silabeador",
-    version="1.0.2-15",
+    name="fonemas",
+    version="1.0.0",
     python_requires='>=3.5',
-    description="Syllabification and stress detection",
+    description="Phonologic transcription of Spanish",
     long_description=README,
     long_description_content_type="text/markdown",
-    url="https://github.com/fsanzl/silabeador",
+    url="https://github.com/fsanzl/fonemas",
     project_urls={
-        'Source': 'https://github.com/fsanzl/silabeador/',
-        'Tracker': 'https://github.com/fsanzl/silabeador/issues',
+        'Source': 'https://github.com/fsanzl/fonemas/',
+        'Tracker': 'https://github.com/fsanzl/fonemas/issues',
     },
     author="Fernando Sanz-Lázaro",
     author_email="fsanzl@gmail.com",
@@ -37,7 +36,7 @@ setup(
         "Programming Language :: Python :: 3.5",
         "Natural Language :: Spanish",
     ],
-    packages=["silabeador"],
+    packages=["fonemas"],
     include_package_data=True,
     entry_points={
         "console_scripts": [

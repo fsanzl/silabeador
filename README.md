@@ -3,13 +3,13 @@
 [![Python versions: 3.5, 3.6, 3.7, 3.8, 3.9](https://img.shields.io/pypi/pyversions/silabeador)](https://pypi.org/project/silabeador/)
 
 
-<h2 align="center">Silabeador</h2>
-<h3 align="center">A Python library for syllabic division and stress detection for Spanish</h2>
+<h2 align="center">Fonemas</h2>
+<h3 align="center">A Python phonologic transcription library for Castilian Spanish</h2>
 
 
-*silabeador* is a Python library of methods and functions for syllabic division and prosodic stress detecting for Spanish.
+*fonemas* is a Python library of methods and functions for phonologic transcription of Spanish words.
 
-This library is part of the research project [Sound and Meaning in Spanish Golden Age Literature](https://soundandmeaning.univie.ac.at/). Automatic verse scansion required a syllable separator tolerant to non-Spanish consonant clusters and unusual and non-Spanish diacritics. Other libraries available take for granted that the words are well-constructed according to the Spanish grammar. This is not always the case in particular text types, as in *ü* as regularly used or as a metric diacritic (e.g., *Si-güen-za* vs *crü-el*).
+This library is part of the research project [Sound and Meaning in Spanish Golden Age Literature](https://soundandmeaning.univie.ac.at/). Automatic verse scansion required identifying phonologic features that can be used using this library
 
 ## Instalation
 
