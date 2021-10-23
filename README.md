@@ -4,7 +4,7 @@
 
 
 <h2 align="center">Fonemas</h2>
-<h3 align="center">A Python phonologic transcription library for Castilian Spanish</h2>
+<h3 align="center">A Python phonologic transcription library for Spanish</h2>
 
 
 *fonemas* is a Python library of methods and functions for phonologic transcription of Spanish words.
