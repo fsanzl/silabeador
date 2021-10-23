@@ -4,10 +4,10 @@
 
 
 <h2 align="center">Silabeador</h2>
-<h3 align="center">A Python library for syllabic division and stress detection in Spanish</h2>
+<h3 align="center">A Python library for syllabic division and stress detection for Spanish</h2>
 
 
-*silabeador* is a Python library of methods and functions for syllabic division and prosodic stress detecting in Spanish.
+*silabeador* is a Python library of methods and functions for syllabic division and prosodic stress detecting for Spanish.
 
 This library is part of the research project [Sound and Meaning in Spanish Golden Age Literature](https://soundandmeaning.univie.ac.at/). Automatic verse scansion required a syllable separator tolerant to non-Spanish consonant clusters and unusual and non-Spanish diacritics. Other libraries available take for granted that the words are well-constructed according to the Spanish grammar. This is not always the case in particular text types, as in *ü* as regularly used or as a metric diacritic (e.g., *Si-güen-za* vs *crü-el*).
 
