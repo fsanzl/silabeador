@@ -34,7 +34,7 @@ setup(
         "Programming Language :: Python :: 3.5",
         "Natural Language :: Spanish",
     ],
-    packages=["fonemas"],
+    packages=["silabeador"],
     include_package_data=True,
     entry_points={
         "console_scripts": [
