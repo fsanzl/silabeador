@@ -25,7 +25,7 @@ The library provides functions and methods that can be called idependently:
 >>> import silabeador
 ```
 
-The syllabic division function accepts a string as a single argument and returns a list of syllables
+The syllabic division function accepts a string as a single argument and returns a list of syllables.
 
 ```python
 >>> silabeador.silabea('Uvulopalatofaringoplastia')
@@ -71,7 +71,7 @@ Secondly, consonant clusters are divided considering whether their components ar
 
 ### Prosodic stress
 
-Prosodic stress detection follows the Spanish rules. Proparoxytone words are always orthographically signalled with an acute accent on the nucleic vowel of the antepenultimate syllable. Paroxytones are not marked unless the word ends with *n*, *s* or vowel, in which case they have an acute accent on the nucleic vowel of the penultimate syllable. Oxytone words are only marked if they end in *n*, *s* or vowel with an acute accent on the nucleic vowel of the last syllable. 
+Prosodic stress detection follows the Spanish rules described by the Real Academia ("tilde"). Proparoxytone words are always orthographically signalled with an acute accent on the nucleic vowel of the antepenultimate syllable. Paroxytones are not marked unless the word ends with *n*, *s* or vowel, in which case they have an acute accent on the nucleic vowel of the penultimate syllable. Oxytone words are only marked if they end in *n*, *s* or vowel with an acute accent on the nucleic vowel of the last syllable. 
 
 ## Known problems
 
@@ -85,8 +85,9 @@ Feel free to contribute using the [GitHub Issue Tracker](https://github.com/fsan
 
 ## Licence
 
-This project is under GNU LGPL 2.1 See [LICENSE](https://github.com/fsanzl/silabeador/LICENSE) for details.
+This project is under GNU LGPL 2.1. See [LICENCE](https://github.com/fsanzl/silabeador/LICENCE) for details.
 
 ## References
 
 Quilis, Antonio, *Métrica española*. 1984. Barcelona, Ariel, 1996.
+"tilde". *Diccionario panhispánico de dudas*, 2005. https://www.rae.es/dpd/tilde
