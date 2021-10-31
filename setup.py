@@ -11,7 +11,7 @@ README = (HERE / "README.md").read_text()
 # This call to setup() does all the work
 setup(
     name="silabeador",
-    version="1.0.2-16",
+    version="1.0.3",
     python_requires='>=3.5',
     description="A Python library of methods and functions for syllabic division and prosodic stress detecting for Spanish",
     long_description=README,
