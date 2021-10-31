@@ -61,12 +61,13 @@ class silabas:
 
         #monosilabos ['ió', 'uá', 'uhá', 'ihón', ]
 
-        nombres = ['biombo', 'miasma', 'confianza', 'arrier', 'ferrovial',
-                   'hiato', 'anual', 'acuos', 'santuario', 'cruel', 'tiara',
-                   'maniobra', 'diálogo', 'boquianch', 'diablo', 'triángulo',
+        nombres = ['biombo', 'miasma', 'confianza', 'arrier', 'ferrovial',      # Quilis 185-186. No incluyo circuito, 
+                   'hiato', 'anual', 'acuos', 'santuario', 'cruel', 'tiara',    # que elicito /cir-cui-to/,
+                   'maniobra', 'diálogo', 'boquianch', 'diablo', 'triángulo',   # hasta que indague más en el tema
                    'cliente', 'trienio', 'dieciocho', 'truhán', 'guion',
                    'guión', 'Sión', 'veintiocho', 'bienio', 'prior', 'fianza',
-                   'piano', 'crianza', 'gorrión']
+                   'piano', 'crianza', 'gorrión', 'jesuita', 'huida',
+                   'fortuito', 'diurno']
         if any(palabra.endswith(x) for x in uir if len(x)+2 <= len(palabra)):
             print(palabra)
         if (any(x in palabra for x in nombres) or
