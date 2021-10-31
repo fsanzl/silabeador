@@ -62,7 +62,7 @@ An object with those values can also be created:
 
 ### Sillabification
 
-The syllabic division follows the principles described by Quilis (1984/2013, p. 47-49).
+The syllabic division follows the principles described by Quilis (2013, 47-49; 2019, 182-192).
 
 Firstly, syllabic nuclei are detected looking for the vowels. Unstressed close vowels join the adjacent vowels in coda or onset to form a diphthong or a triphthong, whilst stressed ones are considered standalone syllabic nuclei. Contiguous consonants are grouped to be parsed apart.
 
@@ -89,6 +89,7 @@ This project is under GNU LGPL 2.1. See [LICENCE](https://github.com/fsanzl/sila
 
 ## References
 
+Quilis, Antonio, *Tratado de fonología y fonétia españolas*. 1993. Madrid, Gredos, 2019.
 Quilis, Antonio, *Métrica española*. 1984. Barcelona, Ariel, 1996.
 
 "tilde". *Diccionario panhispánico de dudas*, 2005. https://www.rae.es/dpd/tilde
