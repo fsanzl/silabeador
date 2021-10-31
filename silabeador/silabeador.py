@@ -35,9 +35,49 @@ class silabas:
                'ä', 'ë', 'ï', 'ö', 'ü']
 
     def __init__(self, palabra):
-        self.palabra = palabra
+        self.palabra = self.__excepciones(palabra)
         self.silabas = self.__silabea(self.palabra)
         self.tonica = tonica_s(self.silabas)
+
+    @staticmethod
+    def __excepciones(palabra):
+        uir = ['uir', 'uido', 'uida', 'uid', 'uidos', 'uidas'
+               'uimos',
+               'uiste', 'uisteis',  'uido', 'uida', 'uid'
+               'uiré', 'uirás', 'uirá', 'uiremos', 'uiréis', 'uirán',           # Quilis (2019, 185) exceptua el futuro
+               'uiría', 'uirías', 'uiría', 'uiríamos', 'uiríais', 'uirían']     # Quilis (2019, 185) exceptua el condicional
+
+        uar = ['uar', 'uado', 'uada', 'uad', 'uás', 'uados', 'uadas'
+               'uamos', 'uáis',
+               'uaba', 'uabas', 'uábamos', 'uabais', 'uaban',
+               'uaste', 'uó', 'uamos', 'uasteis', 'uaron',
+               'uaré', 'uarás', 'uará', 'uaremos', 'uaréis', 'uarán',           # Quilis (2019, 185) exceptua el futuro
+               'uaría', 'uarías', 'uaría', 'uaríamos', 'uaríais', 'uarían']     # Quilis (2019, 185) exceptua el condicional
+
+
+        excepto = ['g','c']
+
+        uoso = ['uoso', 'uosa', 'uosos', 'uosas']
+
+        #monosilabos ['ió', 'uá', 'uhá', 'ihón', ]
+
+        nombres = ['biombo', 'miasma', 'confianza', 'arrier', 'ferrovial',
+                   'hiato', 'anual', 'acuos', 'santuario', 'cruel', 'tiara',
+                   'maniobra', 'diálogo', 'boquianch', 'diablo', 'triángulo',
+                   'cliente', 'trienio', 'dieciocho', 'truhán', 'guion',
+                   'guión', 'Sión', 'veintiocho', 'bienio', 'prior', 'fianza',
+                   'piano', 'crianza', 'gorrión']
+        if any(palabra.endswith(x) for x in uir if len(x)+2 <= len(palabra)):
+            print(palabra)
+        if (any(x in palabra for x in nombres) or
+            any(palabra.endswith(x)  for x in nombres) or
+            any(palabra.endswith(x) for x in uir if len(x)+2 <= len(palabra))
+            or any(palabra.endswith(x) for x in uar
+                   if not palabra.endswith(f'g{x}'))):
+            palabra = re.sub('u([aeioáéó])', r'ü\1', palabra)
+            palabra = re.sub('i([aeouáéó])', r'ï\1', palabra)
+        return palabra
+
 
     def __silabea(self, letras):
         extranjeras = {'à': 'a', 'è': 'e', 'ì': 'i', 'ò': 'o', 'ù': 'u',
