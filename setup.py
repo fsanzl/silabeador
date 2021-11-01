@@ -11,7 +11,7 @@ include_package_data = True
 # This call to setup() does all the work
 setup(
     name="silabeador",
-    version="1.0.4",
+    version="1.0.4-1",
     python_requires='>=3.5',
     description="A Python library of methods and functions for syllabic division and prosodic stress detecting for Spanish",
     long_description=README,
