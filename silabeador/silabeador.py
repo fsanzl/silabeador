@@ -45,6 +45,8 @@ class silabas:
             with open("excepciones.lst") as f:                                  # Quilis 185-186. No incluyo circuito.
                 lineas = f.read()                                               # que yo elicito /cir-cui-to/,
             nombres = lineas.splitlines()                                       # hasta que indague más en el tema
+            nombres = [nombre.strip() for nombre in nombres if not nombre.startswith('#')]
+            print(nombres)
         else:
             nombres = []
         uir = ['uir', 'uido', 'uida', 'uid', 'uidos', 'uidas'
