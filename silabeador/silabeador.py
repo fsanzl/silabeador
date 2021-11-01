@@ -1,6 +1,6 @@
 #!/usr/bin/env python3 import re
 import re
-
+from sys import prefix
 
 def silabea(word, excepciones = True):
     return silabas(word, excepciones).silabas
@@ -42,8 +42,9 @@ class silabas:
 
     def __excepciones(self, palabra, excepciones):
         if excepciones:
-            with open('./excepciones.lst') as f:                                  # Quilis 185-186. No incluyo circuito.
-                lineas = f.read()                                               # que yo elicito /cir-cui-to/,
+            import importlib.resources as pkg_resources
+            lineas = pkg_resources.read_text('silabeador','excepciones.lst')
+            #with open(os.path.join(sys.prefix, 'data', 'file1.dat')) as f:
             nombres = lineas.splitlines()                                       # hasta que indague más en el tema
             nombres = [nombre.strip() for nombre in nombres if not nombre.startswith('#')]
         else:
