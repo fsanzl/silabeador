@@ -98,7 +98,6 @@ class silabas:
         hiatos = ['ú', 'í']
         dieresis = ['ä', 'ë', 'ï', 'ö', 'ü']
         lista = []
-        print(f'letras {letras}')
         for letra in letras:
             if len(lista) == 0:
                 lista = [letra]
@@ -113,7 +112,6 @@ class silabas:
                           (letra in debiles and
                            ''.join(lista).lower().endswith('gü')) or
                           ''.join(lista).lower().endswith('qu'))):
-                    print( lista[-1],letra)
                     lista[-1] = lista[-1] + letra
             else:
                 lista = lista + [letra]
