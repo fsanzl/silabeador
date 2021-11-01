@@ -6,12 +6,11 @@ HERE = pathlib.Path(__file__).parent
 
 # The text of the README file
 README = (HERE / "README.md").read_text()
-include_package_data = True
 
 # This call to setup() does all the work
 setup(
     name="silabeador",
-    version="1.0.4-1",
+    version="1.0.5",
     python_requires='>=3.5',
     description="A Python library of methods and functions for syllabic division and prosodic stress detecting for Spanish",
     long_description=README,
@@ -39,6 +38,6 @@ setup(
     entry_points={
         "console_scripts": [
             "silabeador=silabeador.__main__:main",
-        ]
-    },
+        ]},
+    package_data={'silabeador': ['*.lst']},
 )
