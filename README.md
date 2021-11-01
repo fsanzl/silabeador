@@ -84,7 +84,7 @@ Some words such as verbs most verbs in *-uir* and all verbs in *-uar*, as well a
 >>> silabas('cruel', False).silabas
 ['cruel']
 ```
-Alternatively, the file *excepciones.lst* can be edited to include or remove words. For convenience, lines can be commented.
+Alternatively, the file *excepciones.lst* can be edited to include or remove words. A morpheme can be used instead of full words (i.e., *acuos* would fit *acuoso*, *acuosa*, *acuosos* and *acuosas*). For convenience, lines can be commented.
 
 ## Known problems
 
