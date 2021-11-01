@@ -2,12 +2,12 @@
 import re
 
 
-def silabea(word):
-    return silabas(word).silabas
+def silabea(word, excepciones = True):
+    return silabas(word, excepciones).silabas
 
 
-def tonica(word):
-    return silabas(word).tonica
+def tonica(word, excepciones = True):
+    return silabas(word, excepciones).tonica
 
 
 def tonica_s(slbs):
@@ -34,13 +34,19 @@ class silabas:
                'á', 'é', 'í', 'ó', 'ú',
                'ä', 'ë', 'ï', 'ö', 'ü']
 
-    def __init__(self, palabra):
-        self.palabra = self.__excepciones(palabra)
+    def __init__(self, palabra, excepciones = True):
+        self.palabra = self.__excepciones(palabra, excepciones)
+        self.excepcions = excepciones
         self.silabas = self.__silabea(self.palabra)
         self.tonica = tonica_s(self.silabas)
 
-    @staticmethod
-    def __excepciones(palabra):
+    def __excepciones(self, palabra, excepciones):
+        if excepciones:
+            with open("excepciones.lst") as f:                                  # Quilis 185-186. No incluyo circuito.
+                lineas = f.read()                                               # que yo elicito /cir-cui-to/,
+            nombres = lineas.splitlines()                                       # hasta que indague más en el tema
+        else:
+            nombres = []
         uir = ['uir', 'uido', 'uida', 'uid', 'uidos', 'uidas'
                'uimos',
                'uiste', 'uisteis',  'uido', 'uida', 'uid'
@@ -53,30 +59,15 @@ class silabas:
                'uaste', 'uó', 'uamos', 'uasteis', 'uaron',
                'uaré', 'uarás', 'uará', 'uaremos', 'uaréis', 'uarán',           # Quilis (2019, 185) exceptua el futuro
                'uaría', 'uarías', 'uaría', 'uaríamos', 'uaríais', 'uarían']     # Quilis (2019, 185) exceptua el condicional
-
-
         excepto = ['g','c']
-
         uoso = ['uoso', 'uosa', 'uosos', 'uosas']
-
-        #monosilabos ['ió', 'uá', 'uhá', 'ihón', ]
-
-        nombres = ['biombo', 'miasma', 'confianza', 'arrier', 'ferrovial',      # Quilis 185-186. No incluyo circuito, 
-                   'hiato', 'anual', 'acuos', 'santuario', 'cruel', 'tiara',    # que elicito /cir-cui-to/,
-                   'maniobra', 'diálogo', 'boquianch', 'diablo', 'triángulo',   # hasta que indague más en el tema
-                   'cliente', 'trienio', 'dieciocho', 'truhán', 'guion',
-                   'guión', 'Sión', 'veintiocho', 'bienio', 'prior', 'fianza',
-                   'piano', 'crianza', 'gorrión', 'jesuita', 'huida',
-                   'fortuito', 'diurno']
-        if any(palabra.endswith(x) for x in uir if len(x)+2 <= len(palabra)):
-            print(palabra)
         if (any(x in palabra for x in nombres) or
             any(palabra.endswith(x)  for x in nombres) or
             any(palabra.endswith(x) for x in uir if len(x)+2 <= len(palabra))
             or any(palabra.endswith(x) for x in uar
                    if not palabra.endswith(f'g{x}'))):
-            palabra = re.sub('u([aeioáéó])', r'ü\1', palabra)
-            palabra = re.sub('i([aeouáéó])', r'ï\1', palabra)
+            palabra = re.sub('u([aeioáéó])', r'u \1', palabra)
+            palabra = re.sub('i([aeouáéó])', r'i \1', palabra)
         return palabra
 
 
@@ -107,21 +98,23 @@ class silabas:
         hiatos = ['ú', 'í']
         dieresis = ['ä', 'ë', 'ï', 'ö', 'ü']
         lista = []
+        print(f'letras {letras}')
         for letra in letras:
             if len(lista) == 0:
                 lista = [letra]
-            elif (letra.lower() in self.vocales and
-                  lista[-1][-1].lower() in self.vocales) and (
-                      (not any(y.lower() in hiatos
-                               for y in (lista[-1][-1], letra)) and
-                       any(y.lower() in cerradas for y in
-                           (lista[-1][-1], letra)) and
-                       not any(y.lower() in dieresis for
-                               y in (lista[-1][-1], letra))) or
-                      (letra in debiles and
-                          ''.join(lista).lower().endswith('gü'))) or (
-                                  ''.join(lista).lower().endswith('qu')):
-                lista[-1] = lista[-1] + letra
+            elif (all(vocal.lower() in self.vocales
+                     for vocal in [letra, lista[-1][-1]]) and
+                  any(vocal.lower() in cerradas
+                      for vocal in [letra, lista[-1][-1]]) and not (
+                          any(y.lower() in hiatos
+                              for y in (lista[-1][-1], letra)) or
+                          any(y.lower() in dieresis
+                              for y in (lista[-1][-1], letra)) or
+                          (letra in debiles and
+                           ''.join(lista).lower().endswith('gü')) or
+                          ''.join(lista).lower().endswith('qu'))):
+                    print( lista[-1],letra)
+                    lista[-1] = lista[-1] + letra
             else:
                 lista = lista + [letra]
         return lista
