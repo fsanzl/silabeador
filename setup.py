@@ -6,7 +6,7 @@ HERE = pathlib.Path(__file__).parent
 
 # The text of the README file
 README = (HERE / "README.md").read_text()
-
+include_package_data = True
 
 # This call to setup() does all the work
 setup(
