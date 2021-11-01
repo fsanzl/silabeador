@@ -1,0 +1,3 @@
+package_data = {
+    'silabeador': ['*.lst']
+}
