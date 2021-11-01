@@ -58,6 +58,7 @@ An object with those values can also be created:
 -2
 ``` 
 
+
 ## Description
 
 ### Sillabification
@@ -72,6 +73,18 @@ Secondly, consonant clusters are divided considering whether their components ar
 ### Prosodic stress
 
 Prosodic stress detection follows the Spanish rules described by the Real Academia ("tilde"). Proparoxytone words are always orthographically signalled with an acute accent on the nucleic vowel of the antepenultimate syllable. Paroxytones are not marked unless the word ends with *n*, *s* or vowel, in which case they have an acute accent on the nucleic vowel of the penultimate syllable. Oxytone words are only marked if they end in *n*, *s* or vowel with an acute accent on the nucleic vowel of the last syllable. 
+
+### Exceptions to the diphthong rules
+
+Some words such as verbs most verbs in *-uir* and all verbs in *-uar*, as well as adjectives in *-uoso* and nouns such as *guión* or *cliente* do not do a diphthong (Quilis, 2019, 185-186). So they are pronounced */in-fa-tu-ar/*, */a-tri-bu-ir/*, */un-tu-o-so/* o */gui-on/*. Optionally, the processing of these nouns can be dissabled to avoid the hiatus.
+
+```python
+>>> silabas('cruel').silabas
+['cru', ' el']
+>>> silabas('cruel', False).silabas
+['cruel']
+```
+
 
 ## Known problems
 
