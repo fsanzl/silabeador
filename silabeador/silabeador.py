@@ -69,7 +69,7 @@ class silabas:
             or any(palabra.endswith(x) for x in uar
                    if not palabra.endswith(f'g{x}'))):
             palabra = re.sub('i([aeouáéó])', r'i \1', palabra)
-            if not any(x in palabra for x in ['gu', 'qu']):
+            if not any(x in palabra for x in ['gu', 'qu', 'cu']):
                 palabra = re.sub('u([aeioáéó])', r'u \1', palabra)
         return palabra
 
