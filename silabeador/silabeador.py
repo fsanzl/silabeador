@@ -1,4 +1,4 @@
-#!/usr/bin/env python3 import re
+#!/usr/bin/env python3
 import re
 from sys import prefix
 
@@ -68,8 +68,9 @@ class silabas:
             any(palabra.endswith(x) for x in uir if len(x)+2 <= len(palabra))
             or any(palabra.endswith(x) for x in uar
                    if not palabra.endswith(f'g{x}'))):
-            palabra = re.sub('u([aeioáéó])', r'u \1', palabra)
             palabra = re.sub('i([aeouáéó])', r'i \1', palabra)
+            if not any(x in palabra for x in ['gu', 'qu']):
+                palabra = re.sub('u([aeioáéó])', r'u \1', palabra)
         return palabra
 
 
@@ -103,20 +104,23 @@ class silabas:
         for letra in letras:
             if len(lista) == 0:
                 lista = [letra]
-            elif (all(vocal.lower() in self.vocales
-                     for vocal in [letra, lista[-1][-1]]) and
-                  any(vocal.lower() in cerradas
-                      for vocal in [letra, lista[-1][-1]]) and not (
-                          any(y.lower() in hiatos
-                              for y in (lista[-1][-1], letra)) or
-                          any(y.lower() in dieresis
-                              for y in (lista[-1][-1], letra)) or
-                          (letra in debiles and
-                           ''.join(lista).lower().endswith('gü')) or
-                          ''.join(lista).lower().endswith('qu'))):
+            elif all(vocal.lower() in self.vocales
+                     for vocal in [letra, ultima]):
+                if letra in debiles and any(''.join(lista).lower().endswith(x)
+                                            for x in ['gü', 'qu', 'gu']):
                     lista[-1] = lista[-1] + letra
+                elif any(vocal.lower() in cerradas
+                      for vocal in [letra, ultima]) and not (
+                          any(y.lower() in hiatos
+                              for y in [letra, ultima]) or
+                          any(y.lower() in dieresis
+                              for y in [letra, ultima])):
+                    lista[-1] = lista[-1] + letra
+                else:
+                    lista = lista + [letra]
             else:
                 lista = lista + [letra]
+            ultima = lista[-1][-1]
         return lista
 
     def __separa(self, letras):
