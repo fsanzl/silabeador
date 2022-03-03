@@ -45,8 +45,7 @@ class silabas:
         if excepciones:
             import importlib.resources as pkg_resources
             lineas = pkg_resources.read_text('silabeador', 'excepciones.lst')
-            # with open(os.path.join(sys.prefix, 'data', 'file1.dat')) as f:
-            nombres = lineas.splitlines()                                       # hasta que indague más en el tema
+            nombres = lineas.splitlines()
             nombres = [nombre.strip()
                        for nombre in nombres if not nombre.startswith('#')]
         else:
@@ -54,17 +53,15 @@ class silabas:
         uir = ['uir', 'uido', 'uida', 'uid', 'uidos', 'uidas'
                'uimos',
                'uiste', 'uisteis',  'uido', 'uida', 'uid'
-               # Quilis (2019, 185) exceptua el futuro
                'uiré', 'uirás', 'uirá', 'uiremos', 'uiréis', 'uirán',
-               'uiría', 'uirías', 'uiría', 'uiríamos', 'uiríais', 'uirían']     # Quilis (2019, 185) exceptua el condicional
+               'uiría', 'uirías', 'uiría', 'uiríamos', 'uiríais', 'uirían']
 
         uar = ['uar', 'uado', 'uada', 'uad', 'uás', 'uados', 'uadas'
                'uamos', 'uáis',
                'uaba', 'uabas', 'uábamos', 'uabais', 'uaban',
                'uaste', 'uó', 'uamos', 'uasteis', 'uaron',
-               # Quilis (2019, 185) exceptua el futuro
                'uaré', 'uarás', 'uará', 'uaremos', 'uaréis', 'uarán',
-               'uaría', 'uarías', 'uaría', 'uaríamos', 'uaríais', 'uarían']     # Quilis (2019, 185) exceptua el condicional
+               'uaría', 'uarías', 'uaría', 'uaríamos', 'uaríais', 'uarían']
         excepto = ['g', 'c']
         uoso = ['uoso', 'uosa', 'uosos', 'uosas']
         if (any(x in palabra for x in nombres) or
@@ -114,10 +111,14 @@ class silabas:
                     lista[-1] = lista[-1] + letra
                 elif any(vocal.lower() in cerradas
                          for vocal in [letra, ultima]):
-                    if not any(y.lower() in hiatos for y in [letra, ultima]) or (
-                            letra.lower() in hiatos and ultima.lower() in 'ui' or
-                            any(y.lower() in dieresis for y in [letra, ultima])):
+                    if letra.lower() in hiatos and ultima.lower() in 'ui' or (
+                            not any(y.lower() in hiatos
+                                    for y in [letra, ultima])
+                            or any(y.lower() in dieresis
+                                   for y in [letra, ultima])):
                         lista[-1] = lista[-1] + letra
+                    else:
+                        lista = lista + [letra]
                 else:
                     lista = lista + [letra]
             else:
@@ -158,7 +159,8 @@ class silabas:
                     lista = lista + [onset[2:] + letra]
                     onset = ''
                 else:
-                    if (onset[-1] in 'dfkt' and onset[-2] in 'bcdfgjkmñpqstvwxz'
+                    if (onset[-1] in 'dfkt' and onset[-2] in 'bcdfgjkm' +
+                        'ñpqstvwxz'
                         or onset[-1] in 'g' and onset[-2] in 'ctjk'
                         or onset[-1] in 'lm' and onset[-2] in 'ml'
                             or onset[-1] == 'c' and onset[-2] == 'c'):
