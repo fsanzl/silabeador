@@ -2,11 +2,12 @@
 import re
 from sys import prefix
 
-def silabea(word, excepciones = True):
+
+def silabea(word, excepciones=True):
     return silabas(word, excepciones).silabas
 
 
-def tonica(word, excepciones = True):
+def tonica(word, excepciones=True):
     return silabas(word, excepciones).tonica
 
 
@@ -34,7 +35,7 @@ class silabas:
                'á', 'é', 'í', 'ó', 'ú',
                'ä', 'ë', 'ï', 'ö', 'ü']
 
-    def __init__(self, palabra, excepciones = True):
+    def __init__(self, palabra, excepciones=True):
         self.palabra = self.__excepciones(palabra, excepciones)
         self.excepcions = excepciones
         self.silabas = self.__silabea(self.palabra)
@@ -43,28 +44,31 @@ class silabas:
     def __excepciones(self, palabra, excepciones):
         if excepciones:
             import importlib.resources as pkg_resources
-            lineas = pkg_resources.read_text('silabeador','excepciones.lst')
-            #with open(os.path.join(sys.prefix, 'data', 'file1.dat')) as f:
+            lineas = pkg_resources.read_text('silabeador', 'excepciones.lst')
+            # with open(os.path.join(sys.prefix, 'data', 'file1.dat')) as f:
             nombres = lineas.splitlines()                                       # hasta que indague más en el tema
-            nombres = [nombre.strip() for nombre in nombres if not nombre.startswith('#')]
+            nombres = [nombre.strip()
+                       for nombre in nombres if not nombre.startswith('#')]
         else:
             nombres = []
         uir = ['uir', 'uido', 'uida', 'uid', 'uidos', 'uidas'
                'uimos',
                'uiste', 'uisteis',  'uido', 'uida', 'uid'
-               'uiré', 'uirás', 'uirá', 'uiremos', 'uiréis', 'uirán',           # Quilis (2019, 185) exceptua el futuro
+               # Quilis (2019, 185) exceptua el futuro
+               'uiré', 'uirás', 'uirá', 'uiremos', 'uiréis', 'uirán',
                'uiría', 'uirías', 'uiría', 'uiríamos', 'uiríais', 'uirían']     # Quilis (2019, 185) exceptua el condicional
 
         uar = ['uar', 'uado', 'uada', 'uad', 'uás', 'uados', 'uadas'
                'uamos', 'uáis',
                'uaba', 'uabas', 'uábamos', 'uabais', 'uaban',
                'uaste', 'uó', 'uamos', 'uasteis', 'uaron',
-               'uaré', 'uarás', 'uará', 'uaremos', 'uaréis', 'uarán',           # Quilis (2019, 185) exceptua el futuro
+               # Quilis (2019, 185) exceptua el futuro
+               'uaré', 'uarás', 'uará', 'uaremos', 'uaréis', 'uarán',
                'uaría', 'uarías', 'uaría', 'uaríamos', 'uaríais', 'uarían']     # Quilis (2019, 185) exceptua el condicional
-        excepto = ['g','c']
+        excepto = ['g', 'c']
         uoso = ['uoso', 'uosa', 'uosos', 'uosas']
         if (any(x in palabra for x in nombres) or
-            any(palabra.endswith(x)  for x in nombres) or
+            any(palabra.endswith(x) for x in nombres) or
             any(palabra.endswith(x) for x in uir if len(x)+2 <= len(palabra))
             or any(palabra.endswith(x) for x in uar
                    if not palabra.endswith(f'g{x}'))):
@@ -72,7 +76,6 @@ class silabas:
             if not any(x in palabra for x in ['gu', 'qu', 'cu']):
                 palabra = re.sub('u([aeioáéó])', r'u \1', palabra)
         return palabra
-
 
     def __silabea(self, letras):
         extranjeras = {'à': 'a', 'è': 'e', 'ì': 'i', 'ò': 'o', 'ù': 'u',
@@ -93,7 +96,7 @@ class silabas:
         slbs[:0] = palabra
         slbs = self.__une(slbs)
         slbs = self.__separa(slbs)
-        return slbs
+        return [x.strip() for x in slbs]
 
     def __une(self, letras):
         cerradas = ['i', 'u']
@@ -110,12 +113,11 @@ class silabas:
                                             for x in ['gü', 'qu', 'gu']):
                     lista[-1] = lista[-1] + letra
                 elif any(vocal.lower() in cerradas
-                      for vocal in [letra, ultima]) and not (
-                          any(y.lower() in hiatos
-                              for y in [letra, ultima]) or
-                          any(y.lower() in dieresis
-                              for y in [letra, ultima])):
-                    lista[-1] = lista[-1] + letra
+                         for vocal in [letra, ultima]):
+                    if not any(y.lower() in hiatos for y in [letra, ultima]) or (
+                            letra.lower() in hiatos and ultima.lower() in 'ui' or
+                            any(y.lower() in dieresis for y in [letra, ultima])):
+                        lista[-1] = lista[-1] + letra
                 else:
                     lista = lista + [letra]
             else:
@@ -126,7 +128,7 @@ class silabas:
     def __separa(self, letras):
         inseparables_onset = ['pl', 'bl', 'fl', 'cl', 'kl', 'gl', 'll',
                               'pr', 'br', 'fr', 'cr', 'kr', 'gr', 'rr',
-                              'tr', 'ch']
+                              'dr', 'tr', 'ch', 'dh', 'rh']
         inseparables_coda = ['ns', 'bs']
         lista = []
         onset = ''
@@ -156,8 +158,15 @@ class silabas:
                     lista = lista + [onset[2:] + letra]
                     onset = ''
                 else:
-                    lista[-1] = lista[-1] + onset[:media]
-                    lista = lista + [onset[media:] + letra]
+                    if (onset[-1] in 'dfkt' and onset[-2] in 'bcdfgjkmñpqstvwxz'
+                        or onset[-1] in 'g' and onset[-2] in 'ctjk'
+                        or onset[-1] in 'lm' and onset[-2] in 'ml'
+                            or onset[-1] == 'c' and onset[-2] == 'c'):
+                        lista[-1] = lista[-1] + onset[:-1]
+                        lista = lista + [onset[-1] + letra]
+                    else:
+                        lista[-1] = lista[-1] + onset[:media]
+                        lista = lista + [onset[media:] + letra]
                     onset = ''
             lista[-1] = lista[-1] + onset
         return lista

@@ -1,5 +1,5 @@
 [![License: LGPL](https://img.shields.io/github/license/fsanzl/silabeador)](https://opensource.org/licenses/LGPL-2.1)
-[![Version: 1.0.2-15](https://img.shields.io/github/v/release/fsanzl/silabeador?include_prereleases)](https://pypi.org/project/silabeador/)
+[![Version: 1.0.7](https://img.shields.io/github/v/release/fsanzl/silabeador?include_prereleases)](https://pypi.org/project/silabeador/)
 [![Python versions: 3.5, 3.6, 3.7, 3.8, 3.9](https://img.shields.io/pypi/pyversions/silabeador)](https://pypi.org/project/silabeador/)
 
 
@@ -9,6 +9,10 @@
 
 *silabeador* is a Python library of methods and functions for syllabic division and prosodic stress detecting for Spanish.
 This library is part of the research project [Sound and Meaning in Spanish Golden Age Literature](https://soundandmeaning.univie.ac.at/). Automatic verse scansion required a syllable separator tolerant to non-Spanish consonant clusters and unusual and non-Spanish diacritics. Other libraries available take for granted that the words are well-constructed according to the Spanish grammar. This is not always the case in particular text types, as in *ü* as regularly used or as a metric diacritic (e.g., *Si-güen-za* vs *crü-el*).
+
+
+It achieves 99,40 % precission when tested against the corpus [EDFU](https://github.com/linhd-postdata/edfu), although the value should be significantly higher as that corpus does not apply t
+excepttions to the syllabication, such as the implicit hiatus in verbs in -uar ('a-cen-tu-ar') or -uir ('re-hu-ir'), or words some nouns ('a-rri-e-ro').
 
 ## Installation
 
