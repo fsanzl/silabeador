@@ -31,9 +31,7 @@ def tonica_s(slbs):
 
 
 class silabas:
-    vocales = ['a', 'e', 'i', 'o', 'u',
-               'á', 'é', 'í', 'ó', 'ú',
-               'ä', 'ë', 'ï', 'ö', 'ü']
+    vocales = 'aeiouáéíóúäëïöüàèìòùAEIOUÁÉÍÓÚÄËÏÓÜÀÈÌÒÙ'
 
     def __init__(self, palabra, excepciones=True):
         self.palabra = self.__excepciones(palabra, excepciones)
@@ -62,6 +60,7 @@ class silabas:
                'uaste', 'uó', 'uamos', 'uasteis', 'uaron',
                'uaré', 'uarás', 'uará', 'uaremos', 'uaréis', 'uarán',
                'uaría', 'uarías', 'uaría', 'uaríamos', 'uaríais', 'uarían']
+        acui = 'acuí'
         excepto = ['g', 'c']
         uoso = ['uoso', 'uosa', 'uosos', 'uosas']
         if (any(x in palabra for x in nombres) or
@@ -96,26 +95,25 @@ class silabas:
         return [x.strip() for x in slbs]
 
     def __une(self, letras):
-        cerradas = ['i', 'u']
-        debiles = ['e', 'i', 'é', 'í']
-        hiatos = ['ú', 'í']
-        dieresis = ['ä', 'ë', 'ï', 'ö', 'ü']
+        cerradas = 'iuIU'
+        debiles = 'eiéí'
+        hiatos = 'úíÚÍ'
+        dieresis = 'äëïöüÄËÏÖÜ'
         lista = []
         for letra in letras:
             if len(lista) == 0:
                 lista = [letra]
-            elif all(vocal.lower() in self.vocales
+            elif all(vocal in self.vocales
                      for vocal in [letra, ultima]):
                 if letra in debiles and any(''.join(lista).lower().endswith(x)
                                             for x in ['gü', 'qu', 'gu']):
                     lista[-1] = lista[-1] + letra
-                elif any(vocal.lower() in cerradas
-                         for vocal in [letra, ultima]):
-                    if letra.lower() in hiatos and ultima.lower() in 'ui' or (
-                            not any(y.lower() in hiatos
-                                    for y in [letra, ultima])
-                            or any(y.lower() in dieresis
-                                   for y in [letra, ultima])):
+                elif any(vocal in cerradas for vocal in letra + ultima):
+                    print(lista, letra)
+                    if letra not in hiatos+dieresis and ultima not in dieresis:
+                        lista[-1] = lista[-1] + letra
+                    elif letra == 'í' and len(lista) > 1 and (
+                        lista[-2:] == ['c','u']):
                         lista[-1] = lista[-1] + letra
                     else:
                         lista = lista + [letra]
