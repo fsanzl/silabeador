@@ -40,6 +40,8 @@ class silabas:
         self.tonica = tonica_s(self.silabas)
 
     def __excepciones(self, palabra, excepciones):
+        print('palabra', palabra)
+        print(palabra)
         if excepciones:
             import importlib.resources as pkg_resources
             lineas = pkg_resources.read_text('silabeador', 'excepciones.lst')
@@ -52,25 +54,40 @@ class silabas:
                'uimos',
                'uiste', 'uisteis',  'uido', 'uida', 'uid'
                'uiré', 'uirás', 'uirá', 'uiremos', 'uiréis', 'uirán',
-               'uiría', 'uirías', 'uiría', 'uiríamos', 'uiríais', 'uirían']
+               'uiría', 'uirías', 'uiría', 'uiríamos', 'uiríais', 'uirían',
+               'uiɾ', 'uido', 'uida', 'uid', 'uidos', 'uidas'
+               'uimos',
+               'uiste', 'uisteis',  'uido', 'uida', 'uid'
+               'uiɾé', 'uiɾás', 'uiɾá', 'uiɾemos', 'uiɾéis', 'uiɾán',
+               'uiɾía', 'uiɾías', 'uiɾía', 'uiɾíamos', 'uiɾíais', 'uiɾían']
+
 
         uar = ['uar', 'uado', 'uada', 'uad', 'uás', 'uados', 'uadas'
                'uamos', 'uáis',
                'uaba', 'uabas', 'uábamos', 'uabais', 'uaban',
                'uaste', 'uó', 'uamos', 'uasteis', 'uaron',
                'uaré', 'uarás', 'uará', 'uaremos', 'uaréis', 'uarán',
-               'uaría', 'uarías', 'uaría', 'uaríamos', 'uaríais', 'uarían']
-        acui = 'acuí'
+               'uaría', 'uarías', 'uaría', 'uaríamos', 'uaríais', 'uarían',
+               'uaɾ', 'uado', 'uada', 'uad', 'uás', 'uados', 'uadas'
+               'uamos', 'uáis',
+               'uaba', 'uabas', 'uábamos', 'uabais', 'uaban',
+               'uaste', 'uó', 'uamos', 'uasteis', 'uaɾon',
+               'uaɾé', 'uaɾás', 'uaɾá', 'uaɾemos', 'uaɾéis', 'uaɾán',
+               'uaɾía', 'uaɾías', 'uaɾía', 'uaɾíamos', 'uaɾíais', 'uaɾían',
+               'acuí', 'akui', 'uoso', 'uosa', 'uosos', 'uosas']
+
+
         excepto = ['g', 'c']
-        uoso = ['uoso', 'uosa', 'uosos', 'uosas']
         if (any(x in palabra for x in nombres) or
             any(palabra.endswith(x) for x in nombres) or
             any(palabra.endswith(x) for x in uir if len(x)+2 <= len(palabra))
             or any(palabra.endswith(x) for x in uar
                    if not palabra.endswith(f'g{x}'))):
+            print('si')
             palabra = re.sub('i([aeouáéó])', r'i \1', palabra)
-            if not any(x in palabra for x in ['gu', 'qu', 'cu']):
-                palabra = re.sub('u([aeioáéó])', r'u \1', palabra)
+            if not any(x in palabra for x in ['gu', 'qu', 'cu', 'ku']):
+                palabra = re.sub('u([aeioáéó])', r'\1', palabra)
+        print('salida', palabra)
         return palabra
 
     def __silabea(self, letras):
