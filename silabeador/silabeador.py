@@ -3,53 +3,50 @@ import re
 from sys import prefix
 
 
-def silabea(word, excepciones=True):
-    return silabas(word, excepciones).silabas
+def sillabify(word, exceptions=True):
+    return syllabification(word, exceptions).syllables
 
 
-def tonica(word, excepciones=True):
-    return silabas(word, excepciones).tonica
+def tonica(word, exceptions=True):
+    return syllabification(word, exceptions).stress
 
 
-def tonica_s(slbs):
+def stressed_s(slbs):
     if len(slbs) == 1:
-        tonica = -1
+        stress = -1
     elif len(slbs) > 2 and any(k in 'áéíóúÁÉÍÓÚ' for k in slbs[-3]):
-        tonica = -3
+        stress = -3
     else:
         if any(k in 'áéíóúÁÉÍÓÚ' for k in slbs[-2]):
-            tonica = -2
+            stress = -2
         elif any(k in 'áéíóúÁÉÍÓÚ' for k in slbs[-1]):
-            tonica = -1
+            stress = -1
         else:
             if (slbs[-1][-1] in 'nsNS' or
                     slbs[-1][-1] in 'aeiouAEIOU'):
-                tonica = -2
+                stress = -2
             else:
-                tonica = -1
-    return tonica
+                stress = -1
+    return stress
 
 
-class silabas:
-    vocales = 'aeiouáéíóúäëïöüàèìòùAEIOUÁÉÍÓÚÄËÏÓÜÀÈÌÒÙ'
+class syllabification:
+    vowels = 'aeiouáéíóúäëïöüàèìòùAEIOUÁÉÍÓÚÄËÏÓÜÀÈÌÒÙ'
 
-    def __init__(self, palabra, excepciones=True):
-        self.palabra = self.__excepciones(palabra, excepciones)
-        self.excepcions = excepciones
-        self.silabas = self.__silabea(self.palabra)
-        self.tonica = tonica_s(self.silabas)
+    def __init__(self, word, exceptions=True):
+        self.word = self.__make_exceptions(word, exceptions)
+        self.syllables = self.__syllabify(self.word)
+        self.stress = stressed_s(self.syllables)
 
-    def __excepciones(self, palabra, excepciones):
-        print('palabra', palabra)
-        print(palabra)
-        if excepciones:
+    def __make_exceptions(self, word, exceptions):
+        if exceptions:
             import importlib.resources as pkg_resources
-            lineas = pkg_resources.read_text('silabeador', 'excepciones.lst')
-            nombres = lineas.splitlines()
-            nombres = [nombre.strip()
-                       for nombre in nombres if not nombre.startswith('#')]
+            lines = pkg_resources.read_text('silabeador', 'exceptions.lst')
+            nouns = lines.splitlines()
+            nouns = [noun.strip()
+                       for noun in nouns if not noun.startswith('#')]
         else:
-            nombres = []
+            nouns = []
         uir = ['uir', 'uido', 'uida', 'uid', 'uidos', 'uidas'
                'uimos',
                'uiste', 'uisteis',  'uido', 'uida', 'uid'
@@ -76,102 +73,101 @@ class silabas:
                'uaɾía', 'uaɾías', 'uaɾía', 'uaɾíamos', 'uaɾíais', 'uaɾían',
                'acuí', 'akui', 'uoso', 'uosa', 'uosos', 'uosas']
 
-
-        excepto = ['g', 'c']
-        if (any(x in palabra for x in nombres) or
-            any(palabra.endswith(x) for x in nombres) or
-            any(palabra.endswith(x) for x in uir if len(x)+2 <= len(palabra))
-            or any(palabra.endswith(x) for x in uar
-                   if not palabra.endswith(f'g{x}'))):
+        but = ['g', 'c']
+        if (any(x in word for x in nouns) or
+            any(word.endswith(x) for x in nouns) or
+            any(word.endswith(x) for x in uir if len(x)+2 <= len(word))
+            or any(word.endswith(x) for x in uar
+                   if not word.endswith(f'g{x}'))):
             print('si')
-            palabra = re.sub('i([aeouáéó])', r'i \1', palabra)
-            if not any(x in palabra for x in ['gu', 'qu', 'cu', 'ku']):
-                palabra = re.sub('u([aeioáéó])', r'\1', palabra)
-        print('salida', palabra)
-        return palabra
+            word = re.sub('i([aeouáéó])', r'iX\1', word)
+            if not any(x in word for x in ['gu', 'qu', 'cu', 'ku']):
+                word = re.sub('u([aeioáéó])', r'uX\1', word)
+        print('salida', word)
+        return word
 
-    def __silabea(self, letras):
-        extranjeras = {'à': 'a', 'è': 'e', 'ì': 'i', 'ò': 'o', 'ù': 'u',
+    def __syllabify(self, letters):
+        foreign_lig = {'à': 'a', 'è': 'e', 'ì': 'i', 'ò': 'o', 'ù': 'u',
                        'ã': 'a', 'ẽ': 'e', 'ĩ': 'i', 'õ': 'o', 'ũ': 'u',
                        'ﬁ': 'fi', 'ﬂ': 'fl'}
-        diccionario = {'b': 'be', 'c': 'ce', 'd': 'de', 'f': 'efe', 'g': 'ge',
+        letters_dic = {'b': 'be', 'c': 'ce', 'd': 'de', 'f': 'efe', 'g': 'ge',
                        'h': 'hache', 'j': 'jota', 'k': 'ka', 'l': 'ele',
                        'm': 'eme', 'n': 'ene', 'p': 'pe', 'q': 'qu',
                        'r': 'erre', 's': 'ese', 't': 'te', 'v': 'uve',
                        'w': 'uvedoble', 'x': 'equis',
                        'z': 'zeta', 'ph': 'pehache'}
         slbs = []
-        palabra = re.sub(r'\W', '', letras)
-        palabra = ''.join([letra if letra not in extranjeras
-                           else extranjeras[letra] for letra in letras])
-        if palabra.lower() in diccionario:
-            palabra = diccionario[palabra]
-        slbs[:0] = palabra
-        slbs = self.__une(slbs)
-        slbs = self.__separa(slbs)
+        word = re.sub(r'\W', '', letters)
+        word = ''.join([letter if letter not in foreign_lig
+                           else foreign_lig[letter] for letter in letters])
+        if word.lower() in letters_dic:
+            word = letters_dic[word]
+        slbs[:0] = word
+        slbs = self.__join(slbs)
+        slbs = self.__split(slbs)
         return [x.strip() for x in slbs]
 
-    def __une(self, letras):
-        cerradas = 'iuIU'
-        debiles = 'eiéí'
-        hiatos = 'úíÚÍ'
-        dieresis = 'äëïöüÄËÏÖÜ'
-        lista = []
-        for letra in letras:
-            if len(lista) == 0:
-                lista = [letra]
-            elif all(vocal in self.vocales
-                     for vocal in [letra, ultima]):
-                if letra in debiles and any(''.join(lista).lower().endswith(x)
+    def __join(self, letters):
+        close = 'iuIU'
+        weak = 'eiéí'
+        hiatuses = 'úíÚÍ'
+        diereses = 'äëïöüÄËÏÖÜ'
+        word = []
+        for letter in letters:
+            if len(word) == 0:
+                word = [letter]
+            elif all(vocal in self.vowels
+                     for vocal in [letter, ultima]):
+                if letter in weak and any(''.join(word).lower().endswith(x)
                                             for x in ['gü', 'qu', 'gu']):
-                    lista[-1] = lista[-1] + letra
-                elif any(vocal in cerradas for vocal in letra + ultima):
-                    print(lista, letra)
-                    if letra not in hiatos+dieresis and ultima not in dieresis:
-                        lista[-1] = lista[-1] + letra
-                    elif letra == 'í' and len(lista) > 1 and (
-                        lista[-2:] == ['c','u']):
-                        lista[-1] = lista[-1] + letra
+                    word[-1] = word[-1] + letter
+                elif any(vocal in close for vocal in letter + ultima):
+                    print(word, letter)
+                    if letter not in hiatuses+diereses and ultima not in diereses:
+                        word[-1] = word[-1] + letter
+                    elif letter == 'í' and len(word) > 1 and (
+                        word[-2:] == ['c','u']):
+                        word[-1] = word[-1] + letter
                     else:
-                        lista = lista + [letra]
+                        word = word + [letter]
                 else:
-                    lista = lista + [letra]
+                    word = word + [letter]
             else:
-                lista = lista + [letra]
-            ultima = lista[-1][-1]
-        return lista
+                word = word + [letter]
+            ultima = word[-1][-1]
+        return word
 
-    def __separa(self, letras):
-        inseparables_onset = ['pl', 'bl', 'fl', 'cl', 'kl', 'gl', 'll',
+    def __split(self, letters):
+        indivisible_onset = ['pl', 'bl', 'fl', 'cl', 'kl', 'gl', 'll',
                               'pr', 'br', 'fr', 'cr', 'kr', 'gr', 'rr',
                               'dr', 'tr', 'ch', 'dh', 'rh']
-        inseparables_coda = ['ns', 'bs']
-        lista = []
+        indivisible_coda = ['ns', 'bs']
+        word = []
         onset = ''
-        if len(letras) == 1:
-            lista = letras
+        if len(letters) == 1:
+            word = letters
         else:
-            for letra in letras:
-                if all(x.lower() not in self.vocales for x in letra):
-                    if len(lista) == 0:
-                        onset = onset + letra
+            for letter in letters:
+                if all(x.lower() not in self.vowels for x in letter):
+                    if len(word) == 0:
+                        onset = onset + letter
                     else:
-                        onset = onset + letra
+                        onset = onset + letter
                         media = len(onset) // 2
-                elif len(onset) <= 1 or len(lista) == 0:
-                    lista = lista + [onset+letra]
+                elif len(onset) <= 1 or len(word) == 0:
+                    word = word + [onset+letter]
                     onset = ''
-                elif any(onset.endswith(x) for x in inseparables_onset):
-                    if len(lista) > 0:
-                        lista[-1] = lista[-1] + onset[:-2]
-                        lista = lista + [onset[-2:] + letra]
+                elif any(onset.endswith(x) for x in indivisible_onset):
+                    if len(word) > 0:
+                        word[-1] = word[-1] + onset[:-2]
+                        word = word + [onset[-2:] + letter]
                     else:
-                        lista = lista + [onset + letra]
+                        word = word + [onset + letter]
                     onset = ''
-                elif any(onset.startswith(x) for x in inseparables_coda) and (
+                elif any(onset.startswith(x) for x in indivisible_coda) and (
                         len(onset) > 2):
-                    lista[-1] = lista[-1] + onset[:2]
-                    lista = lista + [onset[2:] + letra]
+                    word[-1] = word[-1] + onset[:2]
+                    word = word + [onset[2:] + letter]
                     onset = ''
                 else:
                     if (onset[-1] in 'dfkt' and onset[-2] in 'bcdfgjkm' +
@@ -179,11 +175,11 @@ class silabas:
                         or onset[-1] in 'g' and onset[-2] in 'ctjk'
                         or onset[-1] in 'lm' and onset[-2] in 'ml'
                             or onset[-1] == 'c' and onset[-2] == 'c'):
-                        lista[-1] = lista[-1] + onset[:-1]
-                        lista = lista + [onset[-1] + letra]
+                        word[-1] = word[-1] + onset[:-1]
+                        word = word + [onset[-1] + letter]
                     else:
-                        lista[-1] = lista[-1] + onset[:media]
-                        lista = lista + [onset[media:] + letra]
+                        word[-1] = word[-1] + onset[:media]
+                        word = word + [onset[media:] + letter]
                     onset = ''
-            lista[-1] = lista[-1] + onset
-        return lista
+            word[-1] = word[-1] + onset
+        return word
