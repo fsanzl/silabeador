@@ -32,10 +32,24 @@ def stressed_s(slbs):
 
 class syllabification:
     vowels = 'aeiouáéíóúäëïöüàèìòùAEIOUÁÉÍÓÚÄËÏÓÜÀÈÌÒÙ'
+    semivowels = 'wj'
+    stressed = 'áéíóúÁÉÍÓÚ'
+    close = 'iuIU'
+    openv = 'aeoAEO'
+    close_ipa = 'jw'
+    weak = 'eiéí'
+    hiatuses = 'úíÚÍ'
+    diereses = 'äëïöüÄËÏÖÜ'
 
-    def __init__(self, word, exceptions=True):
+
+    def __init__(self, word, exceptions=True, ipa=False):
+        self.__ipa = ipa
         self.word = self.__make_exceptions(word, exceptions)
-        self.syllables = self.__syllabify(self.word)
+        if self.__ipa:
+            self.vowels += self.semivowels
+            self.close += self.close_ipa
+            self.word = self.word.replace("'", '').replace('ˌ', '')
+        self.syllables = self.__syllabify(self.word, self.__ipa)
         self.stress = stressed_s(self.syllables)
 
     def __make_exceptions(self, word, exceptions):
@@ -58,7 +72,6 @@ class syllabification:
                'uiɾé', 'uiɾás', 'uiɾá', 'uiɾemos', 'uiɾéis', 'uiɾán',
                'uiɾía', 'uiɾías', 'uiɾía', 'uiɾíamos', 'uiɾíais', 'uiɾían']
 
-
         uar = ['uar', 'uado', 'uada', 'uad', 'uás', 'uados', 'uadas'
                'uamos', 'uáis',
                'uaba', 'uabas', 'uábamos', 'uabais', 'uaban',
@@ -79,14 +92,12 @@ class syllabification:
             any(word.endswith(x) for x in uir if len(x)+2 <= len(word))
             or any(word.endswith(x) for x in uar
                    if not word.endswith(f'g{x}'))):
-            print('si')
-            word = re.sub('i([aeouáéó])', r'iX\1', word)
+            word = re.sub('i([aeouáéó])', r'i|\1', word)
             if not any(x in word for x in ['gu', 'qu', 'cu', 'ku']):
-                word = re.sub('u([aeioáéó])', r'uX\1', word)
-        print('salida', word)
+                word = re.sub('u([aeioáéó])', r'u|\1', word)
         return word
 
-    def __syllabify(self, letters):
+    def __syllabify(self, letters, ipa):
         foreign_lig = {'à': 'a', 'è': 'e', 'ì': 'i', 'ò': 'o', 'ù': 'u',
                        'ã': 'a', 'ẽ': 'e', 'ĩ': 'i', 'õ': 'o', 'ũ': 'u',
                        'ﬁ': 'fi', 'ﬂ': 'fl'}
@@ -103,26 +114,29 @@ class syllabification:
         if word.lower() in letters_dic:
             word = letters_dic[word]
         slbs[:0] = word
-        slbs = self.__join(slbs)
-        slbs = self.__split(slbs)
+        slbs = self.__join(slbs, ipa)
+        slbs = self.__split(slbs, self.__ipa)
         return [x.strip() for x in slbs]
 
-    def __join(self, letters):
-        close = 'iuIU'
+    def __join(self, letters, ipa):
         weak = 'eiéí'
         hiatuses = 'úíÚÍ'
         diereses = 'äëïöüÄËÏÖÜ'
+        if ipa:
+            semivowels = 'wj'
+        else:
+            semivowels = self.vowels
         word = []
         for letter in letters:
             if len(word) == 0:
                 word = [letter]
-            elif all(vocal in self.vowels
-                     for vocal in [letter, ultima]):
+            elif all(vocal in self.vowels + semivowels
+                     for vocal in [letter, ultima]) and any(
+                         vocal in semivowels for vocal in [letter, ultima]):
                 if letter in weak and any(''.join(word).lower().endswith(x)
                                             for x in ['gü', 'qu', 'gu']):
                     word[-1] = word[-1] + letter
-                elif any(vocal in close for vocal in letter + ultima):
-                    print(word, letter)
+                elif any(vocal in self.close for vocal in letter + ultima):
                     if letter not in hiatuses+diereses and ultima not in diereses:
                         word[-1] = word[-1] + letter
                     elif letter == 'í' and len(word) > 1 and (
@@ -137,18 +151,28 @@ class syllabification:
             ultima = word[-1][-1]
         return word
 
-    def __split(self, letters):
+    def __split(self, letters, ipa):
         indivisible_onset = ['pl', 'bl', 'fl', 'cl', 'kl', 'gl', 'll',
-                              'pr', 'br', 'fr', 'cr', 'kr', 'gr', 'rr',
-                              'dr', 'tr', 'ch', 'dh', 'rh']
-        indivisible_coda = ['ns', 'bs']
+                             'pr', 'br', 'fr', 'cr', 'kr', 'gr', 'rr',
+                             'dr', 'tr', 'ch', 'dh', 'rh',
+                             'βl', 'ɣl',
+                             'βɾ', 'pɾ', 'fɾ', 'kɾ', 'gɾ', 'ɣɾ','dɾ', 'ðɾ',
+                             'tʃ']
+        indivisible_coda = ['ns', 'bs', 'nz', 'βs', 'bz', 'βz']
         word = []
         onset = ''
+        if ipa:
+            symbols = ''
+        else:
+            symbols = 'jw'
         if len(letters) == 1:
             word = letters
         else:
             for letter in letters:
-                if all(x.lower() not in self.vowels for x in letter):
+                print(onset, letter)
+                if letter in "|'":
+                    pass
+                elif all(x.lower() not in self.vowels for x in letter):
                     if len(word) == 0:
                         onset = onset + letter
                     else:
@@ -170,11 +194,11 @@ class syllabification:
                     word = word + [onset[2:] + letter]
                     onset = ''
                 else:
-                    if (onset[-1] in 'dfkt' and onset[-2] in 'bcdfgjkm' +
-                        'ñpqstvwxz'
-                        or onset[-1] in 'g' and onset[-2] in 'ctjk'
-                        or onset[-1] in 'lm' and onset[-2] in 'ml'
-                            or onset[-1] == 'c' and onset[-2] == 'c'):
+                    if (onset[-1] in 'dðfkt' and onset[-2] in
+                        'bβcθkdðfgɣkmɱɲñpqstvwxχz' + symbols
+                        or onset[-1] in 'gɣ' and onset[-2] in 'cθtk' + symbols
+                        or onset[-1] in 'lmɱ' and onset[-2] in 'mɱl'
+                            or onset[-1] in 'cθ' and onset[-2] in 'kc'):
                         word[-1] = word[-1] + onset[:-1]
                         word = word + [onset[-1] + letter]
                     else:
