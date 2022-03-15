@@ -41,7 +41,6 @@ class syllabification:
     hiatuses = 'úíÚÍ'
     diereses = 'äëïöüÄËÏÖÜ'
 
-
     def __init__(self, word, exceptions=True, ipa=False):
         self.__ipa = ipa
         self.word = self.__make_exceptions(word, exceptions)
@@ -58,7 +57,7 @@ class syllabification:
             lines = pkg_resources.read_text('silabeador', 'exceptions.lst')
             nouns = lines.splitlines()
             nouns = [noun.strip()
-                       for noun in nouns if not noun.startswith('#')]
+                     for noun in nouns if not noun.startswith('#')]
         else:
             nouns = []
         uir = ['uir', 'uido', 'uida', 'uid', 'uidos', 'uidas'
@@ -110,7 +109,7 @@ class syllabification:
         slbs = []
         word = re.sub(r'\W', '', letters)
         word = ''.join([letter if letter not in foreign_lig
-                           else foreign_lig[letter] for letter in letters])
+                        else foreign_lig[letter] for letter in letters])
         if word.lower() in letters_dic:
             word = letters_dic[word]
         slbs[:0] = word
@@ -134,13 +133,13 @@ class syllabification:
                      for vocal in [letter, ultima]) and any(
                          vocal in semivowels for vocal in [letter, ultima]):
                 if letter in weak and any(''.join(word).lower().endswith(x)
-                                            for x in ['gü', 'qu', 'gu']):
+                                          for x in ['gü', 'qu', 'gu']):
                     word[-1] = word[-1] + letter
                 elif any(vocal in self.close for vocal in letter + ultima):
                     if letter not in hiatuses+diereses and ultima not in diereses:
                         word[-1] = word[-1] + letter
                     elif letter == 'í' and len(word) > 1 and (
-                        word[-2:] == ['c','u']):
+                            word[-2:] == ['c', 'u']):
                         word[-1] = word[-1] + letter
                     else:
                         word = word + [letter]
@@ -156,7 +155,7 @@ class syllabification:
                              'pr', 'br', 'fr', 'cr', 'kr', 'gr', 'rr',
                              'dr', 'tr', 'ch', 'dh', 'rh',
                              'βl', 'ɣl',
-                             'βɾ', 'pɾ', 'fɾ', 'kɾ', 'gɾ', 'ɣɾ','dɾ', 'ðɾ',
+                             'βɾ', 'pɾ', 'fɾ', 'kɾ', 'gɾ', 'ɣɾ', 'dɾ', 'ðɾ',
                              'tʃ']
         indivisible_coda = ['ns', 'bs', 'nz', 'βs', 'bz', 'βz']
         word = []
@@ -169,7 +168,6 @@ class syllabification:
             word = letters
         else:
             for letter in letters:
-                print(onset, letter)
                 if letter in "|'":
                     pass
                 elif all(x.lower() not in self.vowels for x in letter):
