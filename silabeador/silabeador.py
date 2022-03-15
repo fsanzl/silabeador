@@ -42,6 +42,7 @@ class syllabification:
     diereses = 'äëïöüÄËÏÖÜ'
 
     def __init__(self, word, exceptions=True, ipa=False):
+        print(word)
         self.__ipa = ipa
         self.word = self.__make_exceptions(word, exceptions)
         if self.__ipa:
@@ -156,7 +157,7 @@ class syllabification:
                              'dr', 'tr', 'ch', 'dh', 'rh',
                              'βl', 'ɣl',
                              'βɾ', 'pɾ', 'fɾ', 'kɾ', 'gɾ', 'ɣɾ', 'dɾ', 'ðɾ',
-                             'tʃ']
+                             'tɾ', 'tʃ']
         indivisible_coda = ['ns', 'bs', 'nz', 'βs', 'bz', 'βz']
         word = []
         onset = ''
