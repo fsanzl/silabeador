@@ -42,7 +42,6 @@ class syllabification:
     diereses = 'äëïöüÄËÏÖÜ'
 
     def __init__(self, word, exceptions=True, ipa=False):
-        print(word)
         self.__ipa = ipa
         self.word = self.__make_exceptions(word, exceptions)
         if self.__ipa:
