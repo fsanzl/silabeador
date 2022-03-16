@@ -157,7 +157,7 @@ class syllabification:
                              'dr', 'tr', 'ch', 'dh', 'rh',
                              'βl', 'ɣl',
                              'βɾ', 'pɾ', 'fɾ', 'kɾ', 'gɾ', 'ɣɾ', 'dɾ', 'ðɾ',
-                             'tɾ', 'tʃ']
+                             'tɾ', 'bɾ', 'tʃ']
         indivisible_coda = ['ns', 'bs', 'nz', 'βs', 'bz', 'βz']
         word = []
         onset = ''
