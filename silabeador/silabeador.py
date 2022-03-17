@@ -3,7 +3,7 @@ import re
 from sys import prefix
 
 
-def sillabify(word, exceptions=True):
+def syllabify(word, exceptions=True):
     return syllabification(word, exceptions).syllables
 
 
@@ -56,7 +56,7 @@ class syllabification:
             import importlib.resources as pkg_resources
             lines = pkg_resources.read_text('silabeador', 'exceptions.lst')
             nouns = lines.splitlines()
-            nouns = [noun.strip()
+            nouns = [noun.strip().split()
                      for noun in nouns if not noun.startswith('#')]
         else:
             nouns = []
@@ -86,9 +86,10 @@ class syllabification:
                'acuí', 'akui', 'uoso', 'uosa', 'uosos', 'uosas']
 
         but = ['g', 'c']
-        if (any(x in word for x in nouns) or
-            any(word.endswith(x) for x in nouns) or
-            any(word.endswith(x) for x in uir if len(x)+2 <= len(word))
+        for noun in nouns:
+            if re.search(re.compile(noun[0]), word):
+                word = re.sub(re.compile(noun[0]), noun[1], word)
+        if (any(word.endswith(x) for x in uir if len(x)+2 <= len(word))
             or any(word.endswith(x) for x in uar
                    if not word.endswith(f'g{x}'))):
             word = re.sub('i([aeouáéó])', r'i|\1', word)
@@ -145,6 +146,10 @@ class syllabification:
                         word = word + [letter]
                 else:
                     word = word + [letter]
+            elif ultima == '|':
+                word[-1] = letter
+            elif letter == '|':
+                word = word + [letter]
             else:
                 word = word + [letter]
             ultima = word[-1][-1]
