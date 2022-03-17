@@ -146,9 +146,9 @@ class syllabification:
                         word = word + [letter]
                 else:
                     word = word + [letter]
-            elif ultima == '|':
+            elif ultima == '=':
                 word[-1] = letter
-            elif letter == '|':
+            elif letter == '=':
                 word = word + [letter]
             else:
                 word = word + [letter]
