@@ -11,7 +11,7 @@ def tonica(word, exceptions=True):
     return syllabification(word, exceptions).stress
 
 
-def stressed_s(slbs, ipa):
+def stressed_s(slbs):
     if len(slbs) == 1:
         stress = -1
     elif len(slbs) > 2 and any(k in 'áéíóúÁÉÍÓÚ' for k in slbs[-3]):
