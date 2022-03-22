@@ -11,7 +11,7 @@ def tonica(word, exceptions=True):
     return syllabification(word, exceptions).stress
 
 
-def stressed_s(slbs):
+def stressed_s(slbs, ipa):
     if len(slbs) == 1:
         stress = -1
     elif len(slbs) > 2 and any(k in 'áéíóúÁÉÍÓÚ' for k in slbs[-3]):
@@ -134,7 +134,8 @@ class syllabification:
                      for vocal in [letter, ultima]) and any(
                          vocal in semivowels for vocal in [letter, ultima]):
                 if letter in weak and any(''.join(word).lower().endswith(x)
-                                          for x in ['gü', 'qu', 'gu']):
+                                          for x in ['gü', 'qu', 'gu',
+                                                    'ɣw', 'gw']):
                     word[-1] = word[-1] + letter
                 elif any(vocal in self.close for vocal in letter + ultima):
                     if letter not in hiatuses+diereses and ultima not in diereses:
@@ -161,7 +162,7 @@ class syllabification:
                              'dr', 'tr', 'ch', 'dh', 'rh',
                              'βl', 'ɣl',
                              'βɾ', 'pɾ', 'fɾ', 'kɾ', 'gɾ', 'ɣɾ', 'dɾ', 'ðɾ',
-                             'tɾ', 'bɾ', 'tʃ']
+                             'tɾ', 'bɾ', 'tʃ', 'gw', 'ɣw']
         indivisible_coda = ['ns', 'bs', 'nz', 'βs', 'bz', 'βz']
         word = []
         onset = ''
