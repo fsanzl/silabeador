@@ -123,9 +123,9 @@ class syllabification:
         hiatuses = 'úíÚÍ'
         diereses = 'äëïöüÄËÏÖÜ'
         if ipa:
-            semivowels = 'wj'
+            semivowels = 'wjiu'
         else:
-            semivowels = self.vowels
+            semivowels = 'iu'
         word = []
         for letter in letters:
             if len(word) == 0:
