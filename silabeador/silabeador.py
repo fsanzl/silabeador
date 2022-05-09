@@ -92,9 +92,9 @@ class syllabification:
         if (any(word.endswith(x) for x in uir if len(x)+2 <= len(word))
             or any(word.endswith(x) for x in uar
                    if not word.endswith(f'g{x}'))):
-            word = re.sub('i([aeouáéó])', r'i|\1', word)
+            word = re.sub('i([aeouáéó])', r'i_\1', word)
             if not any(x in word for x in ['gu', 'qu', 'cu', 'ku']):
-                word = re.sub('u([aeioáéó])', r'u|\1', word)
+                word = re.sub('u([aeioáéó])', r'u_\1', word)
         return word
 
     def __syllabify(self, letters, ipa):
@@ -147,9 +147,9 @@ class syllabification:
                         word = word + [letter]
                 else:
                     word = word + [letter]
-            elif ultima == '=':
+            elif ultima == '_':
                 word[-1] = letter
-            elif letter == '=':
+            elif letter == '_':
                 word = word + [letter]
             else:
                 word = word + [letter]
@@ -174,7 +174,7 @@ class syllabification:
             word = letters
         else:
             for letter in letters:
-                if letter in "|'":
+                if letter == '_':
                     pass
                 elif all(x.lower() not in self.vowels for x in letter):
                     if len(word) == 0:
