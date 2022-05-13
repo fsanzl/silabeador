@@ -30,7 +30,7 @@ def stressed_s(slbs):
     return stress
 
 
-class syllabification:
+class Syllabification:
     vowels = 'aeiouáéíóúäëïöüàèìòùAEIOUÁÉÍÓÚÄËÏÓÜÀÈÌÒÙ'
     semivowels = 'wj'
     stressed = 'áéíóúÁÉÍÓÚ'
@@ -122,23 +122,26 @@ class syllabification:
         weak = 'eiéí'
         hiatuses = 'úíÚÍ'
         diereses = 'äëïöüÄËÏÖÜ'
+        gwe = ['gü', 'qu', 'gu', 'ɣw', 'gw']
+        word = []
         if ipa:
             semivowels = 'wjiu'
         else:
             semivowels = 'iu'
-        word = []
+        diphthong = re.compile(f'[{self.vowels}][{semivowels}]$')
         for letter in letters:
             if len(word) == 0:
                 word = [letter]
             elif all(vocal in self.vowels + semivowels
-                     for vocal in [letter, ultima]) and any(
-                         vocal in semivowels for vocal in [letter, ultima]):
-                if letter in weak and any(''.join(word).lower().endswith(x)
-                                          for x in ['gü', 'qu', 'gu',
-                                                    'ɣw', 'gw']):
+                     for vocal in [letter, last_letter]) and any(
+                         vocal in semivowels for vocal in [letter, last_letter]):
+                if letter in weak and any(word_sofar.endswith(x) for x in gwe):
                     word[-1] = word[-1] + letter
-                elif any(vocal in self.close for vocal in letter + ultima):
-                    if letter not in hiatuses+diereses and ultima not in diereses:
+                elif re.search(diphthong, word_sofar):
+                    word = word + [word_sofar[-1]+letter]
+                    word[-2] = word[-2][:-1]
+                elif any(vocal in self.close for vocal in letter + last_letter):
+                    if letter not in hiatuses+diereses and last_letter not in diereses:
                         word[-1] = word[-1] + letter
                     elif letter == 'í' and len(word) > 1 and (
                             word[-2:] == ['c', 'u']):
@@ -147,13 +150,15 @@ class syllabification:
                         word = word + [letter]
                 else:
                     word = word + [letter]
-            elif ultima == '_':
+            elif last_letter == '_':
                 word[-1] = letter
             elif letter == '_':
                 word = word + [letter]
             else:
                 word = word + [letter]
-            ultima = word[-1][-1]
+            last_syllable = word[-1]
+            last_letter = last_syllable[-1]
+            word_sofar = ''.join(word).lower()
         return word
 
     def __split(self, letters, ipa):
