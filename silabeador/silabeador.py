@@ -14,19 +14,19 @@ class Syllabification:
         if self.__ipa:
             self.__vowels += 'jw'
             self.__close += 'jw'
-        self.syllables = self.__syllabify(self.__word, self.__ipa)
+        self.syllables = self.__syllabify(self.__word)
         self.stress = stressed_s(self.syllables)
 
     def __make_exceptions(self, word):
-        import importlib.resources as pkg_resources
-        lines = pkg_resources.read_text('silabeador', 'exceptions.lst')
+        from importlib import resources
+        lines = resources.read_text('silabeador', 'exceptions.lst')
         nouns = lines.splitlines()
         nouns = [noun.strip().split() for noun in nouns if not noun.startswith('#')]
         for noun in nouns:
             word = re.sub(re.compile(noun[0]), noun[1], word)
         return word
 
-    def __syllabify(self, letters, ipa):
+    def __syllabify(self, letters):
         foreign_lig = {'à': 'a', 'è': 'e', 'ì': 'i', 'ò': 'o', 'ù': 'u',
                        'ã': 'a', 'ẽ': 'e', 'ĩ': 'i', 'õ': 'o', 'ũ': 'u',
                        'ﬁ': 'fi', 'ﬂ': 'fl'}
@@ -35,11 +35,11 @@ class Syllabification:
         word = ''.join([letter if letter not in foreign_lig
                         else foreign_lig[letter] for letter in letters])
         slbs[:0] = word
-        slbs = self.__join(slbs, ipa)
-        slbs = self.__split(slbs, self.__ipa)
+        slbs = self.__join(slbs)
+        slbs = self.__split(slbs)
         return [x.strip() for x in slbs]
 
-    def __join(self, letters, ipa):
+    def __join(self, letters):
         weak = 'eiéí'
         hiatuses = 'úíÚÍ'
         diereses = 'äëïöüÄËÏÖÜ'
@@ -80,7 +80,7 @@ class Syllabification:
             word_sofar = ''.join(word).lower()
         return word
 
-    def __split(self, letters, ipa):
+    def __split(self, letters):
         indivisible_onset = ['pl', 'bl', 'fl', 'cl', 'kl', 'gl', 'll',
                              'pr', 'br', 'fr', 'cr', 'kr', 'gr', 'rr',
                              'dr', 'tr', 'ch', 'dh', 'rh',
@@ -90,7 +90,7 @@ class Syllabification:
         indivisible_coda = ['ns', 'bs', 'nz', 'βs', 'bz', 'βz']
         word = []
         onset = ''
-        if ipa:
+        if self.__ipa:
             symbols = ''
         else:
             symbols = 'jw'
@@ -134,14 +134,6 @@ class Syllabification:
         return word
 
 
-def syllabify(word, exceptions=True):
-    return Syllabification(word, exceptions).syllables
-
-
-def tonica(word, exceptions=True):
-    return Syllabification(word, exceptions).stress
-
-
 def stressed_s(slbs):
     if len(slbs) == 1:
         stress = -1
@@ -159,3 +151,11 @@ def stressed_s(slbs):
             else:
                 stress = -1
     return stress
+
+def syllabify(word, exceptions=True):
+    return Syllabification(word, exceptions).syllables
+
+
+def tonica(word, exceptions=True):
+    return Syllabification(word, exceptions).stress
+
