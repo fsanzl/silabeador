@@ -1,52 +1,16 @@
-#!/usr/bin/env python3
 import re
-from sys import prefix
-
-
-def syllabify(word, exceptions=True):
-    return syllabification(word, exceptions).syllables
-
-
-def tonica(word, exceptions=True):
-    return syllabification(word, exceptions).stress
-
-
-def stressed_s(slbs):
-    if len(slbs) == 1:
-        stress = -1
-    elif len(slbs) > 2 and any(k in 'áéíóúÁÉÍÓÚ' for k in slbs[-3]):
-        stress = -3
-    else:
-        if any(k in 'áéíóúÁÉÍÓÚ' for k in slbs[-2]):
-            stress = -2
-        elif any(k in 'áéíóúÁÉÍÓÚ' for k in slbs[-1]):
-            stress = -1
-        else:
-            if (slbs[-1][-1] in 'nsNS' or
-                    slbs[-1][-1] in 'aeiouAEIOU'):
-                stress = -2
-            else:
-                stress = -1
-    return stress
 
 
 class Syllabification:
-    vowels = 'aeiouáéíóúäëïöüàèìòùAEIOUÁÉÍÓÚÄËÏÓÜÀÈÌÒÙ'
-    semivowels = 'wj'
-    stressed = 'áéíóúÁÉÍÓÚ'
-    close = 'iuIU'
-    openv = 'aeoAEO'
-    close_ipa = 'jw'
-    weak = 'eiéí'
-    hiatuses = 'úíÚÍ'
-    diereses = 'äëïöüÄËÏÖÜ'
+    __vowels = 'aeiouáéíóúäëïöüàèìòùAEIOUÁÉÍÓÚÄËÏÓÜÀÈÌÒÙ'
+    __close = 'iuIUüÜ'
 
     def __init__(self, word, exceptions=True, ipa=False):
         self.__ipa = ipa
         self.word = self.__make_exceptions(word, exceptions)
         if self.__ipa:
-            self.vowels += self.semivowels
-            self.close += self.close_ipa
+            self.__vowels += 'jw'
+            self.__close += 'jw'
             self.word = self.word.replace("'", '').replace('ˌ', '')
         self.syllables = self.__syllabify(self.word, self.__ipa)
         self.stress = stressed_s(self.syllables)
@@ -84,35 +48,25 @@ class Syllabification:
                'uaɾé', 'uaɾás', 'uaɾá', 'uaɾemos', 'uaɾéis', 'uaɾán',
                'uaɾía', 'uaɾías', 'uaɾía', 'uaɾíamos', 'uaɾíais', 'uaɾían',
                'acuí', 'akui', 'uoso', 'uosa', 'uosos', 'uosas']
-
-        but = ['g', 'c']
-        for noun in nouns:
-            if re.search(re.compile(noun[0]), word):
-                word = re.sub(re.compile(noun[0]), noun[1], word)
-        if (any(word.endswith(x) for x in uir if len(x)+2 <= len(word))
-            or any(word.endswith(x) for x in uar
-                   if not word.endswith(f'g{x}'))):
-            word = re.sub('i([aeouáéó])', r'i_\1', word)
-            if not any(x in word for x in ['gu', 'qu', 'cu', 'ku']):
-                word = re.sub('u([aeioáéó])', r'u_\1', word)
+        print(word)
+        if any(word.endswith(x) for x in uir if ('f'+x) not in word):
+            word = word.replace('ui', 'u_i')
+        elif any(word.endswith(x) for x in uar if not word.endswith(f'g{x}')):
+            word = word.replace('ua', 'u_a')
+        else:
+            for noun in nouns:
+                if re.search(re.compile(noun[0]), word):
+                    word = re.sub(re.compile(noun[0]), noun[1], word)
         return word
 
     def __syllabify(self, letters, ipa):
         foreign_lig = {'à': 'a', 'è': 'e', 'ì': 'i', 'ò': 'o', 'ù': 'u',
                        'ã': 'a', 'ẽ': 'e', 'ĩ': 'i', 'õ': 'o', 'ũ': 'u',
                        'ﬁ': 'fi', 'ﬂ': 'fl'}
-        letters_dic = {'b': 'be', 'c': 'ce', 'd': 'de', 'f': 'efe', 'g': 'ge',
-                       'h': 'hache', 'j': 'jota', 'k': 'ka', 'l': 'ele',
-                       'm': 'eme', 'n': 'ene', 'p': 'pe', 'q': 'qu',
-                       'r': 'erre', 's': 'ese', 't': 'te', 'v': 'uve',
-                       'w': 'uvedoble', 'x': 'equis',
-                       'z': 'zeta', 'ph': 'pehache'}
         slbs = []
         word = re.sub(r'\W', '', letters)
         word = ''.join([letter if letter not in foreign_lig
                         else foreign_lig[letter] for letter in letters])
-        if word.lower() in letters_dic:
-            word = letters_dic[word]
         slbs[:0] = word
         slbs = self.__join(slbs, ipa)
         slbs = self.__split(slbs, self.__ipa)
@@ -124,23 +78,21 @@ class Syllabification:
         diereses = 'äëïöüÄËÏÖÜ'
         gwe = ['gü', 'qu', 'gu', 'ɣw', 'gw']
         word = []
-        if ipa:
-            semivowels = 'wjiu'
-        else:
-            semivowels = 'iu'
-        diphthong = re.compile(f'[{self.vowels}][{semivowels}]$')
+        word_sofar = ''
+        last_letter = ''
+        diphthong = re.compile(f'[{self.__vowels}][{self.__close}]$')
         for letter in letters:
             if len(word) == 0:
                 word = [letter]
-            elif all(vocal in self.vowels + semivowels
+            elif all(vocal in self.__vowels + self.__close
                      for vocal in [letter, last_letter]) and any(
-                         vocal in semivowels for vocal in [letter, last_letter]):
+                         vocal in self.__close for vocal in [letter, last_letter]):
                 if letter in weak and any(word_sofar.endswith(x) for x in gwe):
                     word[-1] = word[-1] + letter
                 elif re.search(diphthong, word_sofar):
                     word = word + [word_sofar[-1]+letter]
                     word[-2] = word[-2][:-1]
-                elif any(vocal in self.close for vocal in letter + last_letter):
+                elif any(vocal in self.__close for vocal in letter + last_letter):
                     if letter not in hiatuses+diereses and last_letter not in diereses:
                         word[-1] = word[-1] + letter
                     elif letter == 'í' and len(word) > 1 and (
@@ -175,44 +127,68 @@ class Syllabification:
             symbols = ''
         else:
             symbols = 'jw'
-        if len(letters) == 1:
-            word = letters
-        else:
-            for letter in letters:
-                if letter == '_':
-                    pass
-                elif all(x.lower() not in self.vowels for x in letter):
-                    if len(word) == 0:
-                        onset = onset + letter
-                    else:
-                        onset = onset + letter
-                        media = len(onset) // 2
-                elif len(onset) <= 1 or len(word) == 0:
-                    word = word + [onset+letter]
-                    onset = ''
-                elif any(onset.endswith(x) for x in indivisible_onset):
-                    if len(word) > 0:
-                        word[-1] = word[-1] + onset[:-2]
-                        word = word + [onset[-2:] + letter]
-                    else:
-                        word = word + [onset + letter]
-                    onset = ''
-                elif any(onset.startswith(x) for x in indivisible_coda) and (
-                        len(onset) > 2):
-                    word[-1] = word[-1] + onset[:2]
-                    word = word + [onset[2:] + letter]
-                    onset = ''
+        for letter in letters:
+            if letter == '_':
+                pass
+            elif all(x.lower() not in self.__vowels for x in letter):
+                if len(word) == 0:
+                    onset = onset + letter
                 else:
-                    if (onset[-1] in 'dðfkt' and onset[-2] in
-                        'bβcθkdðfgɣkmɱɲñpqstvwxχz' + symbols
-                        or onset[-1] in 'gɣ' and onset[-2] in 'cθtk' + symbols
-                        or onset[-1] in 'lmɱ' and onset[-2] in 'mɱl'
-                            or onset[-1] in 'cθ' and onset[-2] in 'kc'):
-                        word[-1] = word[-1] + onset[:-1]
-                        word = word + [onset[-1] + letter]
-                    else:
-                        word[-1] = word[-1] + onset[:media]
-                        word = word + [onset[media:] + letter]
-                    onset = ''
-            word[-1] = word[-1] + onset
+                    onset = onset + letter
+                    media = len(onset) // 2
+            elif len(onset) <= 1 or len(word) == 0:
+                word = word + [onset+letter]
+                onset = ''
+            elif any(onset.endswith(x) for x in indivisible_onset):
+                if len(word) > 0:
+                    word[-1] = word[-1] + onset[:-2]
+                    word = word + [onset[-2:] + letter]
+                else:
+                    word = word + [onset + letter]
+                onset = ''
+            elif any(onset.startswith(x) for x in indivisible_coda) and (
+                    len(onset) > 2):
+                word[-1] = word[-1] + onset[:2]
+                word = word + [onset[2:] + letter]
+                onset = ''
+            else:
+                if (onset[-1] in 'dðfkt' and onset[-2] in
+                    'bβcθkdðfgɣkmɱɲñpqstvwxχz' + symbols
+                    or onset[-1] in 'gɣ' and onset[-2] in 'cθtk' + symbols
+                    or onset[-1] in 'lmɱ' and onset[-2] in 'mɱl'
+                        or onset[-1] in 'cθ' and onset[-2] in 'kc'):
+                    word[-1] = word[-1] + onset[:-1]
+                    word = word + [onset[-1] + letter]
+                else:
+                    word[-1] = word[-1] + onset[:media]
+                    word = word + [onset[media:] + letter]
+                onset = ''
+        word[-1] = word[-1] + onset
         return word
+
+
+def syllabify(word, exceptions=True):
+    return Syllabification(word, exceptions).syllables
+
+
+def tonica(word, exceptions=True):
+    return Syllabification(word, exceptions).stress
+
+
+def stressed_s(slbs):
+    if len(slbs) == 1:
+        stress = -1
+    elif len(slbs) > 2 and any(k in 'áéíóúÁÉÍÓÚ' for k in slbs[-3]):
+        stress = -3
+    else:
+        if any(k in 'áéíóúÁÉÍÓÚ' for k in slbs[-2]):
+            stress = -2
+        elif any(k in 'áéíóúÁÉÍÓÚ' for k in slbs[-1]):
+            stress = -1
+        else:
+            if (slbs[-1][-1] in 'nsNS' or
+                    slbs[-1][-1] in 'aeiouAEIOU'):
+                stress = -2
+            else:
+                stress = -1
+    return stress
