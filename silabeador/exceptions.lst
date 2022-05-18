@@ -1,19 +1,19 @@
 ###### -uir verbs
 # Infinitive forms
-([^f])ui([ɾr])\b \1u_i\2
+ui([ɾr])\b u_i\1
 uid([oa]s{,1})\b u_id\1
 # Presente
 ([^f])ui(mos|s)\b \1u_i\2
 # Indefinido
 ([^f])u(i|iste|isteis)\b \1u_\2
 # Futuro !
-([^g])ui([rɾ])(é|ás|á|emos|éis|an)\b \1u_i\2\3
+ui([rɾ])(é|ás|á|emos|éis|an)\b u_i\1\2
 # Condicional !
-([^g])ui([rɾ])í(a|as|amos|ais|an)\b \1u_i\2í\3
+ui([rɾ])í(a|as|amos|ais|an)\b u_i\1í\2
 ##### Verbos en -uar
 # Infinitives
 ([^g])ua([ɾr])\b \1u_a\2
-([^g])uad([[oa]s*]*)\b \1u_ado\2
+([^g])uad([[oa]s*]*)\b \1u_ad\2
 # Presente
 ([^g])uamos\b u_amos
 ([^g])uáis\b u_áis
@@ -34,7 +34,30 @@ uid([oa]s{,1})\b u_id\1
 # Futuro subjuntivo
 ([^g])ua([rɾ])(e|es|a|eis|en)\b \1u_a\2\3
 ([^g])uá([ɾr])emos\b \1u_á\2emos
-#
+# -iar
+# Infinitives
+ia([ɾr])\b i_a\1
+iad([[oa]s*]*)\b i_ad\1
+# Presente
+iamos\b i_amos
+iáis\b i_áis
+# Imperfecto
+iab(a|as|ais|an)\b i_ab\1
+iábamos\b i_ábamos
+# Indefinido
+i(é|aste|ó|asteis|aron|aɾon)\b i_\1
+# Futuro !
+ia([rɾ])(é|ás|á|emos|éis|an)\b i_a\1\2
+# Condicional !
+ia([rɾ])í(a|as|amos|ais|an)\b i_a\1í\2
+# Subjuntivo, presente
+iemos\b i_emos
+# Imperfecto subjuntivo
+ia([ɾr])(a|as|ais|an)\b i_a\1í\2
+iá([ɾr])amos\b i_á\1amos
+# Futuro subjuntivo
+ia([rɾ])(e|es|a|eis|en)\b i_a\1\2
+iá([ɾr])emos\b i_á\1emos
 a([kc])uos a_\1uos
 a([kc])u([ií]) a\1u_\2
 ángulo _ángulo
