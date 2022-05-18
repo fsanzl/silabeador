@@ -1,79 +1,78 @@
-## List of exceptions
-#acuos
-anual anu_al
-anuales anu_ales
-arrier arri_er
+###### -uir verbs
+# Infinitive forms
+([^f])ui([ɾr])\b \1u_i\2
+uid([oa]s{,1})\b u_id\1
+# Presente
+([^f])ui(mos|s)\b \1u_i\2
+# Indefinido
+([^f])u(i|iste|isteis)\b \1u_\2
+# Futuro !
+([^g])ui([rɾ])(é|ás|á|emos|éis|an)\b \1u_i\2\3
+# Condicional !
+([^g])ui([rɾ])í(a|as|amos|ais|an)\b \1u_i\2í\3
+##### Verbos en -uar
+# Infinitives
+([^g])ua([ɾr])\b \1u_a\2
+([^g])uad([[oa]s*]*)\b \1u_ado\2
+# Presente
+([^g])uamos\b u_amos
+([^g])uáis\b u_áis
+# Imperfecto
+([^g])uab(a|as|ais|an)\b \1u_ab\2
+([^g])uábamos\b \1u_ábamos
+# Indefinido
+([^g])u(é|aste|ó|asteis|aron|aɾon)\b \1u_\2
+# Futuro !
+([^g])ua([rɾ])(é|ás|á|emos|éis|an)\b \1u_a\2\3
+# Condicional !
+([^g])ua([rɾ])í(a|as|amos|ais|an)\b \1u_a\2í\3
+# Subjuntivo, presente
+([^g])uemos\b \1u_emos
+# Imperfecto subjuntivo
+([^g])ua([ɾr])(a|as|ais|an)\b \1u_a\2í\3
+([^g])uá([ɾr])amos\b \1u_á\2amos
+# Futuro subjuntivo
+([^g])ua([rɾ])(e|es|a|eis|en)\b \1u_a\2\3
+([^g])uá([ɾr])emos\b \1u_á\2emos
+#
+a([kc])uos a_\1uos
+a([kc])u([ií]) a\1u_\2
+ángulo _ángulo
+anual _anu_al
+a(r{1,2})ie([ɾr]) a\1i_e\2
 bienio bi_enio
 biombo bi_ombo
-\bbrio bri_o
-client cli_ent
-confianz confi_anz
-crianz cri_anz
-cruel cru_el
-criad cri_ado
+bo(qu|k)ian(ch|ʧ) bo\1ian\2
+\bb([ɾr])io b\1i_o
+([kc])lient \1li_ent
+ian([zθ])a i_an\1a
+(cr|kɾ)uel \1u_el
+(cr|kɾ)i([ao]) \1i_\2
 diablo di_ablo
 #diálog
-#\bdiari di_ari
-#\bdiac 
-\bdia di_a
-\bdiá di_á
-\bdiu di_u
-dieciocho dieci_ocho
-ferrovial ferrovi_al
+#\bdia([rɾ])i di_a\1i
+#\bdia([kc]) di_a\1 
+\bdi([aáu]) di_\1
+die([cθ])io(ch|ʧ)o die\1i_o\2o
+fe(r{1,2})o([bv])ial fe\1o\2i_al
 \bfia fi_a
 #fianza
-fortuito fortu_ito
+fo([rɾ])tuito fo\1tu_ito
 #gorrión
-\bguión gui_ón
-\bguion gui_on
-hiato hi_ato
-huid hu_id
-huir hu_ir    
-jesuit jesu_it
-kɾiad kɾi_ad 
+\bg(u{,1})i([óo])n g\1i_\2n
+(h{,1})iato \1i_ato
+#(h{,1})uid \1u_id
+#huir hu_ir
+io(ch|ʧ)o\b i_o\1o  
+([jx])esuit \1esu_it
 \bmanio mani_o
 miasma mi_asma
 #piano
-prior pri_or
-\briendo ri_endo
-\briéndo ri_éndo
-santuario santu_ario
-\bSión Si_ón
-\bsión si_ón
-tiara ti_ara
-\btriá ri_a
-\btria ri_a
-trienio tri_enio
-truhán tru_hán
-truhan tru_han
-veintiocho
-######
-#akuos
-arieɾ ari_eɾ
-bokiantʃ ari_eɾ
-klient kli_ent
-kɾuel kɾu_el
-\bdia di_a
-\bbɾio bɾi_o
-#diuɾno
-ferobial ferobi_al
-foɾtuito foɾtu_ito
-\bgion gi_on
-\bgión gi_ón
-ianθa i_anθa
-iato i_ato
-iotʃo i_otʃo
-maniobɾ mani_obɾ 
-pɾioɾ pɾi_oɾ
-riendo ri_endo
-santuaɾio santu_aɾio
-tiaɾa ti_aɾa
-#tɾiángulo
-\btɾiá tɾi_á
-\btɾia tɾi_a
-\btɾie tɾi_e
-tɾuán tɾu_án
-tɾuan tɾu_an
-xesuit xesu_it
-\buid u_id
-uir\b u_ir
+p([rɾ])ior p\1i_or
+\bri([ée])ndo ri_\1ndo
+santua([rɾ])io santu_a\1io
+\b([sS])i([oó])n \1i_on
+tia([rɾ])a ti_a\1a
+\bt([rɾ])i([aáe]) t\1i_\2
+t([ɾ])ru(h{,1}[aá])n t\1u_\2n
+uos([oa]s*) u_os\1

@@ -7,56 +7,23 @@ class Syllabification:
 
     def __init__(self, word, exceptions=True, ipa=False):
         self.__ipa = ipa
-        self.word = self.__make_exceptions(word, exceptions)
+        if exceptions:
+            self.__word = self.__make_exceptions(word)
+        else:
+            self.__word = word
         if self.__ipa:
             self.__vowels += 'jw'
             self.__close += 'jw'
-            self.word = self.word.replace("'", '').replace('ˌ', '')
-        self.syllables = self.__syllabify(self.word, self.__ipa)
+        self.syllables = self.__syllabify(self.__word, self.__ipa)
         self.stress = stressed_s(self.syllables)
 
-    def __make_exceptions(self, word, exceptions):
-        if exceptions:
-            import importlib.resources as pkg_resources
-            lines = pkg_resources.read_text('silabeador', 'exceptions.lst')
-            nouns = lines.splitlines()
-            nouns = [noun.strip().split()
-                     for noun in nouns if not noun.startswith('#')]
-        else:
-            nouns = []
-        uir = ['uir', 'uido', 'uida', 'uid', 'uidos', 'uidas'
-               'uimos',
-               'uiste', 'uisteis',  'uido', 'uida', 'uid'
-               'uiré', 'uirás', 'uirá', 'uiremos', 'uiréis', 'uirán',
-               'uiría', 'uirías', 'uiría', 'uiríamos', 'uiríais', 'uirían',
-               'uiɾ', 'uido', 'uida', 'uid', 'uidos', 'uidas'
-               'uimos',
-               'uiste', 'uisteis',  'uido', 'uida', 'uid'
-               'uiɾé', 'uiɾás', 'uiɾá', 'uiɾemos', 'uiɾéis', 'uiɾán',
-               'uiɾía', 'uiɾías', 'uiɾía', 'uiɾíamos', 'uiɾíais', 'uiɾían']
-
-        uar = ['uar', 'uado', 'uada', 'uad', 'uás', 'uados', 'uadas'
-               'uamos', 'uáis',
-               'uaba', 'uabas', 'uábamos', 'uabais', 'uaban',
-               'uaste', 'uó', 'uamos', 'uasteis', 'uaron',
-               'uaré', 'uarás', 'uará', 'uaremos', 'uaréis', 'uarán',
-               'uaría', 'uarías', 'uaría', 'uaríamos', 'uaríais', 'uarían',
-               'uaɾ', 'uado', 'uada', 'uad', 'uás', 'uados', 'uadas'
-               'uamos', 'uáis',
-               'uaba', 'uabas', 'uábamos', 'uabais', 'uaban',
-               'uaste', 'uó', 'uamos', 'uasteis', 'uaɾon',
-               'uaɾé', 'uaɾás', 'uaɾá', 'uaɾemos', 'uaɾéis', 'uaɾán',
-               'uaɾía', 'uaɾías', 'uaɾía', 'uaɾíamos', 'uaɾíais', 'uaɾían',
-               'acuí', 'akui', 'uoso', 'uosa', 'uosos', 'uosas']
-        print(word)
-        if any(word.endswith(x) for x in uir if ('f'+x) not in word):
-            word = word.replace('ui', 'u_i')
-        elif any(word.endswith(x) for x in uar if not word.endswith(f'g{x}')):
-            word = word.replace('ua', 'u_a')
-        else:
-            for noun in nouns:
-                if re.search(re.compile(noun[0]), word):
-                    word = re.sub(re.compile(noun[0]), noun[1], word)
+    def __make_exceptions(self, word):
+        import importlib.resources as pkg_resources
+        lines = pkg_resources.read_text('silabeador', 'exceptions.lst')
+        nouns = lines.splitlines()
+        nouns = [noun.strip().split() for noun in nouns if not noun.startswith('#')]
+        for noun in nouns:
+            word = re.sub(re.compile(noun[0]), noun[1], word)
         return word
 
     def __syllabify(self, letters, ipa):
