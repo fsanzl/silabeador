@@ -40,7 +40,7 @@ class Syllabification:
         return [x.strip() for x in slbs]
 
     def __join(self, letters):
-        weak = 'eiéí'
+        frontal = 'eiéí'
         hiatuses = 'úíÚÍ'
         diereses = 'äëïöüÄËÏÖÜ'
         gwe = ['gü', 'qu', 'gu', 'ɣw', 'gw']
@@ -54,7 +54,7 @@ class Syllabification:
             elif all(vocal in self.__vowels + self.__close
                      for vocal in [letter, last_letter]) and any(
                          vocal in self.__close for vocal in [letter, last_letter]):
-                if letter in weak and any(word_sofar.endswith(x) for x in gwe):
+                if letter in frontal and any(word_sofar.endswith(x) for x in gwe):
                     word[-1] = word[-1] + letter
                 elif re.search(diphthong, word_sofar):
                     word = word + [word_sofar[-1]+letter]
