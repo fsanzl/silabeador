@@ -7,15 +7,30 @@ class Syllabification:
 
     def __init__(self, word, exceptions=True, ipa=False):
         self.__ipa = ipa
+        self.__word = self.__latin(word)
         if exceptions:
-            self.__word = self.__make_exceptions(word)
-        else:
-            self.__word = word
+            self.__word = self.__make_exceptions(self.__word)
         if self.__ipa:
             self.__vowels += 'jw'
             self.__close += 'jw'
         self.syllables = self.__syllabify(self.__word)
         self.stress = stressed_s(self.syllables)
+
+    @static_method
+    def __latin(verbum):
+        dictionarium = {'a': 'á', 'e': 'é', 'i': 'í', 'o': 'ó', 'u': 'ú'}
+        if verbum.lower().endswith('um') and not any(
+            x in verbum.lower() for x in dictionarium.values()):
+            verbum = list(verbum[::-1][2:])
+            for idx, littera in enumerate(verbum):
+                if littera.lower() in 'aeiou':
+                    if littera.islower():
+                        verbum[idx] = dictionarium[littera]
+                    else:
+                        verbum[idx] = dictionarium[littera].upper()
+                    verbum = ''.join(verbum[::-1])+'um'
+                    break
+        return verbum
 
     def __make_exceptions(self, word):
         from importlib import resources
@@ -44,10 +59,10 @@ class Syllabification:
         hiatuses = 'úíÚÍ'
         diereses = 'äëïöüÄËÏÖÜ'
         gwe = ['gü', 'qu', 'gu', 'ɣw', 'gw']
+        diphthong = re.compile(f'[{self.__vowels}][{self.__close}]$')
         word = []
         word_sofar = ''
         last_letter = ''
-        diphthong = re.compile(f'[{self.__vowels}][{self.__close}]$')
         for letter in letters:
             if len(word) == 0:
                 word = [letter]
