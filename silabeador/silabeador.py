@@ -16,23 +16,34 @@ class Syllabification:
         self.syllables = self.__syllabify(self.__word)
         self.stress = stressed_s(self.syllables)
 
-    @static_method
+    @staticmethod
     def __latin(verbum):
         dictionarium = {'a': 'á', 'e': 'é', 'i': 'í', 'o': 'ó', 'u': 'ú'}
-        if verbum.lower().endswith('um') and not any(
+        diphthongi = {'ae': 'áe', 'au': 'áu', 'ei': 'ei', 'eu': 'éu', 'oe': 'óe', 'ui': 'úi'}
+        flections = ('um', 'em',
+                    'at', 'ant', 'it', 'unt', 'am', 'at', 'ur', 'it', 'int', 'et',
+                    'ent')
+        if any(verbum.lower().endswith(finis) for finis in flections) and not any(
             x in verbum.lower() for x in dictionarium.values()):
-            verbum = list(verbum[::-1][2:])
-            for idx, littera in enumerate(verbum):
-                if littera.lower() in 'aeiou':
-                    if littera.islower():
-                        verbum[idx] = dictionarium[littera]
-                    else:
-                        verbum[idx] = dictionarium[littera].upper()
-                    verbum = ''.join(verbum[::-1])+'um'
-                    break
-        return verbum
+            finis = verbum[-2:]
+            verbum = verbum[:-2]
+            if verbum[-1] in 'aeiou' and any(vocalis in verbum[:-1].lower() for vocalis in 'aeiou'):
+                verbum = verbum[:-1] + dictionarium[verbum[-1]]
+            else:
+                verbum = list(verbum[::-1])
+                for idx, littera in enumerate(verbum):
+                    if littera.lower() in 'aeiou':
+                        print(littera)
+                        if littera.islower():
+                            verbum[idx] = dictionarium[littera]
+                        else:
+                            verbum[idx] = dictionarium[littera].upper()
+                        verbum = ''.join(verbum[::-1])
+                        break
+        return verbum + finis
 
     def __make_exceptions(self, word):
+        print(word)
         from importlib import resources
         lines = resources.read_text('silabeador', 'exceptions.lst')
         nouns = lines.splitlines()
