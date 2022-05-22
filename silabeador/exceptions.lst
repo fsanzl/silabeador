@@ -14,6 +14,8 @@ ui([rɾ])í(a|as|amos|ais|an)\b u_i\1í\2
 # Infinitives
 ([^g])ua([ɾr])\b \1u_a\2
 ([^g])uad([[oa]s*]*)\b \1u_ad\2
+([^g])uand([[oa]s*]*)\b \1u_and\2
+([^g])uant([[ea]s*]*)\b \1u_ant\2
 # Presente
 ([^g])uamos\b u_amos
 ([^g])uáis\b u_áis
@@ -38,6 +40,8 @@ ui([rɾ])í(a|as|amos|ais|an)\b u_i\1í\2
 # Infinitives
 ia([ɾr])\b i_a\1
 iad([[oa]s*]*)\b i_ad\1
+iand([[oa]s*]*)\b i_and\1
+iant([[ea]s*]*)\b i_ant\1
 # Presente
 iamos\b i_amos
 iáis\b i_áis
@@ -99,3 +103,6 @@ tia([rɾ])a ti_a\1a
 \bt([rɾ])i([aáe]) t\1i_\2
 t([ɾ])ru(h{,1}[aá])n t\1u_\2n
 uos([oa]s*) u_os\1
+([aeiouáéíóú])([uea]m|[aie]t|[aeui]nt|ur)\b \1_\2
+([ck]ur*)i([ck])(.lum) \1í\2ulum
+([Dd])o(m).num \1ó\2inum
