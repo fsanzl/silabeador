@@ -58,20 +58,20 @@ class Syllabification:
                     if clavis in syllabae[-3]:
                         syllabae[-3] = syllabae[-3].replace(clavis, pretium)
                         break
-            if not any(x in ''.join(syllabae) for x in 'áéíóú'):
+            else:
                 for i in dictionarium:
                         syllabae[-2] = syllabae[-2].replace(i, dictionarium[i])
                         break
             verbum = syllabae
         return verbum
 
-
     def __syllabify(self, letters):
-        foreign_lig = {'à': 'a', 'è': 'e', 'ì': 'i', 'ò': 'o', 'ù': 'u',
-                       'ã': 'a', 'ẽ': 'e', 'ĩ': 'i', 'õ': 'o', 'ũ': 'u',
-                       'ﬁ': 'fi', 'ﬂ': 'fl'}
         slbs = []
         if type(letters) is str:
+            foreign_lig = {'à': 'a', 'è': 'e', 'ì': 'i', 'ò': 'o', 'ù': 'u',
+                        'ã': 'a', 'ẽ': 'e', 'ĩ': 'i', 'õ': 'o', 'ũ': 'u',
+                        'ﬁ': 'fi', 'ﬂ': 'fl'}
+
             word = re.sub(r'\W', '', letters)
             word = ''.join([letter if letter not in foreign_lig
                         else foreign_lig[letter] for letter in letters])
