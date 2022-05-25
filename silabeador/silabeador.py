@@ -41,7 +41,9 @@ class Syllabification:
             for clavis, pretium in diphthongi.items():
                 verbum = verbum.replace(clavis, pretium)
             syllabae = self.__syllabify(verbum)
-            if len(syllabae) == 2 or (len(syllabae) > 1 and (
+            if len(syllabae) == 1:
+                pass
+            elif len(syllabae) == 2 or (len(syllabae) > 1 and (
                 any(dipht in syllabae[-2] for dipht in diphthongi.values()) or
                 len([x for x in dictionarium.keys() if x in syllabae[-2]]) > 1 or
                 not syllabae[-2].endswith(tuple(dictionarium.keys())))):
@@ -80,7 +82,7 @@ class Syllabification:
         return letters
 
     def __join(self, letters):
-        frontal = 'eiéí'
+        front = 'eiéí'
         hiatuses = 'úíÚÍ'
         diereses = 'äëïöüÄËÏÖÜ'
         gwe = ['gü', 'qu', 'gu', 'ɣw', 'gw']
@@ -94,7 +96,7 @@ class Syllabification:
             elif all(vocal in self.__vowels + self.__close
                      for vocal in (letter, last_letter)) and any(
                          vocal in self.__close for vocal in (letter, last_letter)):
-                if letter in frontal and any(word_sofar.endswith(x) for x in gwe):
+                if letter in front and any(word_sofar.endswith(x) for x in gwe):
                     word[-1] = word[-1] + letter
                 elif re.search(diphthong, word_sofar):
                     word = word + [word_sofar[-1]+letter]
