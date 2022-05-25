@@ -7,43 +7,18 @@ class Syllabification:
 
     def __init__(self, word, exceptions=True, ipa=False):
         self.__ipa = ipa
-        self.__word = self.__latin(word)
-        if exceptions:
-            self.__word = self.__make_exceptions(self.__word)
         if self.__ipa:
             self.__vowels += 'jw'
             self.__close += 'jw'
+        if exceptions:
+            self.__word = self.__make_exceptions(word)
+        else:
+            self.__word = word
+        self.__word = self.__latin(self.__word)
         self.syllables = self.__syllabify(self.__word)
         self.stress = stressed_s(self.syllables)
 
-    @staticmethod
-    def __latin(verbum):
-        dictionarium = {'a': 'á', 'e': 'é', 'i': 'í', 'o': 'ó', 'u': 'ú'}
-        diphthongi = {'ae': 'áe', 'au': 'áu', 'ei': 'ei', 'eu': 'éu', 'oe': 'óe', 'ui': 'úi'}
-        flections = ('um', 'em',
-                    'at', 'ant', 'it', 'unt', 'am', 'at', 'ur', 'it', 'int', 'et',
-                    'ent')
-        if any(verbum.lower().endswith(finis) for finis in flections) and not any(
-            x in verbum.lower() for x in dictionarium.values()):
-            finis = verbum[-2:]
-            verbum = verbum[:-2]
-            if verbum[-1] in 'aeiou' and any(vocalis in verbum[:-1].lower() for vocalis in 'aeiou'):
-                verbum = verbum[:-1] + dictionarium[verbum[-1]]
-            else:
-                verbum = list(verbum[::-1])
-                for idx, littera in enumerate(verbum):
-                    if littera.lower() in 'aeiou':
-                        print(littera)
-                        if littera.islower():
-                            verbum[idx] = dictionarium[littera]
-                        else:
-                            verbum[idx] = dictionarium[littera].upper()
-                        verbum = ''.join(verbum[::-1])
-                        break
-        return verbum + finis
-
     def __make_exceptions(self, word):
-        print(word)
         from importlib import resources
         lines = resources.read_text('silabeador', 'exceptions.lst')
         nouns = lines.splitlines()
@@ -52,18 +27,57 @@ class Syllabification:
             word = re.sub(re.compile(noun[0]), noun[1], word)
         return word
 
+    def __latin(self, verbum):
+        flexiones = ('um', 'em', 'at', 'ant', 'it', 'unt', 'am', 'at', 'ur',
+                     'it', 'int', 'et', 'ent')
+        dictionarium = {'a': 'á', 'e': 'é', 'i': 'í', 'o': 'ó', 'u': 'ú'}
+        diphthongi = {'ae': 'æ', 'oe': 'œ'}
+        if verbum.lower().endswith(flexiones) and not any(x in verbum.lower()
+                                                          for x in 'áéíóú'):
+            verbum = verbum.lower()
+            for flexio in flexiones:
+                if verbum.endswith(flexio):
+                    verbum = re.sub(fr'{flexio}\b', f'_{flexio}', verbum)
+            for clavis, pretium in diphthongi.items():
+                verbum = verbum.replace(clavis, pretium)
+            syllabae = self.__syllabify(verbum)
+            if len(syllabae) == 2 or (len(syllabae) > 1 and (
+                any(dipht in syllabae[-2] for dipht in diphthongi.values()) or
+                len([x for x in dictionarium.keys() if x in syllabae[-2]]) > 1 or
+                not syllabae[-2].endswith(tuple(dictionarium.keys())))):
+                for clavis, pretium in dictionarium.items():
+                    if clavis in syllabae[-2]:
+                        syllabae[-2] = syllabae[-2].replace(clavis, pretium)
+                        break
+            elif any(dipht in syllabae[-3] for dipht in diphthongi.values()) or (
+                len([x for x in dictionarium.keys() if x in syllabae[-3]]) > 1 or
+                not syllabae[-3].endswith(tuple(dictionarium.keys()))):
+                for clavis, pretium in dictionarium.items():
+                    if clavis in syllabae[-3]:
+                        syllabae[-3] = syllabae[-3].replace(clavis, pretium)
+                        break
+            if not any(x in ''.join(syllabae) for x in 'áéíóú'):
+                for i in dictionarium:
+                        syllabae[-2] = syllabae[-2].replace(i, dictionarium[i])
+                        break
+            verbum = syllabae
+        return verbum
+
+
     def __syllabify(self, letters):
         foreign_lig = {'à': 'a', 'è': 'e', 'ì': 'i', 'ò': 'o', 'ù': 'u',
                        'ã': 'a', 'ẽ': 'e', 'ĩ': 'i', 'õ': 'o', 'ũ': 'u',
                        'ﬁ': 'fi', 'ﬂ': 'fl'}
         slbs = []
-        word = re.sub(r'\W', '', letters)
-        word = ''.join([letter if letter not in foreign_lig
+        if type(letters) is str:
+            word = re.sub(r'\W', '', letters)
+            word = ''.join([letter if letter not in foreign_lig
                         else foreign_lig[letter] for letter in letters])
-        slbs[:0] = word
-        slbs = self.__join(slbs)
-        slbs = self.__split(slbs)
-        return [x.strip() for x in slbs]
+            slbs[:0] = word
+            slbs = self.__join(slbs)
+            slbs = self.__split(slbs)
+            letters = [x.strip() for x in slbs]
+        return letters
 
     def __join(self, letters):
         frontal = 'eiéí'
@@ -78,8 +92,8 @@ class Syllabification:
             if len(word) == 0:
                 word = [letter]
             elif all(vocal in self.__vowels + self.__close
-                     for vocal in [letter, last_letter]) and any(
-                         vocal in self.__close for vocal in [letter, last_letter]):
+                     for vocal in (letter, last_letter)) and any(
+                         vocal in self.__close for vocal in (letter, last_letter)):
                 if letter in frontal and any(word_sofar.endswith(x) for x in gwe):
                     word[-1] = word[-1] + letter
                 elif re.search(diphthong, word_sofar):
@@ -98,7 +112,9 @@ class Syllabification:
             elif last_letter == '_':
                 word[-1] = letter
             elif letter == '_':
-                word = word + [letter]
+                word += [letter]
+            elif letter in 'œæ':
+                word += [letter.replace('œ', 'oe').replace('æ', 'ae')]
             else:
                 word = word + [letter]
             last_syllable = word[-1]
@@ -184,4 +200,3 @@ def syllabify(word, exceptions=True):
 
 def tonica(word, exceptions=True):
     return Syllabification(word, exceptions).stress
-
