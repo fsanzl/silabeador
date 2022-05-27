@@ -71,17 +71,16 @@ class Syllabification:
             foreign_lig = {'à': 'a', 'è': 'e', 'ì': 'i', 'ò': 'o', 'ù': 'u',
                         'ã': 'a', 'ẽ': 'e', 'ĩ': 'i', 'õ': 'o', 'ũ': 'u',
                         'ﬁ': 'fi', 'ﬂ': 'fl'}
-
             word = re.sub(r'\W', '', letters)
             word = ''.join([letter if letter not in foreign_lig
                         else foreign_lig[letter] for letter in letters])
             slbs[:0] = word
-            slbs = self.__join(slbs)
             slbs = self.__split(slbs)
+            slbs = self.__join(slbs)
             letters = [x.strip() for x in slbs]
         return letters
 
-    def __join(self, letters):
+    def __split(self, letters):
         front = 'eiéí'
         hiatuses = 'úíÚÍ'
         diereses = 'äëïöüÄËÏÖÜ'
@@ -124,14 +123,14 @@ class Syllabification:
             word_sofar = ''.join(word).lower()
         return word
 
-    def __split(self, letters):
-        indivisible_onset = ['pl', 'bl', 'fl', 'cl', 'kl', 'gl', 'll',
+    def __join(self, letters):
+        indivisible_onset = ('pl', 'bl', 'fl', 'cl', 'kl', 'gl', 'll',
                              'pr', 'br', 'fr', 'cr', 'kr', 'gr', 'rr',
                              'dr', 'tr', 'ch', 'dh', 'rh',
                              'βl', 'ɣl',
                              'βɾ', 'pɾ', 'fɾ', 'kɾ', 'gɾ', 'ɣɾ', 'dɾ', 'ðɾ',
-                             'tɾ', 'bɾ', 'tʃ', 'gw', 'ɣw']
-        indivisible_coda = ['ns', 'bs', 'nz', 'βs', 'bz', 'βz']
+                             'tɾ', 'bɾ', 'tʃ', 'gw', 'ɣw')
+        indivisible_coda = ('ns', 'bs', 'nz', 'βs', 'bz', 'βz')
         word = []
         onset = ''
         if self.__ipa:
