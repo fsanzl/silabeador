@@ -106,3 +106,8 @@ uos([oa]s*) u_os\1
 ([aeiouáéíóú])([uea]m|[aie]t|[aeui]nt|ur)\b \1_\2
 ([ck]ur*)i([ck])(.lum) \1í\2ulum
 ([Dd])o(m).num \1ó\2inum
+abi([tm])u(rs) ábi\1u\2
+abi([tm])u(rs) ábi\1u\2
+ebi([tm])u(rs) ébi\1u\2
+bi([tm])u(rs) ébi\1u\2
+
