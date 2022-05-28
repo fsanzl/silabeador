@@ -22,7 +22,7 @@ class Syllabification:
         from importlib import resources
         lines = resources.read_text('silabeador', 'exceptions.lst')
         nouns = lines.splitlines()
-        nouns = [noun.strip().split() for noun in nouns if not noun.startswith('#')]
+        nouns = [n.strip().split() for n in nouns if n.strip() and not n.startswith('#')]
         for noun in nouns:
             word = re.sub(re.compile(noun[0]), noun[1], word)
         return word
@@ -38,6 +38,7 @@ class Syllabification:
             for flexio in flexiones:
                 if verbum.endswith(flexio):
                     verbum = re.sub(fr'{flexio}\b', f'_{flexio}', verbum)
+                    break
             for clavis, pretium in diphthongi.items():
                 verbum = verbum.replace(clavis, pretium)
             syllabae = self.__syllabify(verbum)
@@ -141,37 +142,34 @@ class Syllabification:
             if letter == '_':
                 pass
             elif all(x.lower() not in self.__vowels for x in letter):
-                if len(word) == 0:
-                    onset = onset + letter
-                else:
-                    onset = onset + letter
+                onset = onset + letter
+                if len(word) > 0:
                     media = len(onset) // 2
             elif len(onset) <= 1 or len(word) == 0:
                 word = word + [onset+letter]
                 onset = ''
-            elif any(onset.endswith(x) for x in indivisible_onset):
+            elif onset.endswith(indivisible_onset):
                 if len(word) > 0:
                     word[-1] = word[-1] + onset[:-2]
                     word = word + [onset[-2:] + letter]
                 else:
                     word = word + [onset + letter]
                 onset = ''
-            elif any(onset.startswith(x) for x in indivisible_coda) and (
-                    len(onset) > 2):
+            elif onset.startswith(indivisible_coda):
                 word[-1] = word[-1] + onset[:2]
                 word = word + [onset[2:] + letter]
                 onset = ''
+            elif (onset[-1] in 'dðfkt' and
+                  onset[-2] in 'bβcθkdðfgɣkmɱɲñpqstvwxχz' + symbols
+                  or onset[-1] in 'gɣ' and onset[-2] in 'cθtk' + symbols
+                  or onset[-1] in 'lmɱ' and onset[-2] in 'mɱl'
+                  or onset[-1] in 'cθ' and onset[-2] in 'kc'):
+                word[-1] = word[-1] + onset[:-1]
+                word = word + [onset[-1] + letter]
+                onset = ''
             else:
-                if (onset[-1] in 'dðfkt' and onset[-2] in
-                    'bβcθkdðfgɣkmɱɲñpqstvwxχz' + symbols
-                    or onset[-1] in 'gɣ' and onset[-2] in 'cθtk' + symbols
-                    or onset[-1] in 'lmɱ' and onset[-2] in 'mɱl'
-                        or onset[-1] in 'cθ' and onset[-2] in 'kc'):
-                    word[-1] = word[-1] + onset[:-1]
-                    word = word + [onset[-1] + letter]
-                else:
-                    word[-1] = word[-1] + onset[:media]
-                    word = word + [onset[media:] + letter]
+                word[-1] = word[-1] + onset[:media]
+                word = word + [onset[media:] + letter]
                 onset = ''
         word[-1] = word[-1] + onset
         return word
@@ -180,20 +178,19 @@ class Syllabification:
 def stressed_s(slbs):
     if len(slbs) == 1:
         stress = -1
-    elif len(slbs) > 2 and any(k in 'áéíóúÁÉÍÓÚ' for k in slbs[-3]):
-        stress = -3
+    elif any(k in 'áéíóúÁÉÍÓÚ' for k in ''.join(slbs)):
+        for x in  range(-len(slbs), 0, 1):
+            if any(k in 'áéíóúÁÉÍÓÚ' for k in slbs[x]):
+                stress = x
+                break
+    elif slbs[-1][-1] in 'aeiouAEIOUy':
+        stress = -2
+    elif slbs[-1][-1] in 'nsNS' and slbs[-1][-2] in 'aeiouAEIOU':
+        stress = -2
     else:
-        if any(k in 'áéíóúÁÉÍÓÚ' for k in slbs[-2]):
-            stress = -2
-        elif any(k in 'áéíóúÁÉÍÓÚ' for k in slbs[-1]):
-            stress = -1
-        else:
-            if (slbs[-1][-1] in 'nsNS' or
-                    slbs[-1][-1] in 'aeiouAEIOU'):
-                stress = -2
-            else:
-                stress = -1
+        stress = -1
     return stress
+
 
 def syllabify(word, exceptions=True):
     return Syllabification(word, exceptions).syllables
