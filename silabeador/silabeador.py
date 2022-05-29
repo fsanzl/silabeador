@@ -28,8 +28,8 @@ class Syllabification:
         return word
 
     def __latin(self, verbum):
-        flexiones = ('um', 'em', 'at', 'ant', 'it', 'unt', 'am', 'at', 'ur',
-                     'it', 'int', 'et', 'ent')
+        flexiones = ('um', 'em', 'at', 'ant', 'it', 'unt', 'am')
+        # 'int', 'ent', it', 'et', 'at', 'ur' 'int', 'ent'
         dictionarium = {'a': 'á', 'e': 'é', 'i': 'í', 'o': 'ó', 'u': 'ú'}
         diphthongi = {'ae': 'æ', 'oe': 'œ'}
         if verbum.lower().endswith(flexiones) and not any(x in verbum.lower()
@@ -82,10 +82,10 @@ class Syllabification:
         return letters
 
     def __split(self, letters):
-        front = 'eiéí'
+        front = ('e','i', 'é', 'í')
         hiatuses = 'úíÚÍ'
         diereses = 'äëïöüÄËÏÖÜ'
-        gwe = ['gü', 'qu', 'gu', 'ɣw', 'gw']
+        gwe = ('gü', 'qu', 'gu', 'ɣw', 'gw', 'qui')
         diphthong = re.compile(f'[{self.__vowels}][{self.__close}]$')
         word = []
         word_sofar = ''
@@ -96,7 +96,8 @@ class Syllabification:
             elif all(vocal in self.__vowels + self.__close
                      for vocal in (letter, last_letter)) and any(
                          vocal in self.__close for vocal in (letter, last_letter)):
-                if letter in front and any(word_sofar.endswith(x) for x in gwe):
+                if letter.startswith(front) and word_sofar.endswith(gwe) or (
+                    letter[-1] in self.__vowels and word_sofar[:-1].endswith(gwe)):
                     word[-1] = word[-1] + letter
                 elif re.search(diphthong, word_sofar):
                     word = word + [word_sofar[-1]+letter]
@@ -127,11 +128,12 @@ class Syllabification:
     def __join(self, letters):
         indivisible_onset = ('pl', 'bl', 'fl', 'cl', 'kl', 'gl', 'll',
                              'pr', 'br', 'fr', 'cr', 'kr', 'gr', 'rr',
-                             'dr', 'tr', 'ch', 'dh', 'rh',
+                             'dr', 'tr', 'ch', 'dh', 'rh', 'th',
                              'βl', 'ɣl',
                              'βɾ', 'pɾ', 'fɾ', 'kɾ', 'gɾ', 'ɣɾ', 'dɾ', 'ðɾ',
                              'tɾ', 'bɾ', 'tʃ', 'gw', 'ɣw')
-        indivisible_coda = ('ns', 'bs', 'nz', 'βs', 'bz', 'βz')
+        indivisible_coda = ('ns', 'bs', 'nz', 'βs', 'bz', 'βz', 'nd',
+                            'st', 'ff', 'ls', 'zz', 'll', 'nt', 'rs', 'ɾs')
         word = []
         onset = ''
         if self.__ipa:
@@ -155,7 +157,7 @@ class Syllabification:
                 else:
                     word = word + [onset + letter]
                 onset = ''
-            elif onset.startswith(indivisible_coda):
+            elif onset.startswith(indivisible_coda) and (len(onset) > 2):
                 word[-1] = word[-1] + onset[:2]
                 word = word + [onset[2:] + letter]
                 onset = ''

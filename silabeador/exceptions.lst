@@ -1,16 +1,16 @@
 ###### -uir verbs
 # Infinitive forms
-ui([ɾr])\b u_i\1
-uid([oa]s{,1})\b u_id\1
+([^fqg])ui([ɾr])\b \1u_i\2
+([^fqg])uid([oa]s{,1})\b \1u_id\2
 
 # Presente
-([^fq])ui(mos|s)\b \1u_i\2
+([^fqg])ui(mos|s)\b \1u_i\2
 # Indefinido
-([^fq])u(i|iste|isteis)\b \1u_\2
+([^fqg])u(i|iste|isteis)\b \1u_\2
 # Futuro !
-([^q])ui([rɾ])(é|ás|á|emos|éis|an)\b \1u_i\2\3
+([^qg])ui([rɾ])(é|ás|á|emos|éis|an)\b \1u_i\2\3
 # Condicional !
-([^q])ui([rɾ])í(a|as|amos|ais|an)\b u_\1i\2í\3
+([^qg])ui([rɾ])í(a|as|amos|ais|an)\b u_\1i\2í\3
 ##### Verbos en -uar
 # Infinitives
 ([^g])ua([ɾr])\b \1u_a\2
@@ -39,30 +39,30 @@ uid([oa]s{,1})\b u_id\1
 ([^g])uá([ɾr])emos\b \1u_á\2emos
 # -iar
 # Infinitives
-ia([ɾr])\b i_a\1
-iad([[oa]s*]*)\b i_ad\1
-iand([[oa]s*]*)\b i_and\1
-iant([[ea]s*]*)\b i_ant\1
+\b(.{1,3})ia([ɾr])\b \1i_a\2
+\b(.{1,3})iad([[oa]s*]*)\b \1i_ad\2
+\b(.{1,3})iand([[oa]s*]*)\b \1i_and\2
+\b(.{1,3})iant([[ea]s*]*)\b \1i_ant\2
 # Presente
-([^q][^u])iamos\b \1i_amos
-([^q][^u])iáis\b \1i_áis
+\b(.{1,3})iamos\b \1i_amos
+\b(.{1,3})iáis\b \1i_áis
 # Imperfecto
-([^q][^u])iab(a|as|ais|an)\b \1i_ab\2
-([^q][^u])iábamos\b \1i_ábamos
+\b(.{1,3})iab(a|as|ais|an)\b \1i_ab\2
+\b(.{1,3})iábamos\b \1i_ábamos
 # Indefinido
-([^q][^u])i(é|aste|ó|asteis|aron|aɾon)\b \1i_\2
+\b(.{1,3})i(é|aste|ó|asteis|aron|aɾon)\b \1i_\2
 # Futuro !
-([^q][^u])ia([rɾ])(é|ás|á|emos|éis|an)\b \1i_a\2\3
+\b(.{1,3})ia([rɾ])(é|ás|á|emos|éis|an)\b \1i_a\2\3
 # Condicional !
-([^q][^u])ia([rɾ])í(a|as|amos|ais|an)\b \1i_a\2í\3
+\b(.{1,3})ia([rɾ])í(a|as|amos|ais|an)\b \1i_a\2í\3
 # Subjuntivo, presente
-([^q][^u])iemos\b i\1_emos
+\b(.{1,3})iemos\b i\1_emos
 # Imperfecto subjuntivo
-([^q][^u])ia([ɾr])(a|as|ais|an)\b \1i_a\2í\3
-([^q][^u])iá([ɾr])amos\b \1i_á\2amos
+\b(.{1,3})ia([ɾr])(a|as|ais|an)\b \1i_a\2í\3
+\b(.{1,3})iá([ɾr])amos\b \1i_á\2amos
 # Futuro subjuntivo
-([^q][^u])ia([rɾ])(e|es|a|eis|en)\b \1i_a\2\3
-([^q][^u])iá([ɾr])emos\b \1i_á\2emos
+\b(.{1,3})ia([rɾ])(e|es|a|eis|en)\b \1i_a\2\3
+\b(.{1,3})iá([ɾr])emos\b \1i_á\2emos
 a([kc])uos a_\1uos
 a([kc])u([ií]) a\1u_\2
 ángulo _ángulo
@@ -88,7 +88,7 @@ fe(r{1,2})o([bv])ial fe\1o\2i_al
 fo([rɾ])tuito fo\1tu_ito
 #gorrión
 \bg(u{,1})i([óo])n g\1i_\2n
-(h{,1})iato \1i_ato
+hiato hi_ato
 #(h{,1})uid \1u_id
 #huir hu_ir
 io(ch|ʧ)o\b i_o\1o  
