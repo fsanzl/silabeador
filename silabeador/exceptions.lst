@@ -2,14 +2,15 @@
 # Infinitive forms
 ui([ɾr])\b u_i\1
 uid([oa]s{,1})\b u_id\1
+
 # Presente
-([^f])ui(mos|s)\b \1u_i\2
+([^fq])ui(mos|s)\b \1u_i\2
 # Indefinido
-([^f])u(i|iste|isteis)\b \1u_\2
+([^fq])u(i|iste|isteis)\b \1u_\2
 # Futuro !
-ui([rɾ])(é|ás|á|emos|éis|an)\b u_i\1\2
+([^q])ui([rɾ])(é|ás|á|emos|éis|an)\b \1u_i\2\3
 # Condicional !
-ui([rɾ])í(a|as|amos|ais|an)\b u_i\1í\2
+([^q])ui([rɾ])í(a|as|amos|ais|an)\b u_\1i\2í\3
 ##### Verbos en -uar
 # Infinitives
 ([^g])ua([ɾr])\b \1u_a\2
@@ -43,25 +44,25 @@ iad([[oa]s*]*)\b i_ad\1
 iand([[oa]s*]*)\b i_and\1
 iant([[ea]s*]*)\b i_ant\1
 # Presente
-iamos\b i_amos
-iáis\b i_áis
+([^q][^u])iamos\b \1i_amos
+([^q][^u])iáis\b \1i_áis
 # Imperfecto
-iab(a|as|ais|an)\b i_ab\1
-iábamos\b i_ábamos
+([^q][^u])iab(a|as|ais|an)\b \1i_ab\2
+([^q][^u])iábamos\b \1i_ábamos
 # Indefinido
-i(é|aste|ó|asteis|aron|aɾon)\b i_\1
+([^q][^u])i(é|aste|ó|asteis|aron|aɾon)\b \1i_\2
 # Futuro !
-ia([rɾ])(é|ás|á|emos|éis|an)\b i_a\1\2
+([^q][^u])ia([rɾ])(é|ás|á|emos|éis|an)\b \1i_a\2\3
 # Condicional !
-ia([rɾ])í(a|as|amos|ais|an)\b i_a\1í\2
+([^q][^u])ia([rɾ])í(a|as|amos|ais|an)\b \1i_a\2í\3
 # Subjuntivo, presente
-iemos\b i_emos
+([^q][^u])iemos\b i\1_emos
 # Imperfecto subjuntivo
-ia([ɾr])(a|as|ais|an)\b i_a\1í\2
-iá([ɾr])amos\b i_á\1amos
+([^q][^u])ia([ɾr])(a|as|ais|an)\b \1i_a\2í\3
+([^q][^u])iá([ɾr])amos\b \1i_á\2amos
 # Futuro subjuntivo
-ia([rɾ])(e|es|a|eis|en)\b i_a\1\2
-iá([ɾr])emos\b i_á\1emos
+([^q][^u])ia([rɾ])(e|es|a|eis|en)\b \1i_a\2\3
+([^q][^u])iá([ɾr])emos\b \1i_á\2emos
 a([kc])uos a_\1uos
 a([kc])u([ií]) a\1u_\2
 ángulo _ángulo
@@ -110,4 +111,3 @@ abi([tm])u(rs) ábi\1u\2
 abi([tm])u(rs) ábi\1u\2
 ebi([tm])u(rs) ébi\1u\2
 bi([tm])u(rs) ébi\1u\2
-
