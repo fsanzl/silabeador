@@ -139,22 +139,22 @@ class Syllabification:
                     word += [onset + letter]
                 onset = ''
             elif onset.startswith(indivisible_coda) and (len(onset) > 2):
-                word[-1] = word[-1] + onset[:2]
-                word = word + [onset[2:] + letter]
+                word[-1] += onset[:2]
+                word += [onset[2:] + letter]
                 onset = ''
             elif (onset[-1] in 'dðfkt' and
                   onset[-2] in 'bβcθkdðfgɣkmɱɲñpqstvwxχz' + symbols
                   or onset[-1] in 'gɣ' and onset[-2] in 'cθtk' + symbols
                   or onset[-1] in 'lmɱ' and onset[-2] in 'mɱl'
                   or onset[-1] in 'cθ' and onset[-2] in 'kc'):
-                word[-1] = word[-1] + onset[:-1]
-                word = word + [onset[-1] + letter]
+                word[-1] += onset[:-1]
+                word += [onset[-1] + letter]
                 onset = ''
             else:
-                word[-1] = word[-1] + onset[:media]
-                word = word + [onset[media:] + letter]
+                word[-1] += onset[:media]
+                word += [onset[media:] + letter]
                 onset = ''
-        word[-1] = word[-1] + onset
+        word[-1] += onset
         return word
 
 
