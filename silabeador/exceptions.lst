@@ -15,8 +15,8 @@
 # Infinitives
 ([^g])ua([ɾr])\b \1u_a\2
 ([^g])uad([[oa]s*]*)\b \1u_ad\2
-([^g])uand([[oa]s*]*)\b \1u_and\2
-([^g])uant([[ea]s*]*)\b \1u_ant\2
+([^g]{2,})uand([[oa]s*]*)\b \1u_and\2
+([^g]{2,})uant([[ea]s*]*)\b \1u_ant\2
 # Presente
 ([^g])uamos\b u_amos
 ([^g])uáis\b u_áis
