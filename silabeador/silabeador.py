@@ -3,7 +3,7 @@ import re
 
 class Syllabification:
     __vowels = 'aeiouáéíóúäëïöüàèìòùAEIOUÁÉÍÓÚÄËÏÓÜÀÈÌÒÙ'
-    __close = 'iuIUüÜ'
+    __close = 'iuIU'
 
     def __init__(self, word, exceptions=True, ipa=False):
         self.__ipa = ipa
@@ -12,9 +12,9 @@ class Syllabification:
             self.__close += 'jw'
         if exceptions:
             self.__word = self.__make_exceptions(word)
+            self.__word = self.__latin(self.__word)
         else:
             self.__word = word
-        self.__word = self.__latin(self.__word)
         self.syllables = self.__syllabify(self.__word)
         self.stress = stressed_s(self.syllables)
 
@@ -75,54 +75,27 @@ class Syllabification:
             word = re.sub(r'\W', '', letters)
             word = ''.join([letter if letter not in foreign_lig
                         else foreign_lig[letter] for letter in letters])
-            slbs[:0] = word
-            slbs = self.__split(slbs)
+            slbs = self.__split(word)
             slbs = self.__join(slbs)
             letters = [x.strip() for x in slbs]
         return letters
 
-    def __split(self, letters):
-        front = ('e','i', 'é', 'í')
-        hiatuses = 'úíÚÍ'
-        diereses = 'äëïöüÄËÏÖÜ'
-        gwe = ('gü', 'qu', 'gu', 'ɣw', 'gw', 'qui')
-        diphthong = re.compile(f'[{self.__vowels}][{self.__close}]$')
-        word = []
-        word_sofar = ''
-        last_letter = ''
-        for letter in letters:
-            if len(word) == 0:
-                word = [letter]
-            elif all(vocal in self.__vowels + self.__close
-                     for vocal in (letter, last_letter)) and any(
-                         vocal in self.__close for vocal in (letter, last_letter)):
-                if letter.startswith(front) and word_sofar.endswith(gwe) or (
-                    letter[-1] in self.__vowels and word_sofar[:-1].endswith(gwe)):
-                    word[-1] = word[-1] + letter
-                elif re.search(diphthong, word_sofar):
-                    word = word + [word_sofar[-1]+letter]
-                    word[-2] = word[-2][:-1]
-                elif any(vocal in self.__close for vocal in letter + last_letter):
-                    if letter not in hiatuses+diereses and last_letter not in diereses:
-                        word[-1] = word[-1] + letter
-                    elif letter == 'í' and len(word) > 1 and (
-                            word[-2:] == ['c', 'u']):
-                        word[-1] = word[-1] + letter
-                    else:
-                        word = word + [letter]
-                else:
-                    word = word + [letter]
-            elif last_letter == '_':
-                word[-1] = letter
-            elif letter == '_':
-                word += [letter]
-            elif letter in 'œæ':
-                word += [letter.replace('œ', 'oe').replace('æ', 'ae')]
-            else:
-                word = word + [letter]
-            last_syllable = word[-1]
-            last_letter = last_syllable[-1]
-            word_sofar = ''.join(word).lower()
+    def __split(self, letters, word = []):
+        dipht = re.findall(rf'(?:[qg][wuü](?:[eé](?:h*[{self.__close}])'
+                           '{,1}|i(?:h*[aeoáéó]){,1}|í)|'
+                           fr'[{self.__close}](?:h*[aáoóeéi])(?:h*[{self.__close}])'
+                           '{,1}|'
+                           rf'[aáoóeéií](?:h*[{self.__close}]))\b', letters)
+        digraph = ('ll', 'ch', 'rr')
+        if dipht:
+            dipht = dipht[0].strip('gq')
+            word = self.__split(letters.removesuffix(dipht), [dipht]+ word)
+        elif letters.endswith('_'):
+            word = self.__split(letters[:-1], word)
+        elif letters.endswith(digraph):
+            word = self.__split(letters[:-2], [letters[-2:]] + word)
+        elif letters:
+            word = self.__split(letters[:-1], [letters[-1]]+ word)
         return word
 
     def __join(self, letters):
@@ -132,8 +105,9 @@ class Syllabification:
                              'βl', 'ɣl',
                              'βɾ', 'pɾ', 'fɾ', 'kɾ', 'gɾ', 'ɣɾ', 'dɾ', 'ðɾ',
                              'tɾ', 'bɾ', 'tʃ', 'gw', 'ɣw')
-        indivisible_coda = ('ns', 'bs', 'nz', 'βs', 'bz', 'βz', 'nd',
-                            'st', 'ff', 'ls', 'zz', 'll', 'nt', 'rs', 'ɾs')
+        indivisible_coda = ('ns', 'bs', 'nz', 'βs', 'bz', 'βz', 'nd', 'rt',
+                            'st', 'ff', 'ls', 'zz', 'll', 'nt', 'rs', 'ɾs',
+                            'ch', 'nk', 'nc', 'lk', 'sh', 'nt')
         word = []
         onset = ''
         if self.__ipa:
@@ -144,18 +118,25 @@ class Syllabification:
             if letter == '_':
                 pass
             elif all(x.lower() not in self.__vowels for x in letter):
-                onset = onset + letter
-                if len(word) > 0:
-                    media = len(onset) // 2
+                if onset.endswith('y'):
+                    if onset == 'y' and word[-1][-1] in 'AOEÁÓÉaoeáóé':
+                        word[-1] += onset
+                    else:
+                        word += [onset]
+                    onset = letter
+                else:
+                    onset += letter
+                    if len(word) > 0:
+                        media = len(onset) // 2
             elif len(onset) <= 1 or len(word) == 0:
-                word = word + [onset+letter]
+                word += [onset+letter]
                 onset = ''
             elif onset.endswith(indivisible_onset):
                 if len(word) > 0:
-                    word[-1] = word[-1] + onset[:-2]
-                    word = word + [onset[-2:] + letter]
+                    word[-1] += onset[:-2]
+                    word += [onset[-2:] + letter]
                 else:
-                    word = word + [onset + letter]
+                    word += [onset + letter]
                 onset = ''
             elif onset.startswith(indivisible_coda) and (len(onset) > 2):
                 word[-1] = word[-1] + onset[:2]
