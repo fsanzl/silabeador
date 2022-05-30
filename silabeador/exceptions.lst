@@ -39,30 +39,30 @@
 ([^g])uá([ɾr])emos\b \1u_á\2emos
 # -iar
 # Infinitives
-\b(.{1,3})ia([ɾr])\b \1i_a\2
-\b(.{1,3})iad([[oa]s*]*)\b \1i_ad\2
-\b(.{1,3})iand([[oa]s*]*)\b \1i_and\2
-\b(.{1,3})iant([[ea]s*]*)\b \1i_ant\2
+\b(.{1,3})f*ia([ɾr])\b \1i_a\2
+\b(.{1,3})f*iad([[oa]s*]*)\b \1i_ad\2
+\b(.{1,3})f*iand([[oa]s*]*)\b \1i_and\2
+\b(.{1,3})f*iant([[ea]s*]*)\b \1i_ant\2
 # Presente
-\b(.{1,3})iamos\b \1i_amos
-\b(.{1,3})iáis\b \1i_áis
+\b(.{1,3})f*iamos\b \1i_amos
+\b(.{1,3})f*iáis\b \1i_áis
 # Imperfecto
-\b(.{1,3})iab(a|as|ais|an)\b \1i_ab\2
-\b(.{1,3})iábamos\b \1i_ábamos
+\b(.{1,3})f*iab(a|as|ais|an)\b \1i_ab\2
+\b(.{1,3})f*iábamos\b \1i_ábamos
 # Indefinido
-\b(.{1,3})i(é|aste|ó|asteis|aron|aɾon)\b \1i_\2
+\b(.{1,3})f*i(é|aste|ó|asteis|aron|aɾon)\b \1i_\2
 # Futuro !
-\b(.{1,3})ia([rɾ])(é|ás|á|emos|éis|an)\b \1i_a\2\3
+\b(.{1,3})f*ia([rɾ])(é|ás|á|emos|éis|an)\b \1i_a\2\3
 # Condicional !
-\b(.{1,3})ia([rɾ])í(a|as|amos|ais|an)\b \1i_a\2í\3
+\b(.{1,3})f*ia([rɾ])í(a|as|amos|ais|an)\b \1i_a\2í\3
 # Subjuntivo, presente
-\b(.{1,3})iemos\b i\1_emos
+\b(.{1,3})f*iemos\b i\1_emos
 # Imperfecto subjuntivo
-\b(.{1,3})ia([ɾr])(a|as|ais|an)\b \1i_a\2í\3
-\b(.{1,3})iá([ɾr])amos\b \1i_á\2amos
+\b(.{1,3})f*ia([ɾr])(a|as|ais|an)\b \1i_a\2í\3
+\b(.{1,3})f*iá([ɾr])amos\b \1i_á\2amos
 # Futuro subjuntivo
-\b(.{1,3})ia([rɾ])(e|es|a|eis|en)\b \1i_a\2\3
-\b(.{1,3})iá([ɾr])emos\b \1i_á\2emos
+\b(.{1,3})f*ia([rɾ])(e|es|a|eis|en)\b \1i_a\2\3
+\b(.{1,3})f*iá([ɾr])emos\b \1i_á\2emos
 a([kc])uos a_\1uos
 a([kc])u([ií]) a\1u_\2
 ángulo _ángulo
