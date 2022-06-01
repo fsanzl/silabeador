@@ -24,7 +24,7 @@ class Syllabification:
         nouns = lines.splitlines()
         nouns = [n.strip().split() for n in nouns if n.strip() and not n.startswith('#')]
         for noun in nouns:
-            word = re.sub(re.compile(noun[0]), noun[1], word)
+            word = re.sub(re.compile(r''.format(noun[0])), r''.format(noun[1]), word)
         return word
 
     def __latin(self, verbum):
