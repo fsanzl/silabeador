@@ -160,9 +160,10 @@ class Syllabification:
                 word += [onset[media:] + letter]
                 onset = ''
         if onset:
+            print(word, onset)
             if onset.endswith('y') and len(onset) == 1:
                 word[-1] += onset
-            elif len(onset) > 1:
+            elif onset.endswith('y'):
                 word[-1] += onset[:-2]
                 word += [onset[-2:]]
             else:
