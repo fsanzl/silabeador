@@ -11,8 +11,7 @@
 This library is part of the research project [Sound and Meaning in Spanish Golden Age Literature](https://soundandmeaning.univie.ac.at/). Automatic verse scansion required a syllable separator tolerant to non-Spanish consonant clusters and unusual and non-Spanish diacritics. Other libraries available take for granted that the words are well-constructed according to the Spanish grammar. This is not always the case in particular text types, as in *ü* as regularly used or as a metric diacritic (e.g., *Si-güen-za* vs *crü-el*).
 
 
-It achieves 99,40 % precission when tested against the corpus [EDFU](https://github.com/linhd-postdata/edfu), although the value should be significantly higher as that corpus does not apply t
-exceptions to the syllabication, such as the implicit hiatus in verbs in -uar ('a-cen-tu-ar') or -uir ('re-hu-ir'), or words some nouns ('a-rri-e-ro').
+It achieves 99.81 % accuracy when tested against the corpus [EDFU](https://github.com/linhd-postdata/edfu) without exceptions and 98.51 % when applying exceptions such as the implicit hiatus in verbs in *-uar* (*a-cen-tu-ar*) or *-uir* (*re-hu-ir*), or words some nouns (*a-rri-e-ro*).
 
 ## Installation
 
@@ -63,7 +62,7 @@ An object with those values can also be created:
 
 ## Description
 
-### Sillabification
+### Syllabification
 
 The syllabic division follows the principles described by Quilis (2013, 47-49; 2019, 182-192).
 
@@ -71,12 +70,12 @@ Firstly, syllabic nuclei are detected looking for the vowels. Unstressed close v
 
 Secondly, consonant clusters are divided considering whether their components are separable and joined to the neighbour nuclei in coda or onset accordingly.
 
-The method ''Syllabification()'' accepts the following arguments: ''word'', ''exceptions'', ''ipa'', and ''h''. Only the first one is compulsory, as the method requires a word to parse. The default value of 'exceptions'' is ''True'' and tells whethet the exceptions file should be used. The others' value is ''False''. If a IPA transcription instead is used, ''ipa'' should be ''True'' to achieve optimal results. The flag 'h' marks the behaviour when parsing a cluster ''V-C-<h>-V''. The default division would be ''VC <h>V'' (''en-hies-to''). If ''h' is ''True'', the division would be ''V C<h>V'' (''e-nhies-to'').
+The method *Syllabification()* accepts the following arguments: *word*, *exceptions*, *ipa*, and *h*. Only the first one is compulsory, as the method requires a word to parse. The default value of *exceptions* is *True* and tells whethet the exceptions file should be used. The others' value is *False*. If a IPA transcription instead is used, *ipa* should be *True* to achieve optimal results. The flag *h* marks the behaviour when parsing a cluster *V-C-\<h\>-V*. The default division would be *VC \<h\>V* (*en-hies-to*). If *h* is *True*, the division would be *V C\<h\>V* (*e-nhies-to*).
 
 
 ### Prosodic stress
 
-Prosodic stress detection follows the Spanish rules described by the Real Academia ("tilde"). Proparoxytone words are always orthographically signalled with an acute accent on the nucleic vowel of the antepenultimate syllable. Paroxytones are not marked unless the word ends with *n*, *s* or vowel, in which case they have an acute accent on the nucleic vowel of the penultimate syllable. Oxytone words are only marked if they end in *n*, *s* or vowel with an acute accent on the nucleic vowel of the last syllable. 
+Prosodic stress detection follows the Spanish rules described by the Real Academia ("tilde"). Proparoxytone words are always orthographically signalled with an acute accent on the nucleic vowel of the antepenultimate syllable. Paroxytones are not marked unless the word ends with *n*, *s* or vowel, in which case they have an acute accent on the nucleic vowel of the penultimate syllable. Oxytone words are only marked if they end in *n*, *s* or vowel with an acute accent on the nucleic vowel of the last syllable. If there is a word without orthographic accent and a recognisable Latin inflection that not appears in Spanish, the prosodic stress is determined according to the latin rules if the quantity of the penultimate syllable can be guessed from the orthography. Otherwise, it tries to guess with the orthographic information available.
 
 ### Exceptions to the diphthong rules
 
