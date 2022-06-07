@@ -5,8 +5,9 @@ class Syllabification:
     __vowels = 'aeiouáéíóúäëïöüàèìòùAEIOUÁÉÍÓÚÄËÏÓÜÀÈÌÒÙ'
     __close = 'iuIU'
 
-    def __init__(self, word, exceptions=True, ipa=False):
+    def __init__(self, word, exceptions=True, ipa=False, h = False):
         self.__ipa = ipa
+        self.__h = h
         if self.__ipa:
             self.__vowels += 'jw'
             self.__close += 'jw'
@@ -76,7 +77,7 @@ class Syllabification:
             word = ''.join([letter if letter not in foreign_lig
                         else foreign_lig[letter] for letter in letters])
             slbs = self.__split(word)
-            slbs = self.__join(slbs)
+            slbs = self.__join(slbs, self.__h)
             letters = [x.strip() for x in slbs]
         return letters
 
@@ -90,15 +91,15 @@ class Syllabification:
         if dipht:
             dipht = dipht[0].strip('gq')
             word = self.__split(letters.removesuffix(dipht), [dipht]+ word)
-        elif letters.endswith('_'):
-            word = self.__split(letters[:-1], word)
+        #elif letters.endswith('_'):
+        #    word = self.__split(letters[:-1], word)
         elif letters.endswith(digraph):
             word = self.__split(letters[:-2], [letters[-2:]] + word)
         elif letters:
             word = self.__split(letters[:-1], [letters[-1]]+ word)
         return word
 
-    def __join(self, letters):
+    def __join(self, letters, h):
         indivisible_onset = ('pl', 'bl', 'fl', 'cl', 'kl', 'gl', 'll',
                              'pr', 'br', 'fr', 'cr', 'kr', 'gr', 'rr',
                              'dr', 'tr', 'ch', 'dh', 'rh', 'th',
@@ -116,7 +117,9 @@ class Syllabification:
             symbols = 'jw'
         for letter in letters:
             if letter == '_':
-                pass
+                if len(word) > 0:
+                    word[-1] += onset
+                    onset = ''
             elif all(x.lower() not in self.__vowels for x in letter):
                 if onset.endswith('y'):
                     if onset == 'y' and word[-1][-1] in 'AOEÁÓÉaoeáóé':
@@ -128,6 +131,8 @@ class Syllabification:
                     onset += letter
                     if len(word) > 0:
                         media = len(onset) // 2
+                    if h and onset.endswith('h'):
+                        media = 0
             elif len(onset) <= 1 or len(word) == 0:
                 word += [onset+letter]
                 onset = ''

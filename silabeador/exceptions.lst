@@ -39,34 +39,34 @@
 ([^g])uá([ɾr])emos\b \1u_á\2emos
 # -iar
 # Infinitives
-(\b.{1,3}|.*f)ia([ɾr])\b \1i_a\2
-(\b.{1,3}|.*f)iad([[oa]s*]*)\b \1i_ad\2
-(\b.{1,3}|.*f)iand([[oa]s*]*)\b \1i_and\2
-(\b.{1,3}|.*f)iant([[ea]s*]*)\b \1i_ant\2
+(\b.{1,2}|.*f)ia([ɾr])\b \1i_a\2
+(\b.{1,2}|.*f)iad([[oa]s*]*)\b \1i_ad\2
+(\b.{1,2}|.*f)iand([[oa]s*]*)\b \1i_and\2
+(\b.{1,2}|.*f)iant([[ea]s*]*)\b \1i_ant\2
 # Presente
-(\b.{1,3}|.*f)iamos\b \1i_amos
-(\b.{1,3}|.*f)iáis\b \1i_áis
+(\b.{1,2}|.*f)iamos\b \1i_amos
+(\b.{1,2}|.*f)iáis\b \1i_áis
 # Imperfecto
-(\b.{1,3}|.*f)iab(a|as|ais|an)\b \1i_ab\2
-(\b.{1,3}|.*f)iábamos\b \1i_ábamos
+(\b.{1,2}|.*f)iab(a|as|ais|an)\b \1i_ab\2
+(\b.{1,2}|.*f)iábamos\b \1i_ábamos
 # Indefinido
-(\b.{1,3}|.*f)i(é|aste|ó|asteis|aron|aɾon)\b \1i_\2
-# Futuro !
-(\b.{1,3}|.*f)ia([rɾ])(é|ás|á|emos|éis|an)\b \1i_a\2\3
+(\b.{1,2}|.*f)i(é|aste|ó|asteis|aron|aɾon)\b \1i_\2
+# Futur !
+(\b.{1,2}|.*f)ia([rɾ])(é|ás|á|emos|éis|an)\b \1i_a\2\3
 # Condicional !
-(\b.{1,3}|.*f)ia([rɾ])í(a|as|amos|ais|an)\b \1i_a\2í\3
+(\b.{1,2}|.*f)ia([rɾ])í(a|as|amos|ais|an)\b \1i_a\2í\3
 # Subjuntivo, presente
-(\b.{1,3}|.*f)iemos\b i\1_emos
+(\b.{1,2}|.*f)iemos\b i\1_emos
 # Imperfecto subjuntivo
-(\b.{1,3}|.*f)ia([ɾr])(a|as|ais|an)\b \1i_a\2í\3
-(\b.{1,3}|.*f)iá([ɾr])amos\b \1i_á\2amos
+(\b.{1,2}|.*f)ia([ɾr])(a|as|ais|an)\b \1i_a\2í\3
+(\b.{1,2}|.*f)iá([ɾr])amos\b \1i_á\2amos
 # Futuro subjuntivo
-(\b.{1,3}|.*f)ia([rɾ])(e|es|a|eis|en)\b \1i_a\2\3
-(\b.{1,3}|.*f)iá([ɾr])emos\b \1i_á\2emos
+(\b.{1,2}|.*f)ia([rɾ])(e|es|a|eis|en)\b \1i_a\2\3
+(\b.{1,2}|.*f)iá([ɾr])emos\b \1i_á\2emos
 a([kc])uos a_\1uos
 a([kc])u([ií]) a\1u_\2
-ángulo _ángulo
-anual _anu_al
+([iu])ángulo \1_ángulo
+([iu])anual \1_anu_al
 a(r{1,2})ie([ɾr]) a\1i_e\2
 bienio bi_enio
 biombo bi_ombo
@@ -104,12 +104,17 @@ tia([rɾ])a ti_a\1a
 \bt([rɾ])i([aáe]) t\1i_\2
 t([ɾ])ru(h{,1}[aá])n t\1u_\2n
 uos([oa]s*) u_os\1
-([aeiouáéíóú])([uea]m|[aie]t|[aeui]nt|ur)\b \1_\2
+(^[áéíóú]*[aeiou])([uea]m|[aie]t|[aeui]nt|ur)\b \1_\2
 ([ck]ur*)i([ck])(.lum) \1í\2ulum
 ([Dd])o(m).num \1ó\2inum
 abi([tm])u(rs) ábi\1u\2
 abi([tm])u(rs) ábi\1u\2
 ebi([tm])u(rs) ébi\1u\2
 bi([tm])u(rs) ébi\1u\2
-\b([Rr]e)([hui][^n]) \1_\2
-\b([Pp][rɾ]e)([iuh]) \1_\2
+\b([Rr])e([hui][^n]) \1e_\2
+\b([Pp][rɾ])e([iuh]) \1e_\2
+\b([Tt][rɾ])a(n*)sh \1a\2s_h
+\b([dD])esh \1es_h
+\b([aie])nh \1n_h
+\b([Pp])anh \1an_h
+\b([Ss])sinh \1in_h
