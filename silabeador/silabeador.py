@@ -159,7 +159,14 @@ class Syllabification:
                 word[-1] += onset[:media]
                 word += [onset[media:] + letter]
                 onset = ''
-        word[-1] += onset
+        if onset:
+            if onset.endswith('y') and len(onset) == 1:
+                word[-1] += onset
+            elif len(onset) > 1:
+                word[-1] += onset[:-2]
+                word += [onset[-2:]]
+            else:
+                word[-1] += onset
         return word
 
 
@@ -180,9 +187,9 @@ def stressed_s(slbs):
     return stress
 
 
-def syllabify(word, exceptions=True):
-    return Syllabification(word, exceptions).syllables
+def syllabify(word, exceptions=True, ipa= False, h=False):
+    return Syllabification(word, exceptions, ipa, h).syllables
 
 
-def tonica(word, exceptions=True):
-    return Syllabification(word, exceptions).stress
+def tonica(word, exceptions=True, ipa= False, h=False):
+    return Syllabification(word, exceptions, ipa, h).stress
