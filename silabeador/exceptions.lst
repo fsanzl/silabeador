@@ -111,3 +111,5 @@ abi([tm])u(rs) ábi\1u\2
 abi([tm])u(rs) ábi\1u\2
 ebi([tm])u(rs) ébi\1u\2
 bi([tm])u(rs) ébi\1u\2
+\b([Rr]e)([hui][^n]) \1_\2
+\b([Pp][rɾ]e)([aeiouáéóh]) \1_\2
