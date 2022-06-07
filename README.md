@@ -12,7 +12,7 @@ This library is part of the research project [Sound and Meaning in Spanish Golde
 
 
 It achieves 99,40 % precission when tested against the corpus [EDFU](https://github.com/linhd-postdata/edfu), although the value should be significantly higher as that corpus does not apply t
-excepttions to the syllabication, such as the implicit hiatus in verbs in -uar ('a-cen-tu-ar') or -uir ('re-hu-ir'), or words some nouns ('a-rri-e-ro').
+exceptions to the syllabication, such as the implicit hiatus in verbs in -uar ('a-cen-tu-ar') or -uir ('re-hu-ir'), or words some nouns ('a-rri-e-ro').
 
 ## Installation
 
@@ -32,7 +32,7 @@ The library provides functions and methods that can be called idependently:
 The syllabic division function accepts a string as a single argument and returns a list of syllables.
 
 ```python
->>> silabeador.silabea('Uvulopalatofaringoplastia')
+>>> silabeador.sillabify('Uvulopalatofaringoplastia')
 ['U', 'vu', 'lo', 'pa', 'la', 'to', 'fa', 'rin', 'go', 'plas', 'tia']
 ```
 
@@ -46,19 +46,17 @@ The function to recover the stressed syllable's index takes a string as s single
 An alternative version accepts a list of syllables and returns the stressed syllable's index.
 
 ```python
->>> silabeador.tonica_s(['U', 'vu', 'lo', 'pa', 'la', 'to', 'fa', 'rin', 'go', 'plas', 'tia'])
+>>> silabeador.stressed_s(['U', 'vu', 'lo', 'pa', 'la', 'to', 'fa', 'rin', 'go', 'plas', 'tia'])
 -2
 ```
 
 An object with those values can also be created:
 
 ```python
->>> objeto_silabas = silabeador.silabas('Uvulopalatofaringoplastia')
->>> objeto_silabas.palabra
-'Uvulopalatofaringoplastia'
->>> objeto_silabas.silabas
+>>> x = silabeador.Syllabification('Uvulopalatofaringoplastia')
+>>> x.syllables
 ['U', 'vu', 'lo', 'pa', 'la', 'to', 'fa', 'rin', 'go', 'plas', 'tia']
->>> objeto_silabas.tonica
+>>> x.stress
 -2
 ``` 
 
