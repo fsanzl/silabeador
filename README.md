@@ -69,7 +69,9 @@ The syllabic division follows the principles described by Quilis (2013, 47-49; 2
 
 Firstly, syllabic nuclei are detected looking for the vowels. Unstressed close vowels join the adjacent vowels in coda or onset to form a diphthong or a triphthong, whilst stressed ones are considered standalone syllabic nuclei. Contiguous consonants are grouped to be parsed apart.
 
-Secondly, consonant clusters are divided considering whether their components are separable and joined to the neighbour nuclei in coda or onset accordingly. 
+Secondly, consonant clusters are divided considering whether their components are separable and joined to the neighbour nuclei in coda or onset accordingly.
+
+The method ''Syllabification()'' accepts the following arguments: ''word'', ''exceptions'', ''ipa'', and ''h''. Only the first one is compulsory, as the method requires a word to parse. The default value of 'exceptions'' is ''True'' and tells whethet the exceptions file should be used. The others' value is ''False''. If a IPA transcription instead is used, ''ipa'' should be ''True'' to achieve optimal results. The flag 'h' marks the behaviour when parsing a cluster ''V-C-<h>-V''. The default division would be ''VC <h>V'' (''en-hies-to''). If ''h' is ''True'', the division would be ''V C<h>V'' (''e-nhies-to'').
 
 
 ### Prosodic stress
