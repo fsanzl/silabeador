@@ -1,42 +1,42 @@
 ###### -uir verbs
 # Infinitive forms
-([^fqg])ui([ɾr])\b \1u_i\2
-([^fqg])uid([oa]s{,1})\b \1u_id\2
+([^fqg]|\b)ui([ɾr])\b \1u_i\2
+([^fqg]|\b)uid([oa]s{,1})\b \1u_id\2
 
 # Presente
-([^fqg])ui(mos|s)\b \1u_i\2
+([^fqg]|\b)ui(mos|s)\b \1u_i\2
 # Indefinido
-([^fqg])u(i|iste|isteis)\b \1u_\2
+([^fqg]|\b)u(i|iste|isteis)\b \1u_\2
 # Futuro !
-([^qg])ui([rɾ])(é|ás|á|emos|éis|an)\b \1u_i\2\3
+([^qg]|\b)ui([rɾ])(é|ás|á|emos|éis|an)\b \1u_i\2\3
 # Condicional !
-([^qg])ui([rɾ])í(a|as|amos|ais|an)\b u_\1i\2í\3
+([^qg]|\b)ui([rɾ])í(a|as|amos|ais|an)\b u_\1i\2í\3
 ##### Verbos en -uar
 # Infinitives
-([^g])ua([ɾr])\b \1u_a\2
-([^g])uad([[oa]s*]*)\b \1u_ad\2
-([^g]{2,})uand([[oa]s*]*)\b \1u_and\2
-([^g]{2,})uant([[ea]s*]*)\b \1u_ant\2
+([^gk])ua([ɾr])\b \1u_a\2
+([^gkc])uad([[oa]s*]*)\b \1u_ad\2
+([^gkc]{2,})uand([[oa]s*]*)\b \1u_and\2
+([^gkc]{2,})uant([[ea]s*]*)\b \1u_ant\2
 # Presente
-([^g])uamos\b u_amos
-([^g])uáis\b u_áis
+([^gkc])uamos\b u_amos
+([^gkc])uáis\b u_áis
 # Imperfecto
-([^g])uab(a|as|ais|an)\b \1u_ab\2
-([^g])uábamos\b \1u_ábamos
+([^gkc])uab(a|as|ais|an)\b \1u_ab\2
+([^gkc])uábamos\b \1u_ábamos
 # Indefinido
-([^g])u(é|aste|ó|asteis|aron|aɾon)\b \1u_\2
+([^gkc])u(é|aste|ó|asteis|aron|aɾon)\b \1u_\2
 # Futuro !
-([^g])ua([rɾ])(é|ás|á|emos|éis|an)\b \1u_a\2\3
+([^gkc])ua([rɾ])(é|ás|á|emos|éis|an)\b \1u_a\2\3
 # Condicional !
-([^g])ua([rɾ])í(a|as|amos|ais|an)\b \1u_a\2í\3
+([^gkc])ua([rɾ])í(a|as|amos|ais|an)\b \1u_a\2í\3
 # Subjuntivo, presente
-([^g])uemos\b \1u_emos
+([^gkc])uemos\b \1u_emos
 # Imperfecto subjuntivo
-([^g])ua([ɾr])(a|as|ais|an)\b \1u_a\2í\3
-([^g])uá([ɾr])amos\b \1u_á\2amos
+([^gkc])ua([ɾr])(a|as|ais|an)\b \1u_a\2í\3
+([^gkc])uá([ɾr])amos\b \1u_á\2amos
 # Futuro subjuntivo
-([^g])ua([rɾ])(e|es|a|eis|en)\b \1u_a\2\3
-([^g])uá([ɾr])emos\b \1u_á\2emos
+([^gkc])ua([rɾ])(e|es|a|eis|en)\b \1u_a\2\3
+([^gkc])uá([ɾr])emos\b \1u_á\2emos
 # -iar
 # Infinitives
 (\b.{1,2}|.*f)ia([ɾr])\b \1i_a\2
@@ -111,8 +111,8 @@ abi([tm])u(rs) ábi\1u\2
 abi([tm])u(rs) ábi\1u\2
 ebi([tm])u(rs) ébi\1u\2
 bi([tm])u(rs) ébi\1u\2
-\b([Rr])e([hui][^n]) \1e_\2
-\b([Pp][rɾ])e([iuh]) \1e_\2
+#\b([Rr])e([hui][^n]) \1e_\2
+#\b([Pp][rɾ])e([iuh]) \1e_\2
 \b([Tt][rɾ])a(n*)sh \1a\2s_h
 \b([dD])esh \1es_h
 \b([aie])nh \1n_h

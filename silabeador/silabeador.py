@@ -77,29 +77,27 @@ class Syllabification:
             word = ''.join([letter if letter not in foreign_lig
                         else foreign_lig[letter] for letter in letters])
             slbs = self.__split(word)
-            slbs = self.__join(slbs, self.__h)
+            slbs = self.__join(slbs)
             letters = [x.strip() for x in slbs]
         return letters
 
-    def __split(self, letters, word = []):
-        dipht = re.findall(rf'(?:[qg][wuü](?:[eé](?:h*[{self.__close}])'
+    def __split(self, letters= '', word = []):
+        dipht = re.search(rf'(?:[qg][wuü](?:[eé](?:h*[{self.__close}])'
                            '{,1}|i(?:h*[aeoáéó]){,1}|í)|'
                            fr'[{self.__close}](?:h*[aáoóeéi])(?:h*[{self.__close}])'
                            '{,1}|'
                            rf'[aáoóeéií](?:h*[{self.__close}]))\b', letters)
         digraph = ('ll', 'ch', 'rr')
         if dipht:
-            dipht = dipht[0].strip('gq')
+            dipht = dipht.group().strip('gq')
             word = self.__split(letters.removesuffix(dipht), [dipht]+ word)
-        #elif letters.endswith('_'):
-        #    word = self.__split(letters[:-1], word)
         elif letters.endswith(digraph):
             word = self.__split(letters[:-2], [letters[-2:]] + word)
         elif letters:
             word = self.__split(letters[:-1], [letters[-1]]+ word)
         return word
 
-    def __join(self, letters, h):
+    def __join(self, letters):
         indivisible_onset = ('pl', 'bl', 'fl', 'cl', 'kl', 'gl', 'll',
                              'pr', 'br', 'fr', 'cr', 'kr', 'gr', 'rr',
                              'dr', 'tr', 'ch', 'dh', 'rh', 'th',
@@ -131,7 +129,7 @@ class Syllabification:
                     onset += letter
                     if len(word) > 0:
                         media = len(onset) // 2
-                    if h and onset.endswith('h'):
+                    if self.__h and onset.endswith('h'):
                         media = 0
             elif len(onset) <= 1 or len(word) == 0:
                 word += [onset+letter]
@@ -160,7 +158,6 @@ class Syllabification:
                 word += [onset[media:] + letter]
                 onset = ''
         if onset:
-            print(word, onset)
             if onset.endswith('y') and len(onset) == 1:
                 word[-1] += onset
             elif onset.endswith('y'):
