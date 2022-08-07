@@ -5,13 +5,17 @@ class Syllabification:
     __vowels = 'aeiouáéíóúäëïöüàèìòùAEIOUÁÉÍÓÚÄËÏÓÜÀÈÌÒÙ'
     __close = 'iuIU'
 
-    def __init__(self, word, exceptions=True, ipa=False, h = False):
+    def __init__(self, word, exceptions=1, ipa=False, h = False):
         self.__ipa = ipa
         self.__h = h
         if self.__ipa:
             self.__vowels += 'jw'
             self.__close += 'jw'
-        if exceptions:
+        if exceptions > 0:
+            if exceptions > 1:
+                self.__hiatus = True
+            else:
+                self.__hiatus = False
             self.__word = self.__make_exceptions(word)
             self.__word = self.__latin(self.__word)
         else:
@@ -19,7 +23,11 @@ class Syllabification:
         self.syllables = self.__syllabify(self.__word)
         self.stress = stressed_s(self.syllables)
 
+
     def __make_exceptions(self, word):
+        caparros = {'fie':'fi_e', 'sua':'su_a', 'rui': 'ru_i'}
+        if self.__hiatus and any(word.startswith(x) for x in caparros):
+            word = word.replace(word[:3], caparros[word[:3]])
         from importlib import resources
         lines = resources.read_text('silabeador', 'exceptions.lst')
         nouns = lines.splitlines()
