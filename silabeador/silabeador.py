@@ -5,9 +5,16 @@ class Syllabification:
     __vowels = 'aeiouáéíóúäëïöüàèìòùAEIOUÁÉÍÓÚÄËÏÓÜÀÈÌÒÙ'
     __close = 'iuIU'
 
-    def __init__(self, word, exceptions=1, ipa=False, h = False):
+    def __init__(self, word, exceptions=1, ipa=False, h = False, epen = False,
+                 tl = False):
         self.__ipa = ipa
         self.__h = h
+        if tl:
+            self.__tl = True
+        else:
+            self.__tl = False
+        if epen:
+            word = self.__epenthesis(word)
         if self.__ipa:
             self.__vowels += 'jw'
             self.__close += 'jw'
@@ -34,6 +41,21 @@ class Syllabification:
         nouns = [n.strip().split() for n in nouns if n.strip() and not n.startswith('#')]
         for noun in nouns:
             word = re.sub(rf'{noun[0]}', rf'{noun[1]}', word)
+        return word
+
+    @staticmethod
+    def __epenthesis(word):
+        liquidae = ('sch', 'sc', 'st', 'sp', 'sf','sb', 'sm', 'sn')
+        if word.startswith(liquidae):
+            for onset in liquidae:
+                if word.startswith(onset):
+                    lonset = len(onset)
+                    if word[len(onset)] in 'aeiouáéíóúrl':
+                        onset = 'es_' + onset[1:]
+                    else:
+                        onset = 'e'+onset+'_'
+                    word = onset + word[lonset:]
+                    break
         return word
 
     def __latin(self, verbum):
@@ -112,9 +134,11 @@ class Syllabification:
                              'βl', 'ɣl',
                              'βɾ', 'pɾ', 'fɾ', 'kɾ', 'gɾ', 'ɣɾ', 'dɾ', 'ðɾ',
                              'tɾ', 'bɾ', 'tʃ', 'gw', 'ɣw')
+        if self.__tl:
+            indivisible_onset += ('tl',)
         indivisible_coda = ('ns', 'bs', 'nz', 'βs', 'bz', 'βz', 'nd', 'rt',
-                            'st', 'ff', 'ls', 'zz', 'll', 'nt', 'rs', 'ɾs',
-                            'ch', 'nk', 'nc', 'lk', 'sh', 'nt')
+                            'st', 'ff', 'ls', 'lz', 'zz', 'll', 'nt', 'rs', 'ɾs',
+                            'ch', 'nk', 'nc', 'lk', 'sh', 'nt', 'sch', 'mp', 'rd')
         word = []
         onset = ''
         if self.__ipa:
@@ -193,9 +217,9 @@ def stressed_s(slbs):
     return stress
 
 
-def syllabify(word, exceptions=True, ipa= False, h=False):
-    return Syllabification(word, exceptions, ipa, h).syllables
+def syllabify(word, exceptions=1, ipa= False, h=False, epen=False, tl=False):
+    return Syllabification(word, exceptions, ipa, h, epen, tl).syllables
 
 
-def tonica(word, exceptions=True, ipa= False, h=False):
-    return Syllabification(word, exceptions, ipa, h).stress
+def tonica(word, exceptions=1, ipa= False, h=False, epen=False, tl=False):
+    return Syllabification(word, exceptions, ipa, h, epen, tl).stress
