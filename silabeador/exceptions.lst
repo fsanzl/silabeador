@@ -13,9 +13,9 @@
 ##### Verbos en -uar
 # Infinitives
 ([^gk])ua([ɾr])\b \1u_a\2
-([^gkc])uad([[oa]s*]*)\b \1u_ad\2
-([^gkc]{2,})uand([[oa]s*]*)\b \1u_and\2
-([^gkc]{2,})uant([[ea]s*]*)\b \1u_ant\2
+([^gkc])uad((?:[oa]s*)*)\b \1u_ad\2
+([^gkc]{2,})uand((?:[oa]s*)*)\b \1u_and\2
+([^gkc]{2,})uant((?:[ea]s*)*)\b \1u_ant\2
 # Presente
 ([^gkc])uamos\b u_amos
 ([^gkc])uáis\b u_áis
@@ -39,9 +39,9 @@
 # -iar
 # Infinitives
 (\b.{1,2}|.*f)ia([ɾr])\b \1i_a\2
-(\b.{1,2}|.*f)iad([[oa]s*]*)\b \1i_ad\2
-(\b.{1,2}|.*f)iand([[oa]s*]*)\b \1i_and\2
-(\b.{1,2}|.*f)iant([[ea]s*]*)\b \1i_ant\2
+(\b.{1,2}|.*f)iad((?:[oa]s*)*)\b \1i_ad\2
+(\b.{1,2}|.*f)iand((?:[oa]s*)*)\b \1i_and\2
+(\b.{1,2}|.*f)iant((?:[ea]s*)*)\b \1i_ant\2
 # Presente
 (\b.{1,2}|.*f)iamos\b \1i_amos
 (\b.{1,2}|.*f)iáis\b \1i_áis
