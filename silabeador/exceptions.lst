@@ -69,6 +69,7 @@ a([kc])u([ií]) a\1u_\2
 a(r{1,2})ie([ɾr]) a\1i_e\2
 bienio bi_enio
 biombo bi_ombo
+(.{2,}[bv])ia(.{2,}) \1i_a\2
 bo(qu|k)ian(ch|ʧ) bo\1ian\2
 \bb([ɾr])io b\1i_o
 ([kc])lient \1li_ent
