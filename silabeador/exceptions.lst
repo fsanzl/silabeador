@@ -59,9 +59,12 @@
 # Imperfecto subjuntivo
 (\b.{1,2}|.*f)ia([ɾr])(a|as|ais|an)\b \1i_a\2í\3
 (\b.{1,2}|.*f)iá([ɾr])amos\b \1i_á\2amos
+(en|des)[bv]ia \1bi_a
+([kc]on|desa)fia \1fi_a
 # Futuro subjuntivo
 (\b.{1,2}|.*f)ia([rɾ])(e|es|a|eis|en)\b \1i_a\2\3
 (\b.{1,2}|.*f)iá([ɾr])emos\b \1i_á\2emos
+a(r{1,2})ie([ɾr]) a\1i_e\2
 a([kc])uos a_\1uos
 a([kc])u([ií]) a\1u_\2
 ([iu])ángulo \1_ángulo
@@ -69,7 +72,6 @@ a([kc])u([ií]) a\1u_\2
 a(r{1,2})ie([ɾr]) a\1i_e\2
 bienio bi_enio
 biombo bi_ombo
-(.{2,}[bv])ia(.{2,}) \1i_a\2
 bo(qu|k)ian(ch|ʧ) bo\1ian\2
 \bb([ɾr])io b\1i_o
 ([kc])lient \1li_ent
