@@ -31,7 +31,7 @@ The library provides functions and methods that can be called idependently:
 The syllabic division function accepts a string as a single argument and returns a list of syllables.
 
 ```python
->>> silabeador.sillabify('Uvulopalatofaringoplastia')
+>>> silabeador.syllabify('Uvulopalatofaringoplastia')
 ['U', 'vu', 'lo', 'pa', 'la', 'to', 'fa', 'rin', 'go', 'plas', 'tia']
 ```
 
