@@ -82,6 +82,7 @@ diablo di_ablo
 #diálog
 #\bdia([rɾ])i di_a\1i
 #\bdia([kc]) di_a\1 
+([^g])üi \1u_í
 \bdi([aáu].*(?:\w*[aeiouáéíóúäëïöü]\w*){3,}) di_\1
 die([cθ])io(ch|ʧ)o die\1i_o\2o
 fe(r{1,2})o([bv])ial fe\1o\2i_al
