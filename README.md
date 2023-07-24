@@ -118,8 +118,8 @@ Authors of scientific papers including results generated using *silabeador* are 
 
 ```xml
 @article{SanzLazaroF_RHD2023, 
-    author    = {Sanz-L\'azaro, Fernando},
-    title     = {Del fonema al verso: una caja de herramientas digitales de escansi\'on teatral},
+    author    = {Sanz-Lázaro, Fernando},
+    title     = {Del fonema al verso: una caja de herramientas digitales de escansión teatral},
     volume    = {8},
     pubstate  = {inpress},
     journal   = {Revista de Humanidades Digitales},
