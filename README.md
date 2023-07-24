@@ -112,8 +112,9 @@ Feel free to contribute using the [GitHub Issue Tracker](https://github.com/fsan
 
 ** desafiante, desviado, etc.
 
-## How to cite silabeador
-Authors of scientific papers including results generated using silabeador are encouraged to cite the following paper.
+## How to cite *silabeador*
+
+Authors of scientific papers including results generated using *silabeador* are encouraged to cite the following paper.
 
 ```xml
 @article{SanzLazaroF_RHD2023, 
