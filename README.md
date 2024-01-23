@@ -116,13 +116,15 @@ Feel free to contribute using the [GitHub Issue Tracker](https://github.com/fsan
 
 Authors of scientific papers including results generated using *silabeador* are encouraged to cite the following paper.
 
-```xml
+```bibtex
 @article{SanzLazaroF_RHD2023, 
     author    = {Sanz-Lázaro, Fernando},
     title     = {Del fonema al verso: una caja de herramientas digitales de escansión teatral},
     volume    = {8},
-    pubstate  = {inpress},
+    date  = {2023},
     journal   = {Revista de Humanidades Digitales},
+    pages = {74-89},
+    doi = {https://doi.org/10.5944/rhd.vol.8.2023.37830}
 }
 ```
 
