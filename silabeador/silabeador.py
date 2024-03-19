@@ -5,8 +5,7 @@ class Syllabification:
     __vowels = 'aeiouáéíóúäëïöüàèìòùAEIOUÁÉÍÓÚÄËÏÓÜÀÈÌÒÙ'
     __close = 'iuIU'
 
-    def __init__(self, word, exceptions=1, ipa=False, h = False, epen = False,
-                 tl = False):
+    def __init__(self, word, exceptions=1, ipa=False, h=False, epen=False, tl=False):
         self.__ipa = ipa
         self.__h = h
         if tl:
@@ -30,9 +29,8 @@ class Syllabification:
         self.syllables = self.__syllabify(self.__word)
         self.stress = stressed_s(self.syllables)
 
-
     def __make_exceptions(self, word):
-        caparros = {'fie':'fi_e', 'sua':'su_a', 'rui': 'ru_i'}
+        caparros = {'fie': 'fi_e', 'sua': 'su_a', 'rui': 'ru_i'}
         if self.__hiatus and any(word.startswith(x) for x in caparros):
             word = word.replace(word[:3], caparros[word[:3]])
         from importlib import resources
@@ -45,7 +43,7 @@ class Syllabification:
 
     @staticmethod
     def __epenthesis(word):
-        liquidae = ('sch', 'sc', 'st', 'sp', 'sf','sb', 'sm', 'sn')
+        liquidae = ('sch', 'sc', 'st', 'sp', 'sf', 'sb', 'sm', 'sn')
         if word.startswith(liquidae):
             for onset in liquidae:
                 if word.startswith(onset):
@@ -53,7 +51,7 @@ class Syllabification:
                     if word[len(onset)] in 'aeiouáéíóúrl':
                         onset = 'es_' + onset[1:]
                     else:
-                        onset = 'e'+onset+'_'
+                        onset = 'e' + onset + '_'
                     word = onset + word[lonset:]
                     break
         return word
@@ -92,8 +90,8 @@ class Syllabification:
                         break
             else:
                 for i in dictionarium:
-                        syllabae[-2] = syllabae[-2].replace(i, dictionarium[i])
-                        break
+                    syllabae[-2] = syllabae[-2].replace(i, dictionarium[i])
+                    break
             verbum = syllabae
         return verbum
 
@@ -101,30 +99,30 @@ class Syllabification:
         slbs = []
         if type(letters) is str:
             foreign_lig = {'à': 'a', 'è': 'e', 'ì': 'i', 'ò': 'o', 'ù': 'u',
-                        'ã': 'a', 'ẽ': 'e', 'ĩ': 'i', 'õ': 'o', 'ũ': 'u',
-                        'ﬁ': 'fi', 'ﬂ': 'fl'}
+                           'ã': 'a', 'ẽ': 'e', 'ĩ': 'i', 'õ': 'o', 'ũ': 'u',
+                           'ﬁ': 'fi', 'ﬂ': 'fl'}
             word = re.sub(r'\W', '', letters)
             word = ''.join([letter if letter not in foreign_lig
-                        else foreign_lig[letter] for letter in letters])
+                            else foreign_lig[letter] for letter in letters])
             slbs = self.__split(word)
             slbs = self.__join(slbs)
             letters = [x.strip() for x in slbs]
         return letters
 
-    def __split(self, letters= '', word = []):
+    def __split(self, letters='', word=[]):
         dipht = re.search(rf'(?:[qg][wuü](?:[eé](?:h*[{self.__close}])'
-                           '{,1}|i(?:h*[aeoáéó]){,1}|í)|'
-                           fr'[{self.__close}](?:h*[aáoóeéi])(?:h*[{self.__close}])'
-                           '{,1}|'
-                           rf'[aáoóeéií](?:h*[{self.__close}]))\b', letters)
+                          '{,1}|i(?:h*[aeoáéó]){,1}|í)|'
+                          fr'[{self.__close}](?:h*[aáoóeéi])(?:h*[{self.__close}])'
+                          '{,1}|'
+                          rf'[aáoóeéií](?:h*[{self.__close}]))\b', letters)
         digraph = ('ll', 'ch', 'rr')
         if dipht:
             dipht = dipht.group().strip('gq')
-            word = self.__split(letters.removesuffix(dipht), [dipht]+ word)
+            word = self.__split(letters.removesuffix(dipht), [dipht] + word)
         elif letters.endswith(digraph):
             word = self.__split(letters[:-2], [letters[-2:]] + word)
         elif letters:
-            word = self.__split(letters[:-1], [letters[-1]]+ word)
+            word = self.__split(letters[:-1], [letters[-1]] + word)
         return word
 
     def __join(self, letters):
@@ -164,7 +162,7 @@ class Syllabification:
                     if self.__h and onset.endswith('h'):
                         media = 0
             elif len(onset) <= 1 or len(word) == 0:
-                word += [onset+letter]
+                word += [onset + letter]
                 onset = ''
             elif onset.endswith(indivisible_onset):
                 if len(word) > 0:
@@ -204,10 +202,12 @@ def stressed_s(slbs):
     if len(slbs) == 1:
         stress = -1
     elif any(k in 'áéíóúÁÉÍÓÚ' for k in ''.join(slbs)):
-        for x in  range(-len(slbs), 0, 1):
+        for x in range(-len(slbs), 0, 1):
             if any(k in 'áéíóúÁÉÍÓÚ' for k in slbs[x]):
                 stress = x
                 break
+    elif slbs[-1][-1] in 'yY' and slbs[-1][-2] in 'aeiouAEIOU':
+        stress = -1
     elif slbs[-1][-1] in 'aeiouAEIOUy':
         stress = -2
     elif slbs[-1][-1] in 'nsNS' and slbs[-1][-2] in 'aeiouAEIOU':
@@ -217,9 +217,9 @@ def stressed_s(slbs):
     return stress
 
 
-def syllabify(word, exceptions=1, ipa= False, h=False, epen=False, tl=False):
+def syllabify(word, exceptions=1, ipa=False, h=False, epen=False, tl=False):
     return Syllabification(word, exceptions, ipa, h, epen, tl).syllables
 
 
-def tonica(word, exceptions=1, ipa= False, h=False, epen=False, tl=False):
+def tonica(word, exceptions=1, ipa=False, h=False, epen=False, tl=False):
     return Syllabification(word, exceptions, ipa, h, epen, tl).stress
