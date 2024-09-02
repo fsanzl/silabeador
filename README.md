@@ -101,24 +101,19 @@ Feel free to contribute using the [GitHub Issue Tracker](https://github.com/fsan
 ## Changelog
 
 * 1.2.0
-  
-* * ChatGPT optimisation and documentation
+  * ChatGPT optimisation and documentation
 
 * 1.1.12
-
-** last-syllable stress for words in [a-u]y without tilde
+  * last-syllable stress for words in [a-u]y without tilde
 
 * 1.1.11-6
-
-** rüin produces ru-ín instead ru-in
+  * rüin produces ru-ín instead ru-in
 
 * 1.1.11-5
-
-** frue, flue
+  * frue, flue
 
 * 1.1.11-4
-
-** desafiante, desviado, etc.
+  * desafiante, desviado, etc.
 
 ## How to cite *silabeador*
 
