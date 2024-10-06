@@ -241,7 +241,9 @@ class Syllabification:
                 onset = ''
 
         if onset:
-            if onset.endswith('y') and len(onset) == 1:
+            if len(word) < 1:
+                word = [onset]
+            elif onset.endswith('y') and len(onset) == 1:
                 word[-1] += onset
             elif onset.endswith('y'):
                 word[-1] += onset[:-2]
