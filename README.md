@@ -100,6 +100,9 @@ Feel free to contribute using the [GitHub Issue Tracker](https://github.com/fsan
 
 ## Changelog
 
+* 1.2.1
+  * Solved crash on 'y'
+
 * 1.2.0
   * ChatGPT optimisation and documentation
 
