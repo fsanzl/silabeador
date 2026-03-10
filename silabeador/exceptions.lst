@@ -23,7 +23,7 @@
 ([^gkc])uab(a|as|ais|an)\b \1u_ab\2
 ([^gkc])uábamos\b \1u_ábamos
 # Indefinido
-([^gkc])u(é|aste|ó|asteis|aron|aɾon)\b \1u_\2
+([^gkcq])u(é|aste|ó|asteis|aron|aɾon)\b \1u_\2
 # Futuro !
 ([^gkc])ua([rɾ])(é|ás|á|emos|éis|an)\b \1u_a\2\3
 # Condicional !
