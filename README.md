@@ -100,6 +100,9 @@ Feel free to contribute using the [GitHub Issue Tracker](https://github.com/fsan
 
 ## Changelog
 
+* 1.2.4
+  * ui, qué, que and multiword
+
 * 1.2.2-1
   * Solved bug qué
 
