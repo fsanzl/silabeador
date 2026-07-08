@@ -1,11 +1,11 @@
 import re
 from importlib import resources
 
+
 class Syllabification:
     """
     Class to handle syllabification and stress marking of words.
     """
-
     __vowels = 'aeiouáéíóúäëïöüàèìòùAEIOUÁÉÍÓÚÄËÏÓÜÀÈÌÒÙ'
     __close = 'iuIU'
 
@@ -23,6 +23,7 @@ class Syllabification:
         self.__ipa = ipa
         self.__h = h
         self.__tl = tl
+        word = word.lower()
 
         if epen:
             word = self.__epenthesis(word)
@@ -54,7 +55,8 @@ class Syllabification:
 
         # Load exceptions list from resources
         lines = resources.read_text('silabeador', 'exceptions.lst')
-        exceptions_list = [line.strip().split() for line in lines.splitlines() if line.strip() and not line.startswith('#')]
+        exceptions_list = [line.strip().split() for line in lines.splitlines() if line.strip()
+                           and not line.startswith('#')]
 
         for exception in exceptions_list:
             word = re.sub(rf'{exception[0]}', rf'{exception[1]}', word)
@@ -106,15 +108,15 @@ class Syllabification:
                 # Apply stress to the appropriate syllable
                 if len(syllables) == 2 or (len(syllables) > 1 and (
                     any(dipht in syllables[-2] for dipht in diphthongi.values()) or
-                    len([x for x in dictionarium.keys() if x in syllables[-2]]) > 1 or
-                    not syllables[-2].endswith(tuple(dictionarium.keys())))):
+                    len([x for x in dictionarium.keys() if x in syllables[-2]]
+                        ) > 1 or not syllables[-2].endswith(tuple(dictionarium.keys())))):
                     for clavis, pretium in dictionarium.items():
                         if clavis in syllables[-2]:
                             syllables[-2] = syllables[-2].replace(clavis, pretium)
                             break
                 elif any(dipht in syllables[-3] for dipht in diphthongi.values()) or (
-                    len([x for x in dictionarium.keys() if x in syllables[-3]]) > 1 or
-                    not syllables[-3].endswith(tuple(dictionarium.keys()))):
+                    len([x for x in dictionarium.keys() if x in syllables[-3]]
+                        ) > 1 or not syllables[-3].endswith(tuple(dictionarium.keys()))):
                     for clavis, pretium in dictionarium.items():
                         if clavis in syllables[-3]:
                             syllables[-3] = syllables[-3].replace(clavis, pretium)
