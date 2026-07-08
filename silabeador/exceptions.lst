@@ -1,8 +1,7 @@
 ###### -uir verbs
 # Infinitive forms
-\W _
 ([^fqgck]|\b)ui([ɾr])\b	\1u_i\2
-([^fqgck]|\b)uid([oa]s{,1})\b \1u_id\2
+([^fqgckr]|\b)uid([oa]s{,1})\b \1u_id\2
 # Presente
 ([^fqg]|\b)ui(mos|s)\b \1u_i\2
 # Indefinido
