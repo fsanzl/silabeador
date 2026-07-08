@@ -9,7 +9,14 @@ class Syllabification:
     __vowels = 'aeiouáéíóúäëïöüàèìòùAEIOUÁÉÍÓÚÄËÏÓÜÀÈÌÒÙ'
     __close = 'iuIU'
 
-    def __init__(self, word, exceptions=1, ipa=False, h=False, epen=False, tl=False):
+    def __init__(self,
+                 word,
+                 exceptions=1,
+                 ipa=False,
+                 h=False,
+                 epen=False,
+                 tl=False,
+                 multiword=True):
         """
         Initialize the Syllabification class.
 
@@ -38,6 +45,8 @@ class Syllabification:
             self.__word = self.__latin(self.__word)
         else:
             self.__word = word
+        if mutliword:
+            self.__word = re.sub(r'[^\w]', '_', self.__word, flags=re.UNICODE)
 
         self.syllables = self.__syllabify(self.__word)
         self.stress = self.__stressed_syllable(self.syllables)
@@ -55,8 +64,8 @@ class Syllabification:
 
         # Load exceptions list from resources
         lines = resources.read_text('silabeador', 'exceptions.lst')
-        exceptions_list = [line.strip().split() for line in lines.splitlines() if line.strip()
-                           and not line.startswith('#')]
+        exceptions_list = [line.strip().split() for line in lines.splitlines()
+                           if line.strip() and not line.startswith('#')]
 
         for exception in exceptions_list:
             word = re.sub(rf'{exception[0]}', rf'{exception[1]}', word)
@@ -93,7 +102,8 @@ class Syllabification:
         dictionarium = {'a': 'á', 'e': 'é', 'i': 'í', 'o': 'ó', 'u': 'ú'}
         diphthongi = {'ae': 'æ', 'oe': 'œ'}
 
-        if word.lower().endswith(flexiones) and not any(x in word.lower() for x in 'áéíóú'):
+        if word.lower().endswith(flexiones) and not any(x in word.lower()
+                                                        for x in 'áéíóú'):
             word = word.lower()
             for flexio in flexiones:
                 if word.endswith(flexio):
