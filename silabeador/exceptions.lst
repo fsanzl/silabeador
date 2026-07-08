@@ -59,7 +59,7 @@
 # Imperfecto subjuntivo
 (\b.{1,2}|.*f)ia([ɾr])(a|as|ais|an)\b \1i_a\2í\3
 (\b.{1,2}|.*f)iá([ɾr])amos\b \1i_á\2amos
-(en|des)[bv]ia \1bi_a
+(des|en)([bv])ia \1\2i_a
 ([kc]on|desa)fia \1fi_a
 # Futuro subjuntivo
 (\b.{1,2}|.*f)ia([rɾ])(e|es|a|eis|en)\b \1i_a\2\3
