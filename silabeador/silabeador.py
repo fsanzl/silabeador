@@ -45,7 +45,7 @@ class Syllabification:
             self.__word = self.__latin(self.__word)
         else:
             self.__word = word
-        if mutliword:
+        if multiword:
             self.__word = re.sub(r'[^\w]', '_', self.__word, flags=re.UNICODE)
 
         self.syllables = self.__syllabify(self.__word)
