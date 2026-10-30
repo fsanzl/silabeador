@@ -138,7 +138,7 @@ class Syllabification:
 
             word = syllables
 
-        return word
+        return "".join(word)
 
     def __syllabify(self, word):
         """
