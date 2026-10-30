@@ -136,7 +136,7 @@ class Syllabification:
                         syllables[-2] = syllables[-2].replace(i, dictionarium[i])
                         break
 
-            word = syllables
+            word = "".join(syllables)
 
         return word
 
